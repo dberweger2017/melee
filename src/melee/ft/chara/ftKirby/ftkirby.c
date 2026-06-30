@@ -3507,13 +3507,13 @@ void ftKb_SpecialN_800EF438(Fighter_GObj* gobj, KirbyHatStruct* hat)
     s32 sp20;
     HSD_Joint* root = (HSD_Joint*) hat->hat_dynamics[2];
     Fighter* fp = GET_FIGHTER(gobj);
-    s32 total_dobjs;
     s32 part_off;
     HSD_DObj* dobj;
     HSD_MObj* mobj;
     HSD_JObj* jobj;
     HSD_DObj* tail;
     s32 group_count;
+    s32 total_dobjs;
 
     if (root != NULL) {
         s32 byte_off;
