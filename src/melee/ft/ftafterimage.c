@@ -32,6 +32,7 @@ void ftCo_800C2600(Fighter_GObj* gobj, u32 arg1)
 {
     Fighter* fp;
     itSword_UnkBytes* params;
+    u32 n4;
     AfterimageVtx vtx_buf[151];
     f32 cumDist[3];
     Vec3 delta, prevPos, crossProd, tempDir;
@@ -347,7 +348,7 @@ void ftCo_800C2600(Fighter_GObj* gobj, u32 arg1)
             if (numVerts > 1) {
                 AfterimageVtx* p = &vtx_buf[1];
                 u32 count = (u32) (numVerts - 1);
-                u32 n4 = count >> 2;
+                n4 = count >> 2;
                 if (n4 != 0) {
                     do {
                         GXPosition3f32(p[0].x, p[0].y, p[0].z);

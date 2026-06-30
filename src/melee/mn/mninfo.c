@@ -519,7 +519,6 @@ void mnInfo_80252720(MnInfoData* data)
 
 s32 mnInfo_80252758(void)
 {
-    s32 spC;
     void* sp8;
     MnInfoData* data;
     MnInfoDataLayout* layout;
@@ -529,6 +528,7 @@ s32 mnInfo_80252758(void)
     HSD_GObjProc* proc;
     HSD_GObjProc* menu_proc;
     HSD_Text* description;
+    s32 spC;
     PAD_STACK(8);
 
     layout = (MnInfoDataLayout*) mnInfo_803EFC08;

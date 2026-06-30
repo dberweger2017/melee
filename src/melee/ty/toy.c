@@ -1507,11 +1507,11 @@ void Toy_80306D14(void)
 
 void Toy_80306D70(s32 arg0)
 {
+    TyLightFile* base;
     UNUSED u8 framepad[8];
 
     {
         LightList** sp14;
-        TyLightFile* base;
         TyLightData* data;
         char* sym;
         s32 idx;
@@ -3456,6 +3456,7 @@ void _Toy_8030B530(HSD_GObj* arg0)
     void* ed8 = Toy_sbss_804D6ED8;
     void* ed4 = Toy_sbss_804D6ED4;
     ToyAnimState* anim = &base->anim;
+    s16 tid;
 
     if (base->x3F0 != NULL) {
         HSD_JObj* jobj_child;
@@ -3942,7 +3943,7 @@ void _Toy_8030B530(HSD_GObj* arg0)
                         lk += cur_idx;
                         entry = M2C_FIELD(display, u8**, 0x138);
                         {
-                            s16 tid = Toy_sbss_804D6EDC[lk - 1];
+                            tid = Toy_sbss_804D6EDC[lk - 1];
                             oa = *(HSD_Archive**) (entry + 0x14);
                             md = Toy_8030813C(tid, lk);
                             if (oa != NULL) {

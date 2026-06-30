@@ -1483,6 +1483,7 @@ void grBigBlue_801E93D8(Ground_GObj* gobj)
     Ground* gp = gobj->user_data;
     HSD_JObj* jobj = GET_JOBJ(gobj);
     u8* bp = (u8*) gp;
+    u8* p;
     PAD_STACK(76);
 
     HSD_JObjGetTranslation2(jobj, &pos);
@@ -1523,7 +1524,7 @@ void grBigBlue_801E93D8(Ground_GObj* gobj)
                 }
             }
             {
-                u8* p = mgp + 0x54;
+                p = mgp + 0x54;
                 if ((s8) mgp[0x139] != 0) {
                     count++;
                     if (cars_avail != 0U) {
@@ -3940,6 +3941,7 @@ s32 grBigBlue_801EE398(Ground_GObj* gobj, s32 arg1, s32 arg2)
     s32 result = 0;
     Ground* gp = gobj->user_data;
     Vec3 pos;
+    u8* base;
     PAD_STACK(12);
 
     switch (arg2) {
@@ -3975,7 +3977,7 @@ s32 grBigBlue_801EE398(Ground_GObj* gobj, s32 arg1, s32 arg2)
     case 10: {
         s32 offset = arg1 << 6;
         {
-            u8* base = (u8*) gp + offset;
+            base = (u8*) gp + offset;
             *(s32*) (base + 0xF0) = 0x14;
         }
         {

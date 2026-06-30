@@ -728,7 +728,6 @@ s32 hsd_803B6BE4(char* arg0, s32 arg1, void* arg2)
     u8* scratch_r5_7;
     u8* scratch_r5_8;
     u8* scratch_r5_9;
-    u8* scratch_r6;
     u8* scratch_r6_2;
     u8* quant_table;
     u8* base;
@@ -884,7 +883,7 @@ loop_24:
                 work_r5 = work_r24;
                 work_r4_3 = &base[0x718];
                 for (work_r3_3 = 0; work_r3_3 < 0x40; work_r3_3 += 8) {
-                    scratch_r6 = quant_table + work_r3_3;
+                    u8* scratch_r6 = quant_table + work_r3_3;
                     scratch_r0_7 = M2C_FIELD(scratch_r6, u8*, 0);
                     M2C_FIELD(work_r5, s32*, 0) =
                         (s32) (M2C_FIELD(work_r4_3, s32*, 0) * scratch_r0_7);

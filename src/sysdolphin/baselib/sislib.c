@@ -1066,14 +1066,13 @@ s32 HSD_SisLib_803A70A0(HSD_Text* text, s32 entry_idx, char* fmt, ...)
     u8* src;
     u8* dst;
     u8* tail_src;
-    SisBlock* alloc;
     s32 result;
     SisBlock* old_end;
     va_list args;
 
     entry = fn_803A6FEC((u8*) text->sis_buffer, entry_idx, &old_size);
     if (entry != NULL) {
-        alloc = text->alloc_data;
+        SisBlock* alloc = text->alloc_data;
         playhead = entry + 0xE;
         if (fmt != NULL) {
             va_start(args, fmt);

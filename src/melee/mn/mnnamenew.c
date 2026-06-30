@@ -202,7 +202,6 @@ extern const GXColor mnNameNew_804DBF48;
 
 s32 mnNameNew_KeySetup(NameNewEntry* arg0, u8 arg1)
 {
-    HSD_JObj* key_jobj;
     HSD_JObj* ref1;
     HSD_JObj* ref2;
     HSD_Text* text;
@@ -220,6 +219,7 @@ s32 mnNameNew_KeySetup(NameNewEntry* arg0, u8 arg1)
     s32 i;
     GXColor* color_ptr;
     MnNameNewDataLayout* layout;
+    HSD_JObj* key_jobj;
 
     FORCE_PAD_STACK(20);
 
