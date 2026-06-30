@@ -1098,9 +1098,9 @@ void fn_80186634(void* arg0)
     HSD_CObj* cobj2;
     HSD_GObj* gobj2;
     HSD_GObj* gobj3;
-    HSD_JObj* jobj;
     HSD_GObj* gobj4;
     HSD_CObj* cobj1;
+    HSD_JObj* jobj;
     u8 operand_pad[8];
     const char* names[4];
     PAD_STACK(8);

@@ -332,12 +332,11 @@ bool lbColl_80006094(Vec3* arg0, Vec3* arg1, Vec3* arg2, Vec3* arg3,
 {
     u8 operand_pad[8];
     {
-        Vec3 vec4;
         Vec3 arg4_offset;
         Vec3 arg5_offset;
         float temp_f1;
         float unk_sum = arg6 + arg7;
-        vec4 = *arg0;
+        Vec3 vec4 = *arg0;
         (void) vec4;
         arg4_offset = vec4;
         {

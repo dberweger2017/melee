@@ -430,7 +430,6 @@ void fn_802523D8(HSD_GObj* gobj)
 
 void fn_80252548(HSD_GObj* gobj)
 {
-    MnInfoData* data;
     HSD_GObjProc* proc;
     HSD_JObj* jobj;
     s32 i;
@@ -440,6 +439,7 @@ void fn_80252548(HSD_GObj* gobj)
     MnInfoTextCursor* write_cursor;
     HSD_Text* zero_left;
     HSD_Text* zero_right;
+    MnInfoData* data;
     PAD_STACK(24);
 
     data = gobj->user_data;
