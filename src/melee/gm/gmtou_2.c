@@ -1053,11 +1053,9 @@ void gm_8019E634(void)
 
     /* Handicap adjustment */
     if ((u8) gmMainLib_8015CC34()->handicap == 1) {
-        u32 hbuf_init;
         u8* hbuf;
 
-        hbuf_init = lbl_804DA948;
-        hbuf = (u8*) &hbuf_init;
+        hbuf = (u8*) &lbl_804DA948;
 
         /* Read handicap from x37 entries */
         for (i = 0; i < 4; i++) {
