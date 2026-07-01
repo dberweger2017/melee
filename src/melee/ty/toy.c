@@ -1,4 +1,6 @@
+#define TOY_INTERNAL_TROPHY_ID_AS_S32
 #include "toy.h"
+#undef TOY_INTERNAL_TROPHY_ID_AS_S32
 
 #include "m2c_macros.h"
 #include "math.h"
@@ -2133,7 +2135,7 @@ void _Toy_80307F64(s32 arg0, s32 arg1)
     }
 }
 
-char* Toy_8030813C(s16 arg0, enum_t unused)
+char* Toy_8030813C(s32 arg0, enum_t unused)
 {
     char* ptr;
     s32 i;

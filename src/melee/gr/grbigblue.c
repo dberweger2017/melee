@@ -2635,6 +2635,7 @@ void grBigBlue_801EBAF8(Ground_GObj* gobj)
 {
     u8* gp = (u8*) GET_GROUND(gobj);
     HSD_JObj* jobj = gobj->hsd_obj;
+    f32 speed;
     u8 pad[8];
     Vec3 bone_pos;
     Vec3 vel;
@@ -2759,7 +2760,7 @@ void grBigBlue_801EBAF8(Ground_GObj* gobj)
             lbVector_Diff((Vec3*) (gp + 0xD4), (Vec3*) (gp + 0xC8),
                           (Vec3*) (gp + 0xE0));
             {
-                f32 speed = grBb_804D69C8->x7C * Ground_801C0498();
+                speed = grBb_804D69C8->x7C * Ground_801C0498();
                 *(f32*) (gp + 0xEC) = sinf(*(f32*) (gp + 0xF8)) * speed;
             }
             ((grBb_ByteBits*) (gp + 0xC4))->b1 = 1;

@@ -4011,6 +4011,7 @@ void* fn_80397814(void* arg)
     u32 retrace;
     u32 next_retrace;
     u32* keybuf;
+    void* next;
     PAD_STACK(160);
 
     ctx = arg;
@@ -4160,7 +4161,7 @@ void* fn_80397814(void* arg)
     {
         void* cur = sp->xD0;
         while (cur != NULL) {
-            void* next = *(void**) cur;
+            next = *(void**) cur;
             *(void**) cur = NULL;
             cur = next;
         }
