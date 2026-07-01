@@ -198,11 +198,10 @@ void ftCo_800C2600(Fighter_GObj* gobj, u32 arg1)
             vp = &vtx_buf[0];
 
             while (remaining >= 0) {
-                struct Fighter_x20B0_t* curEntry;
                 f32 outerScale, innerScale;
                 s32 alpha;
 
-                curEntry = &fp->x20B0[curIdx2];
+                struct Fighter_x20B0_t* curEntry = &fp->x20B0[curIdx2];
                 outerScale = interpFactor * outerDiff + blendedOuter;
                 innerScale = interpFactor * innerDiff + blendedInner;
                 numVerts += 2;

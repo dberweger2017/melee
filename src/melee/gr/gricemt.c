@@ -1154,8 +1154,8 @@ void grIceMt_801F8CDC(Ground_GObj* gobj, s16* joint_indices, int block_num,
 
 s32 fn_801F8E58(Ground_GObj* arg0, s32* out)
 {
-    s32* p;
     Ground* g;
+    s32* p;
     s32 list[12];
     s32 i;
     s32 pick;
