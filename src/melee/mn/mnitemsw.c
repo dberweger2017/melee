@@ -665,9 +665,9 @@ void fn_80234C24(HSD_GObj* gobj)
         if (((u16) mn_804A04F0.hovered_selection == 0x1F) ||
             ((u16) mn_804A04F0.hovered_selection == 0x20))
         {
-            u8* order = mnItemSw_803ED340.item_order;
-            s32 i = 0;
             MnItemSwData* dat;
+            s32 i = 0;
+            u8* order = mnItemSw_803ED340.item_order;
 
             data->x21 = (u8) mn_804A04F0.confirmed_selection;
             dat = (MnItemSwData*) gobj->user_data;
