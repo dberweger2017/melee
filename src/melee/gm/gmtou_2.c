@@ -507,9 +507,9 @@ void fn_8019D074(HSD_GObj* gobj)
 
 void fn_8019D1BC(void)
 {
+    HSD_JObj* jobj;
     TmData* tmd;
     HSD_GObj* gobj;
-    HSD_JObj* jobj;
     HSD_JObj* c;
     s32 i;
     f32 pos;

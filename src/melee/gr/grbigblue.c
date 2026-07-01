@@ -2386,12 +2386,12 @@ void grBigBlue_801EB4AC(Ground_GObj* gobj)
         u8 hi : 4;
         u8 lo : 4;
     } grBb_B4C7Nibbles;
+    f32 vel_threshold;
     u8* gp = (u8*) GET_GROUND(gobj);
     s32 count = 0;
     HSD_JObj* jobj;
     grBb_TrackEntry* entry;
     Vec3 sp_pos;
-    f32 vel_threshold;
     f32 delta_threshold;
     s32 random_lane;
 
