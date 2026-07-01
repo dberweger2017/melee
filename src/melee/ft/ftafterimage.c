@@ -33,6 +33,7 @@ void ftCo_800C2600(Fighter_GObj* gobj, u32 arg1)
     Fighter* fp;
     itSword_UnkBytes* params;
     u32 n4;
+    s32 numSubdiv;
     AfterimageVtx vtx_buf[151];
     f32 cumDist[3];
     Vec3 delta, prevPos, crossProd, tempDir;
@@ -246,7 +247,7 @@ void ftCo_800C2600(Fighter_GObj* gobj, u32 arg1)
                         f32 angle =
                             lbVector_Angle(&curEntry->xC, &nextEntry->xC);
                         f32 subdivAngle = angle / AFTERIMAGE_ANGLE_STEP;
-                        s32 numSubdiv = (s32) subdivAngle;
+                        numSubdiv = (s32) subdivAngle;
                         interpFactor = 1.0f - (*distPtr / totalDist);
 
                         if (numSubdiv != 0) {

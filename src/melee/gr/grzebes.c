@@ -1659,6 +1659,7 @@ s32 grZebes_801DB3CC(HSD_GObj* gobj)
     int i;
     grZe_BubbleEntry* ptr;
     f32 dist;
+    f32 dx;
     PAD_STACK(8);
 
     ptr = base;
@@ -1694,7 +1695,7 @@ s32 grZebes_801DB3CC(HSD_GObj* gobj)
                     grZe_BubbleEntry* left = &base[idx - 1];
                     if (left->x00_active != 0) {
                         f32 dy = left->x0C_y - cur->x0C_y;
-                        f32 dx = left->x08_x - cur->x08_x;
+                        dx = left->x08_x - cur->x08_x;
                         dist = dx * dx + dy * dy;
                         if (dist > zero) {
                             dist = sqrtf(dist);
