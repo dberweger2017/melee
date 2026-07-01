@@ -303,6 +303,7 @@ void fn_8018325C(HSD_GObj* arg0, int arg1)
 
 void fn_80184138(HSD_GObj* arg0, int arg1)
 {
+    HSD_JObj* jobj2;
     u8 _padA[8];
     Vec3 pos;
     Vec3 scale;
@@ -369,7 +370,7 @@ void fn_80184138(HSD_GObj* arg0, int arg1)
         if (Player_GetEntity(i) == arg0) {
             HSD_GObj* entity2 = Player_GetEntityAtIndex(i, 1);
             if (entity2 != NULL) {
-                HSD_JObj* jobj2 = entity2->hsd_obj;
+                jobj2 = entity2->hsd_obj;
                 HSD_JObjGetTranslation(jobj, &pos);
                 HSD_JObjSetTranslate(jobj2, &pos);
                 HSD_JObjGetScale(jobj, &scale);
