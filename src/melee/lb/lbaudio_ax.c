@@ -2459,6 +2459,7 @@ void lbAudioAx_80027648(void)
 {
     int i;
     s32 result;
+    int* p;
     u8 operand_pad[4];
 
     goto check;
@@ -2467,7 +2468,7 @@ loop:
 
 check: {
     int* q = lbl_80433984;
-    int* p = lbl_804338A4;
+    p = lbl_804338A4;
     for (i = 0; i < 55; p++, q++, i++) {
         if (*p == 1 && *q == -1) {
             result = 1;

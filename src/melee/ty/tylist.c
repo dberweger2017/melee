@@ -188,13 +188,13 @@ void _tyList_80312904(void* arg0, s8 arg1)
 void _tyList_80312BAC(TyListState* state, s8 arg1)
 {
     s32 i;
-    s16 old_idx;
-    s32 var_r28;
     ToyED8Data* archive = Toy_sbss_804D6ED8;
     TyListArg* row;
     HSD_JObj* jobj;
+    HSD_JObj* jobj2;
+    s32 var_r28;
 
-    old_idx = Toy_sbss_804D6EDC[state->selectedIdx];
+    s16 old_idx = Toy_sbss_804D6EDC[state->selectedIdx];
     Toy_803067BC((s8) state->x29B, (s8) state->x29C);
     state->selectedIdx = Toy_803062BC((s32) old_idx);
 
@@ -255,7 +255,7 @@ done_first_dirty:
         if (row->x24 >= 0 && row->x24 < (s8) state->entryCount - 2 &&
             row->idx == Toy_GetTrophyTotal() - 1)
         {
-            HSD_JObj* jobj2 = state->jobj;
+            jobj2 = state->jobj;
             if (jobj2 != NULL) {
                 f32 y = row->x30;
                 if (jobj2 == NULL) {

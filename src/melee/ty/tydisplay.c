@@ -1502,13 +1502,13 @@ void _tyDisplay_8031B328(void)
 void tyDisplay_OnEnter_8031B460(void* arg0)
 {
     s32 sp18;
-    TyDspConfig* cfg;
     TyDspBgData* data;
-    TyDspGrid* grid;
     HSD_CObj* cobj;
     HSD_GObj* gobj;
     int i;
     char* strbase = (char*) 0x803FEFF0;
+    TyDspConfig* cfg;
+    TyDspGrid* grid;
     PAD_STACK(8);
 
     _tyDisplay_804D6F10 = HSD_MemAlloc(0x4B0);

@@ -1348,11 +1348,10 @@ void Toy_80306930(HSD_GObj* gobj, int unused)
 
 void Toy_80306954(HSD_GObj* gobj, int unused)
 {
-    void* state;
     char* tbl;
     char* entry;
 
-    state = Toy_sbss_804D6ED4;
+    void* state = Toy_sbss_804D6ED4;
     if (HSD_CObjSetCurrent((HSD_CObj*) gobj->hsd_obj)) {
         if (_Toy_sbss_804D6E50 == 0) {
             entry = tbl + M2C_FIELD(state, s32*, 0x10) * 0xC;

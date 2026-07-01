@@ -650,6 +650,8 @@ s32 gm_8017CE34(StartMeleeData* arg0, UnkAdventureData* arg1, s8* arg2,
                 u8 arg3, u8 arg4, u8 arg5, s32 arg6, InternalStageId arg7,
                 s32 count, s32 arg9)
 {
+    s8* p;
+    s8* kind_iter;
     u8 colors[3];
     s32 var_r20;
     u8 enemy_level;
@@ -720,7 +722,7 @@ s32 gm_8017CE34(StartMeleeData* arg0, UnkAdventureData* arg1, s8* arg2,
         var_r4 = 1;
     }
     {
-        s8* p = &arg2[1];
+        p = &arg2[1];
         if ((s32) *p != 0x21) {
             var_r4 += 1;
         }
@@ -801,7 +803,7 @@ s32 gm_8017CE34(StartMeleeData* arg0, UnkAdventureData* arg1, s8* arg2,
     color_iter = colors;
     {
         u8* out_color = color_iter;
-        s8* kind_iter = arg2;
+        kind_iter = arg2;
         for (color_idx = 0; color_idx < 3; color_idx++) {
             u8 num_colors = gm_80169238((u8) *kind_iter);
             u8 color_id;

@@ -27,6 +27,7 @@
 void mnDiagram3_80245BA4(HSD_GObj* gobj)
 {
     Vec3 sp6C;
+    f32 row1_y;
     u8 sp58[0x14];
     u8 sp48[0x10];
     u8 sp38[0x10];
@@ -73,7 +74,7 @@ void mnDiagram3_80245BA4(HSD_GObj* gobj)
 
     {
         f32 row0_y = HSD_JObjGetTranslationY(row0);
-        f32 row1_y = HSD_JObjGetTranslationY(data->jobjs[7]);
+        row1_y = HSD_JObjGetTranslationY(data->jobjs[7]);
 
         {
             u16* stat_table;

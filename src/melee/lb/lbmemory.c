@@ -273,9 +273,9 @@ void lbMemory_80015320(int arg0, Handle* handle, int arg2, int cancelflag)
     int enabled;
     void** currentp;
     u32 size;
-    u32 current;
     u32 old;
     Handle* next;
+    u32 current;
 
     alloc = &g_alloc;
     currentp = &alloc->x6E4;

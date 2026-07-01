@@ -3023,15 +3023,13 @@ void fn_80165E7C(MatchEnd* arg0)
 
 s32 fn_80165FA4(MatchEnd* arg0)
 {
-    s32 max_loser;
     s32 count;
     s32 i;
     s32 j;
-    struct MatchTeamData* t;
 
-    max_loser = 0;
+    s32 max_loser = 0;
     for (i = 0; i < 5; i++) {
-        t = &arg0->team_standings[i];
+        struct MatchTeamData* t = &arg0->team_standings[i];
         if (t->active != 0) {
             for (j = 0; j < 5; j++) {
                 if (j != i && arg0->team_standings[j].active != 0 &&
@@ -4494,6 +4492,7 @@ void fn_80169574(ssize_t size, s8* buf)
 
 s32 fn_801695BC(u8 arg0, u8 arg1, u8 arg2, u8* arg3, u8* arg4)
 {
+    u8* other;
     u8 colors[12];
     u8 ncolors;
     s32 ncolors_s32;
@@ -4511,7 +4510,7 @@ s32 fn_801695BC(u8 arg0, u8 arg1, u8 arg2, u8* arg3, u8* arg4)
             colors[(s8) arg2] = 0xFF;
         }
         for (i = 0; i < ncolors_s32; i++) {
-            u8* other = &colors[HSD_Randi(ncolors_s32)];
+            other = &colors[HSD_Randi(ncolors_s32)];
             tmp = *other;
             *other = colors[i];
             colors[i] = tmp;

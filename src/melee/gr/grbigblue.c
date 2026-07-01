@@ -3078,6 +3078,7 @@ void grBigBlue_801ECB50(Ground_GObj* gobj)
     s32 active_count = 0;
     s32 free_count = 0;
     s32 reserved_count = 0;
+    s32 tmax;
     PAD_STACK(8);
 
     /* Count free (0) and reserved (2) lanes */
@@ -3379,7 +3380,7 @@ void grBigBlue_801ECB50(Ground_GObj* gobj)
                                                    5) != 0)
                             {
                                 s32 tmin = grBb_804D69C8->x10;
-                                s32 tmax = grBb_804D69C8->x14;
+                                tmax = grBb_804D69C8->x14;
                                 if (tmin > tmax) {
                                     s32 diff = tmin - tmax;
                                     if (diff != 0) {

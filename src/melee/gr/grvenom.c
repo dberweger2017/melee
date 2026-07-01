@@ -1433,7 +1433,6 @@ void grVenom_80205F30(Ground_GObj* gobj)
     Vec3 sp50;
     Ground* gp;
     HSD_JObj* jobj;
-    Ground* other_gp;
     HSD_GObj* other;
     HSD_JObj* tmp_jobj;
     s32* base;
@@ -1521,7 +1520,7 @@ void grVenom_80205F30(Ground_GObj* gobj)
             }
 
             if ((other = (HSD_GObj*) base[gp->gv.venom.xC8 + 8]) != NULL) {
-                other_gp = other->user_data;
+                Ground* other_gp = other->user_data;
                 Ground_801C2BA4(5);
                 lb_8000B1CC(Ground_801C3FA4(other, 5), NULL, &sp64);
                 {
