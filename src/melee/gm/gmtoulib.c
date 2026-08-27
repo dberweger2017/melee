@@ -790,7 +790,7 @@ void fn_8018B090(HSD_GObj* arg0)
                             (int*) &lbl_80473AB8[idx].slots[lbl_804D6634].x40,
                             2);
                 HSD_JObjSetTranslateY(
-                    lbl_80473AB8[idx].slots[lbl_804D6634].x2C->hsd_obj,
+                    fn_8018B090_inline1(idx),
                     -(f32) lbl_80473AB8[idx].slots[lbl_804D6634].x48);
                 if (lbl_80473AB8[idx].slots[lbl_804D6634].x48 ==
                     lbl_80473AB8[idx].slots[lbl_804D6634].x40)
