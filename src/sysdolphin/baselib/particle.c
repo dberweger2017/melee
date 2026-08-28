@@ -1096,8 +1096,12 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
                         gchild->idnum = pp->idnum;
                         if (pp->gen != NULL) {
                             HSD_JObj* jobj = pp->gen->jobj;
-                            gchild->jobj = jobj;
-                            ref_INC(jobj);
+                            if (gchild != NULL) {
+                                gchild->jobj = jobj;
+                                if (jobj != NULL) {
+                                    ref_INC(jobj);
+                                }
+                            }
                         }
                         gchild->type |= 0x100;
                         if (pp->gen != NULL) {
@@ -1155,8 +1159,12 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
                     gchild->idnum = pp->idnum;
                     if (pp->gen != NULL) {
                         HSD_JObj* jobj = pp->gen->jobj;
-                        gchild->jobj = jobj;
-                        ref_INC(jobj);
+                        if (gchild != NULL) {
+                            gchild->jobj = jobj;
+                            if (jobj != NULL) {
+                                ref_INC(jobj);
+                            }
+                        }
                     }
                     gchild->type |= 0x100;
                     if (pp->gen != NULL) {
@@ -1220,8 +1228,12 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
                     gchild->idnum = pp->idnum;
                     if (pp->gen != NULL) {
                         HSD_JObj* jobj = pp->gen->jobj;
-                        gchild->jobj = jobj;
-                        ref_INC(jobj);
+                        if (gchild != NULL) {
+                            gchild->jobj = jobj;
+                            if (jobj != NULL) {
+                                ref_INC(jobj);
+                            }
+                        }
                     }
                     gchild->type |= 0x100;
                     if (pp->gen != NULL) {
