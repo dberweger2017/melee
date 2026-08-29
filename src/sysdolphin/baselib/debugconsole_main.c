@@ -605,7 +605,7 @@ void hsd_80394314(void)
     sp->x20 = (u32) (sp->x3C - 0x28) / 11;
     sp->x1C = (u32) (sp->x40 - 0x50) / 14;
 #endif
-    sp->x4C = HSD_DebugFontAtlas;
+    sp->x4C = (u8*) HSD_DebugFontAtlas;
     sp->x50 = 0;
     sp->xC4 = 0;
 }
