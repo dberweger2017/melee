@@ -333,18 +333,21 @@ s32 fn_80169A84(u8 arg0, s8* arg1, s8* arg2)
         }
 
         {
+            s8* q;
             s32 idx = 0;
-            s8* dst2 = arg1;
-            s8* src2 = arg2;
-            while (*src2 != -2) {
-                while (lbl_8046B488.x1C0[idx] == -1) {
+            p = arg1;
+            arg1 = arg2;
+            while (*arg1 != -2) {
+                while ((result = (q = &lbl_8046B488.x0 + idx)[0x1C0]) ==
+                       -1)
+                {
                     idx = (idx + 1) % 27;
                 }
-                result = Player_800325C8(lbl_8046B488.x1C0[idx], 0);
-                *dst2 = result;
+                result = Player_800325C8(result, 0);
+                *p = result;
                 idx += 1;
-                src2 += 1;
-                dst2 += 1;
+                arg1 += 1;
+                p += 1;
             }
         }
         break;
