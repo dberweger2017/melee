@@ -1123,12 +1123,6 @@ void fn_80179854(void)
 
 extern s32 ftLib_800876B4(HSD_GObj*);
 
-static inline HSD_ImageDesc* get_player_img2(int slot,
-                                             ResultsDisplayLayout* disp)
-{
-    return &disp->player_img2[slot];
-}
-
 static inline int get_big_loser(int slot, MatchEnd* match_end)
 {
     return match_end->player_standings[slot].is_big_loser;
@@ -1143,10 +1137,11 @@ void fn_80179990(HSD_GObj* arg0, int arg1, int arg2)
 {
     ResultsDisplayLayout* disp = (ResultsDisplayLayout*) &lbl_8046E1B0;
     MatchEnd* match_end = &disp->state.match_end;
-    HSD_JObj* child_jobj;
-    HSD_CObj* cobj;
     int lookup;
-    PAD_STACK(16);
+    HSD_ImageDesc* desc;
+    HSD_CObj* cobj;
+    HSD_JObj* child_jobj;
+    PAD_STACK(8);
 
     fn_801795D4();
     fn_801796F0(arg2);
@@ -1160,11 +1155,8 @@ void fn_80179990(HSD_GObj* arg0, int arg1, int arg2)
             match_end->team_standings[match_end->player_standings[arg2].team]
                 .is_big_loser;
     }
-    cobj = (HSD_CObj*) arg0->hsd_obj;
-
     if (lookup != 0) {
-        HSD_JObj* root = (HSD_JObj*) disp->gobjs[arg2]->hsd_obj;
-        child_jobj = root == NULL ? NULL : root->child;
+        child_jobj = HSD_JObjGetChild((HSD_JObj*) disp->gobjs[arg2]->hsd_obj);
     }
 
     if (HSD_CObjSetCurrent(cobj)) {
@@ -1181,7 +1173,7 @@ void fn_80179990(HSD_GObj* arg0, int arg1, int arg2)
 
             {
                 HSD_ImageDesc* image_desc = disp->player_img2;
-                HSD_ImageDesc* desc = &image_desc[arg2];
+                desc = &image_desc[arg2];
 
                 HSD_ImageDescCopyFromEFB(
                     desc,
@@ -1223,7 +1215,8 @@ void fn_80179990(HSD_GObj* arg0, int arg1, int arg2)
         } else {
             HSD_GObj* entity = Player_GetEntity(arg2);
             if (ftLib_800876B4(entity) == 0) {
-                if (disp->state.player_flags[arg2] == 0 && disp->state.x0_6) {
+                u8* player_flags = disp->state.player_flags;
+                if (player_flags[arg2] == 0 && disp->state.x0_6) {
                     GXColor color;
 
                     color = gm_80160968(gm_80160854(
@@ -1235,7 +1228,8 @@ void fn_80179990(HSD_GObj* arg0, int arg1, int arg2)
                     Camera_800313E0(arg0, 0);
 
                     {
-                        HSD_ImageDesc* desc = get_player_img2(arg2, disp);
+                        HSD_ImageDesc* image_desc = disp->player_img2;
+                        desc = &image_desc[arg2];
 
                         HSD_ImageDescCopyFromEFB(
                             desc,
@@ -1256,7 +1250,7 @@ void fn_80179990(HSD_GObj* arg0, int arg1, int arg2)
                                                  0x7C, 1, 0);
                         HSD_CObjEndCurrent();
 
-                        disp->state.player_flags[arg2] = 1;
+                        player_flags[arg2] = 1;
                         {
                             HSD_JObj* jobj2 = get_result_jobjs(disp)[arg2];
                             jobj2->u.dobj->next->mobj->tobj->imagedesc = desc;
