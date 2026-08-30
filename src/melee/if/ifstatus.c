@@ -260,8 +260,8 @@ void ifStatus_802F4EDC(HSD_GObj* gobj)
 
         HSD_JObjRemoveAnim(jobj);
 
-        anim_base = (HSD_MatAnimJoint**) &hud->janim_selection_joints;
-        lb_8000C07C(jobj, 1, (HSD_AnimJoint**) hud->jobj_desc_parent,
+        anim_base = (HSD_MatAnimJoint**) &hud->number_model.matanims;
+        lb_8000C07C(jobj, 1, (HSD_AnimJoint**) hud->number_model.anims,
                     (HSD_MatAnimJoint**) anim_base[0],
                     (HSD_ShapeAnimJoint**) anim_base[1]);
         HSD_JObjReqAnimAll(jobj, 0.0F);
@@ -312,7 +312,8 @@ void ifStatus_802F4EDC(HSD_GObj* gobj)
     HSD_JObjAnimAll(jobj);
 
     {
-        HSD_AnimJoint** anim_joints = &hud->janim_selection_joints;
+        HSD_AnimJoint** anim_joints =
+            (HSD_AnimJoint**) &hud->number_model.matanims;
         HSD_JObj* post_digit_jobj;
 
         post_digit_jobj = state->jobjs[Ones];
@@ -629,7 +630,7 @@ HSD_GObj* ifStatus_802F5EC0(IfDamageState* state, s32 player_idx)
 
     if (state->HUD_parent_entity == NULL) {
         gobj = GObj_Create(0xE, 0xF, 0);
-        jobj = HSD_JObjLoadJoint(hud->unk258);
+        jobj = HSD_JObjLoadJoint(hud->number_model.joint);
         HSD_GObjObject_80390A70(gobj, HSD_GObj_JObjKind, jobj);
         GObj_SetupGXLink(gobj, (void (*)(HSD_GObj*, int)) ifStatus_802F5DE0,
                          0xB, 0);
@@ -641,8 +642,8 @@ HSD_GObj* ifStatus_802F5EC0(IfDamageState* state, s32 player_idx)
     }
     state->flags.animation_status_id = 0;
     HSD_JObjRemoveAnim(jobj);
-    anim_base = (HSD_MatAnimJoint**) &hud->janim_selection_joints;
-    lb_8000C07C(jobj, 0, (HSD_AnimJoint**) hud->jobj_desc_parent,
+    anim_base = (HSD_MatAnimJoint**) &hud->number_model.matanims;
+    lb_8000C07C(jobj, 0, (HSD_AnimJoint**) hud->number_model.anims,
                 (HSD_MatAnimJoint**) anim_base[0],
                 (HSD_ShapeAnimJoint**) anim_base[1]);
     HSD_JObjReqAnimAll(jobj, 0.0f);
@@ -748,7 +749,7 @@ HSD_GObj* ifStatus_802F61FC(IfDamageState* state, s32 player_idx)
             HSD_ASSERTREPORT(0x30A, 0,
                              "Error : gobj dont't get (ifAddMark)\n");
         }
-        jobj = HSD_JObjLoadJoint((HSD_Joint*) hud->unk268);
+        jobj = HSD_JObjLoadJoint(hud->mark_model.joint);
         if (jobj == NULL) {
             HSD_ASSERTREPORT(0x30E, 0,
                              "Error : jobj dont't get (ifAddMark)\n");
@@ -761,9 +762,8 @@ HSD_GObj* ifStatus_802F61FC(IfDamageState* state, s32 player_idx)
         jobj = state->next->hsd_obj;
     }
     tobj = jobj->child->u.dobj->mobj->tobj;
-    lb_8000C07C(jobj, 0, (HSD_AnimJoint**) hud->unk26C,
-                (HSD_MatAnimJoint**) hud->unk270,
-                (HSD_ShapeAnimJoint**) hud->unk274);
+    lb_8000C07C(jobj, 0, hud->mark_model.anims,
+                hud->mark_model.matanims, hud->mark_model.shapeanims);
     if (chara == CKIND_MASTERH || (u32) (chara - CKIND_GKOOPS) <= 1) {
         chara = CKIND_BOY;
     }
@@ -844,14 +844,14 @@ void ifStatus_802F66A4(void)
     arch = ifAll_GetArchive();
     lbArchive_LoadSections(*arch, (void**) &num, num_models_name,
                            (void**) &mrk, mrk_models_name, 0);
-    hud->unk258 = (*num)->joint;
-    hud->jobj_desc_parent = (*num)->anims;
-    hud->janim_selection_joints = (HSD_AnimJoint*) (*num)->matanims;
-    hud->janim_selection_textures = (*num)->shapeanims;
-    hud->unk268 = (*mrk)->joint;
-    hud->unk26C = (*mrk)->anims;
-    hud->unk270 = (*mrk)->matanims;
-    hud->unk274 = (*mrk)->shapeanims;
+    hud->number_model.joint = (*num)->joint;
+    hud->number_model.anims = (*num)->anims;
+    hud->number_model.matanims = (*num)->matanims;
+    hud->number_model.shapeanims = (*num)->shapeanims;
+    hud->mark_model.joint = (*mrk)->joint;
+    hud->mark_model.anims = (*mrk)->anims;
+    hud->mark_model.matanims = (*mrk)->matanims;
+    hud->mark_model.shapeanims = (*mrk)->shapeanims;
 #ifdef MUST_MATCH
     {
         s32 reset;

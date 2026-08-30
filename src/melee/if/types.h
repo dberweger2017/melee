@@ -4,7 +4,7 @@
 #include <platform.h>
 
 #include "if/forward.h" // IWYU pragma: export
-#include "sc/forward.h"
+#include "sc/types.h"
 #include <baselib/forward.h>
 
 #include <dolphin/gx.h>
@@ -44,15 +44,9 @@ struct IfDamageState {
 
 struct HudIndex {
     IfDamageState players[6];
-    /* +258 */ HSD_Joint* unk258;
-    /* +25C */ void* jobj_desc_parent;
-    /* +260 */ HSD_AnimJoint* janim_selection_joints;
-    /* +264 */ void* janim_selection_textures;
-    /* +268 */ void* unk268;
-    /* +26C */ void* unk26C;
-    /* +270 */ void* unk270;
-    /* +274 */ void* unk274;
-    // 8 elements of size 0x28, what is this?
+    /* +258 */ DynamicModelDesc number_model;
+    /* +268 */ DynamicModelDesc mark_model;
+    // TODO: followed by 8 elements of size 0x28.
 };
 
 struct Element_803F9628_Obj_14 {
