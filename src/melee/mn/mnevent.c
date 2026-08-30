@@ -125,89 +125,121 @@ u8 mnEvent_804D6C65;
 static char mnEvent_804D5040[3] = "%d";
 static char mnEvent_804D5044[4] = { 0x81, 0x7C, 0, 0 };
 
+static inline MnEventData* mnEvent_GetData(void)
+{
+    return mnEvent_804D6C60->user_data;
+}
+
+static inline void mnEvent_CreateIconForSlot(s32 idx, HSD_GObj** slot,
+                                             HSD_JObj** jobj_0A,
+                                             HSD_JObj** jobj_0C, Vec3* pos)
+{
+    HSD_GObj* icon_gobj;
+    HSD_JObj* icon_jobj;
+    HSD_JObj* tree;
+    f32 spacing;
+    void** assets;
+
+    (void) mnEvent_804A08F8;
+    assets = mnEvent_804A0908;
+    tree = mnEvent_804D6C60->hsd_obj;
+    lb_80011E24(tree, jobj_0A, 0xA, -1);
+    lb_80011E24(tree, jobj_0C, 0xC, -1);
+    spacing = HSD_JObjGetTranslationY(*jobj_0A);
+    spacing = HSD_JObjGetTranslationY(*jobj_0C) - spacing;
+    HSD_JObjGetTranslation(*jobj_0A, pos);
+    pos->y = pos->y + (f32) idx * spacing;
+
+    icon_gobj = GObj_Create(6, 7, 0x80);
+    icon_jobj = HSD_JObjLoadJoint(assets[0]);
+    HSD_GObjObject_80390A70(icon_gobj, HSD_GObj_JObjKind, icon_jobj);
+    GObj_SetupGXLink(icon_gobj, HSD_GObj_JObjCallback, 4, 0x80);
+    mnEvent_8024D4E0(icon_jobj, pos);
+    *slot = icon_gobj;
+}
+
+
 void mnEvent_8024D15C(s32 idx, s32 event_id)
 {
     HSD_JObj* jobj_0A;
     HSD_JObj* jobj_0C;
     Vec3 pos;
-    Vec3 icon_pos;
-    HSD_JObj* jobj_0C_2;
-    f32 icon_spacing;
-    MnEventData* data;
-    HSD_Text** text_slot;
-    HSD_Text** icon_slot;
-    HSD_JObj* icon_jobj;
-    HSD_Text* text;
-    HSD_Text* icon_text;
-    f32 spacing;
-    HSD_JObj* jobj_0A_2;
-    s32 is_unlocked;
-    HSD_JObj* tree;
-    PAD_STACK(0x40);
 
-    tree = mnEvent_804D6C60->hsd_obj;
-    data = mnEvent_804D6C60->user_data;
-    lb_80011E24(tree, &jobj_0A, 0xA, -1);
-    lb_80011E24(tree, &jobj_0C, 0xC, -1);
+    PAD_STACK(8);
+    {
+        Vec3 icon_pos;
+        HSD_JObj* icon_jobj_0C;
+        HSD_JObj* icon_jobj_0A;
+        MnEventData* data;
+        HSD_Text** text_base;
+        HSD_Text** text_slot;
+        HSD_Text** icon_base;
+        HSD_Text** icon_slot;
+        HSD_Text* text;
+        HSD_Text* icon_text;
+        f32 spacing;
+        f32 text_x;
+        f32 text_y;
+        HSD_JObj* tree;
+        s32 sis_idx;
+        PAD_STACK(0x28);
 
-    spacing = HSD_JObjGetTranslationY(jobj_0A);
-    spacing = HSD_JObjGetTranslationY(jobj_0C) - spacing;
-    HSD_JObjGetTranslation(jobj_0A, &pos);
-
-    pos.y = -(((f32) idx * spacing) + pos.y);
-
-    if (data->gobjs[idx] != NULL) {
-        HSD_GObjPLink_80390228(data->gobjs[idx]);
-        data->gobjs[idx] = NULL;
-    }
-
-    is_unlocked = gmMainLib_8015CEFC(event_id);
-    if (is_unlocked != 0) {
-        HSD_GObj* icon_gobj;
         tree = mnEvent_804D6C60->hsd_obj;
-        lb_80011E24(tree, &jobj_0A_2, 0xA, -1);
-        lb_80011E24(tree, &jobj_0C_2, 0xC, -1);
-        icon_spacing = HSD_JObjGetTranslationY(jobj_0A_2);
-        icon_spacing = HSD_JObjGetTranslationY(jobj_0C_2) - icon_spacing;
-        HSD_JObjGetTranslation(jobj_0A_2, &icon_pos);
+        data = mnEvent_GetData();
+        lb_80011E24(tree, &jobj_0A, 0xA, -1);
+        lb_80011E24(tree, &jobj_0C, 0xC, -1);
 
-        icon_pos.y = icon_pos.y + (f32) idx * icon_spacing;
-        icon_gobj = GObj_Create(6, 7, 0x80);
-        icon_jobj = HSD_JObjLoadJoint((HSD_Joint*) mnEvent_804A0908[0]);
-        HSD_GObjObject_80390A70(icon_gobj, HSD_GObj_JObjKind, icon_jobj);
-        GObj_SetupGXLink(icon_gobj, HSD_GObj_JObjCallback, 4, 0x80);
-        mnEvent_8024D4E0(icon_jobj, &icon_pos);
-        data->gobjs[idx] = icon_gobj;
-    }
+        spacing = HSD_JObjGetTranslationY(jobj_0A);
+        spacing = HSD_JObjGetTranslationY(jobj_0C) - spacing;
+        HSD_JObjGetTranslation(jobj_0A, &pos);
 
-    text_slot = &data->texts[idx];
-    (void) text_slot;
-    if (*text_slot != NULL) {
-        HSD_SisLib_803A5CC4(data->texts[idx]);
-    }
-    text = HSD_SisLib_803A6754(0, 1);
-    *text_slot = text;
-    text->font_size.x = 0.035f;
-    text->font_size.y = 0.035f;
-    text->pos_x = pos.x + mnEvent_803EF764.x;
-    text->pos_y = pos.y + mnEvent_803EF764.y;
-    text->pos_z = 17.0f;
-    text->default_kerning = 1;
-    *(s32*) &text->text_color = mnEvent_804D5028;
-    HSD_SisLib_803A6B98(text, 0.0f, 0.0f, mnEvent_803EF77C, event_id + 1);
+        pos.y = -(((f32) idx * spacing) + pos.y);
 
-    icon_slot = &data->icons[idx];
-    if (*icon_slot != NULL) {
-        HSD_SisLib_803A5CC4(data->icons[idx]);
+        if (data->gobjs[idx] != NULL) {
+            HSD_GObj** gobjs = data->gobjs;
+            HSD_GObj* old_gobj = gobjs[idx];
+            HSD_GObjPLink_80390228(old_gobj);
+            data->gobjs[idx] = NULL;
+        }
+
+        if (gmMainLib_8015CEFC(event_id) != 0) {
+            mnEvent_CreateIconForSlot(idx, &data->gobjs[idx], &icon_jobj_0A,
+                                      &icon_jobj_0C, &icon_pos);
+        }
+
+        text_base = data->texts;
+        text_slot = &text_base[idx];
+        if (*text_slot != NULL) {
+            HSD_SisLib_803A5CC4(data->texts[idx]);
+        }
+        text = HSD_SisLib_803A6754(0, 1);
+        *text_slot = text;
+        text->font_size.x = 0.035f;
+        text->font_size.y = 0.035f;
+        text_x = pos.x + mnEvent_803EF764.x;
+        text_y = pos.y + mnEvent_803EF764.y;
+        text->pos_x = text_x;
+        text->pos_y = text_y;
+        text->pos_z = 17.0f;
+        text->default_kerning = 1;
+        *(s32*) &text->text_color = mnEvent_804D5028;
+        HSD_SisLib_803A6B98(text, 0.0f, 0.0f, mnEvent_803EF77C,
+                            event_id + 1);
+
+        icon_base = data->icons;
+        icon_slot = &icon_base[idx];
+        if (*icon_slot != NULL) {
+            HSD_SisLib_803A5CC4(data->icons[idx]);
+        }
+        icon_text = HSD_SisLib_803A5ACC(
+            0, 1, pos.x + mnEvent_803EF770.x, pos.y + mnEvent_803EF770.y,
+            17.0f, 364.68332f, 38.38772f);
+        *icon_slot = icon_text;
+        icon_text->font_size.x = 0.035f;
+        icon_text->font_size.y = 0.035f;
+        sis_idx = ((gm_801BEBA8((u8) event_id) * 2) & 0x1FE) + 0x154;
+        HSD_SisLib_803A6368(icon_text, sis_idx);
     }
-    icon_text = HSD_SisLib_803A5ACC(0, 1, pos.x + mnEvent_803EF770.x,
-                                    pos.y + mnEvent_803EF770.y, 17.0f,
-                                    364.68332f, 38.38772f);
-    *icon_slot = icon_text;
-    icon_text->font_size.x = 0.035f;
-    icon_text->font_size.y = 0.035f;
-    HSD_SisLib_803A6368(icon_text,
-                        ((gm_801BEBA8((u8) event_id) * 2) & 0x1FE) + 0x154);
 }
 
 void mnEvent_8024D4E0(HSD_JObj* jobj, Vec3* translate)
