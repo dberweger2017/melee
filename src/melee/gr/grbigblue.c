@@ -3021,6 +3021,28 @@ f32 grBigBlue_801EC58C(Vec3* pos, Vec3* normal_out, f32 half_height)
 #pragma push
 #pragma fp_contract on
 #endif
+static inline f32 grBigBlue_801EC6C0_inline(s32 index)
+{
+    grBb_YakumonoParam* params;
+    f32 scale;
+    f32 result;
+
+    params = yakumono_param;
+    scale = Ground_801C0498();
+    result = (f32) params->x1C * scale;
+    scale = result / (f32) (params->x18 + 1);
+    result = (f32) (index + 1) * scale;
+
+    scale = Ground_801C0498();
+    params = yakumono_param;
+    return result + 0.5F * -((f32) params->x1C * scale);
+}
+
+static inline f32 grBigBlue_801EC6C0_inline2(s32 k)
+{
+    return grBigBlue_801EC6C0_inline(k);
+}
+
 void grBigBlue_801EC6C0(Ground_GObj* gobj)
 {
     typedef struct grBb_StateBits {
@@ -3090,14 +3112,7 @@ void grBigBlue_801EC6C0(Ground_GObj* gobj)
             idx = 0;
             ((grBb_ByteBits*) (car + 0xD4))->b6 = idx;
 
-            params = yakumono_param;
-            scale = Ground_801C0498();
-            lerp = (f32) (k + 1) *
-                   ((f32) params->x1C * scale / (f32) (params->x18 + 1));
-
-            scale = Ground_801C0498();
-            params = yakumono_param;
-            *(f32*) (car + 0xE0) = lerp + 0.5F * -((f32) params->x1C * scale);
+            *(f32*) (car + 0xE0) = grBigBlue_801EC6C0_inline2(k);
 
             scale = Ground_801C0498();
             params = yakumono_param;
@@ -3109,14 +3124,7 @@ void grBigBlue_801EC6C0(Ground_GObj* gobj)
 
             *(f32*) (car + 0xE8) = 0.0F;
 
-            params = yakumono_param;
-            scale = Ground_801C0498();
-            lerp = (f32) (k + 1) *
-                   ((f32) params->x1C * scale / (f32) (params->x18 + 1));
-
-            scale = Ground_801C0498();
-            params = yakumono_param;
-            *(f32*) (car + 0xD8) = lerp + 0.5F * -((f32) params->x1C * scale);
+            *(f32*) (car + 0xD8) = grBigBlue_801EC6C0_inline(k);
 
             *(f32*) (car + 0xDC) = 0.0F;
 
