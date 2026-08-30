@@ -82,7 +82,7 @@ f32 const lbl_803B7C68[] = {
 
 static inline TrainingItemEntry* TrainingItemTable_Get(void)
 {
-    return (TrainingItemEntry*) lbl_803D9828;
+    return lbl_803D9828;
 }
 
 /// Classic mode stage data table entry (size 0x10)
@@ -1003,7 +1003,7 @@ void fn_801891F4(void)
                 Vec3 pos;
                 s16 item;
                 lbAudioAx_80024030(8);
-                item = *(s16*) &((s32*) lbl_803D9828)[sub->menu_values[1]];
+                item = lbl_803D9828[sub->menu_values[1]].item_id;
                 player_entity = Player_GetEntity(0);
                 jobj = player_entity->hsd_obj;
                 HSD_JObjGetTranslation2(jobj, &pos);
