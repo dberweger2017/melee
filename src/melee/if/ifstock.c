@@ -346,34 +346,74 @@ static inline void ifStock_802F89F8_inline(struct IfStockUserData* user_data,
     }
 }
 
-void ifStock_802F89F8(HSD_GObj* gobj)
+static inline struct IfStockUserData* ifStock_802F89F8_get_data(HSD_GObj* gobj)
 {
     struct IfStockUserData* user_data = GET_IFSTOCK(gobj);
-    HSD_JObj* jobj = gobj->hsd_obj;
+
+    return user_data;
+}
+
+static inline int ifStock_802F89F8_count(int coins)
+{
+    int i;
+
+    for (i = 0; i < 32; i++) {
+        if (coins == 0) {
+            return i;
+        }
+        coins /= 10;
+    }
+    return 0;
+}
+
+static inline int ifStock_802F89F8_divisor(int position)
+{
+    int i;
+    int divisor = 1;
+
+    if (position != 0) {
+        for (i = 0; i < position; i++) {
+            divisor *= 10;
+        }
+    }
+    return divisor;
+}
+
+static inline int ifStock_802F89F8_digit(int coins, int position)
+{
+    int i;
+    int divisor = 1;
+
+    if (position - 1 == 0) {
+        coins %= 10;
+        return coins;
+    }
+    for (i = 0; i < position - 1; i++) {
+        divisor *= 10;
+    }
+    return (coins / divisor) % 10;
+}
+
+
+void ifStock_802F89F8(HSD_GObj* gobj)
+{
+    struct IfStockUserData* user_data = ifStock_802F89F8_get_data(gobj);
+    int i;
     int player = user_data->player;
     HSD_JObj* jobj2 = ifStock_804A1378.player[player].x4[1];
+    HSD_JObj* jobj = gobj->hsd_obj;
     int coins;
-    int i;
-    int coins2;
     int count;
+    int digit;
+    int divisor;
     Player_GetCoins(player);
-    PAD_STACK(32);
-    coins = Player_GetCoins(user_data->player);
-    ifStock_804A1378.player[user_data->player].coins = coins;
+    PAD_STACK(16);
+    coins = ifStock_804A1378.player[user_data->player].coins =
+        Player_GetCoins(user_data->player);
     if ((u32) coins > 99999U) {
         coins = 99999;
     }
-    coins2 = coins;
-    for (i = 0; i < 32; i++) {
-        if (coins2 != 0) {
-            coins2 /= 10;
-        } else {
-            goto count_done;
-        }
-    }
-    i = 0;
-count_done:
-    count = i;
+    count = ifStock_802F89F8_count(coins);
     if (count > 5) {
         count = 5;
     }
@@ -381,7 +421,28 @@ count_done:
     HSD_TObjReqAnimAll(jobj2->u.dobj->mobj->tobj,
                        gm_80168BF8(user_data->player));
     HSD_AObjSetRate(jobj2->u.dobj->mobj->tobj->aobj, 0.0f);
-    ifStock_802F89F8_inline(user_data, count, coins);
+    for (i = 0; i < 5; i++) {
+        if (i < count) {
+            divisor = ifStock_802F89F8_divisor(i);
+            HSD_JObjClearFlagsAll(
+                ifStock_804A1378.player[user_data->player].x4[13 - i],
+                JOBJ_HIDDEN);
+            digit = ifStock_802F89F8_digit(coins, count - i);
+            HSD_JObjReqAnimAll(
+                ifStock_804A1378.player[user_data->player].x4[13 - i], digit);
+        } else {
+            HSD_JObjSetFlagsAll(
+                ifStock_804A1378.player[user_data->player].x4[13 - i],
+                JOBJ_HIDDEN);
+            if (count == 0 && i == 0) {
+                HSD_JObjReqAnimAll(
+                    ifStock_804A1378.player[user_data->player].x38, 0.0f);
+                HSD_JObjClearFlagsAll(
+                    ifStock_804A1378.player[user_data->player].x38,
+                    JOBJ_HIDDEN);
+            }
+        }
+    }
     HSD_JObjAnimAll(jobj);
 }
 
