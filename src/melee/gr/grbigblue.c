@@ -3188,6 +3188,49 @@ void grBigBlue_801EC6C0(Ground_GObj* gobj)
 #pragma pop
 #endif
 
+static inline void grBigBlue_FindClosestCar(Ground* gp, s32* found_ten,
+                                             s32* closest_lane)
+{
+    f32 closest_dist = F32_MAX;
+    f32 dist;
+    s32 car_idx;
+    u8* car_p = (u8*) gp;
+    s32 ctr;
+    s32 j;
+
+    *found_ten = 0;
+    *closest_lane = -1;
+    car_idx = 0;
+
+    for (ctr = 0; ctr < 2; ctr++) {
+        for (j = 0; j < 2; j++) {
+            u32 state = (car_p[0xD4] >> 2) & 0x3F;
+
+            if (state == 10) {
+                *found_ten = 1;
+                return;
+            }
+            if (state != 1 && state != 7 && state != 8) {
+                dist = *(f32*) (car_p + 0xE0);
+                if (dist < 0.0F) {
+                    dist = -dist;
+                }
+                if (dist > 60.0F) {
+                    if (closest_dist > dist) {
+                        closest_dist = dist;
+                        *closest_lane = car_idx;
+                    }
+                } else {
+                    *found_ten = 1;
+                    return;
+                }
+            }
+            car_p += 0x40;
+            car_idx++;
+        }
+    }
+}
+
 void grBigBlue_801ECB50(Ground_GObj* gobj)
 {
     s32 i = 0;
@@ -3281,67 +3324,10 @@ void grBigBlue_801ECB50(Ground_GObj* gobj)
     /* Find closest car */
     {
         u8* bp = (u8*) gp;
-        f32 dist;
-        f32 closest_dist = 3.4028235e38f;
-        s32 ctr = 2;
-        u8* car_p = (u8*) gp;
-        s32 found_ten = 0;
-        s32 closest_lane = -1;
-        s32 car_idx = 0;
+        s32 found_ten;
+        s32 closest_lane;
 
-    car_loop: {
-        u32 st;
-
-        st = (car_p[0xD4] >> 2) & 0x3F;
-        if (st == 10) {
-            found_ten = 1;
-            goto car_done;
-        }
-        if (st != 1 && st != 7 && st != 8) {
-            dist = *(f32*) (car_p + 0xE0);
-            if (dist < 0.0f) {
-                dist = -dist;
-            }
-            if (dist > 60.0f) {
-                if (closest_dist > dist) {
-                    closest_dist = dist;
-                    closest_lane = car_idx;
-                }
-            } else {
-                found_ten = 1;
-                goto car_done;
-            }
-        }
-
-        st = (car_p[0x114] >> 2) & 0x3F;
-        car_idx++;
-        if (st == 10) {
-            found_ten = 1;
-            goto car_done;
-        }
-        if (st != 1 && st != 7 && st != 8) {
-            dist = *(f32*) (car_p + 0x120);
-            if (dist < 0.0f) {
-                dist = -dist;
-            }
-            if (dist > 60.0f) {
-                if (closest_dist > dist) {
-                    closest_dist = dist;
-                    closest_lane = car_idx;
-                }
-            } else {
-                found_ten = 1;
-                goto car_done;
-            }
-        }
-        ctr--;
-        car_p += 0x80;
-        car_idx++;
-        if (ctr != 0) {
-            goto car_loop;
-        }
-    }
-    car_done:
+        grBigBlue_FindClosestCar(gp, &found_ten, &closest_lane);
 
         if (found_ten == 0 && closest_lane != -1) {
             register s32 st_val;
