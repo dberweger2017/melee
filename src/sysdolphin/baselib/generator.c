@@ -383,25 +383,25 @@ HSD_Generator* hsd_8039D9C8(void)
 // switch case logic, Newton-Raphson sqrt inlining, trig matrix layout
 f32 hsd_8039DAD4(HSD_Generator* gen)
 {
-    f32 cos_az;
-    f32 cur_angle;
+    f32 radius;
     Vec3 vel_out;
-    Vec3 tmpvec;
-    Vec3 emit_pos;
     Vec3 vel_copy;
+    Vec3 emit_pos;
+    Vec3 tmpvec;
+    Mtx rot_mtx;
     Mtx jobj_mtx;
+    Vec3 cross1;
     Vec3 look_dir;
     Vec3 cam_up;
-    Vec3 cross1;
     Mtx trig_mtx;
     f64 eps;
     f32 vel_mag_sq;
     f32 angle1;
     f32 sin_az;
+    f32 cos_az;
     f32 sin_el;
     f32 angle_step;
-    Mtx rot_mtx;
-    f32 radius;
+    f32 cur_angle;
     f32 cone_angle;
     f32 elevation;
     f32 tmp;
