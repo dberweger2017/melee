@@ -80,7 +80,7 @@ struct gm_804D6804_t {
 /* 4D6830 */ static HSD_CObj* gm_804D6830;
 /* 4D6834 */ static HSD_CObj* gm_804D6834;
 /* 4D6838 */ static HSD_Fog* gm_804D6838;
-/* 4D683C */ static UNK_T gm_804D683C;
+/* 4D683C */ static HSD_Archive* gm_804D683C;
 /* 4D6840 */ static SceneDesc* gm_804D6840;
 /* 4D6844 */ static DynamicModelDesc** gm_804D6844;
 /* 4D6848 */ static s32 gm_804D6848;
