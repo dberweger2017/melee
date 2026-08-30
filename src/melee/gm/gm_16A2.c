@@ -96,17 +96,17 @@ int gm_801694A0(HSD_GObj* arg0)
     return count;
 }
 
-UNK_T gm_80169520(void)
+s8* gm_80169520(void)
 {
     return gm_1601_GetUnkData()->x20;
 }
 
-UNK_T gm_80169530(void)
+s8* gm_80169530(void)
 {
     return gm_1601_GetUnkData()->xA2;
 }
 
-UNK_T gm_80169540(void)
+s8* gm_80169540(void)
 {
     return gm_1601_GetUnkData()->x124;
 }
@@ -883,9 +883,9 @@ bool gm_8016A944(void)
     return false;
 }
 
-UNK_T gm_8016A97C(void)
+s8* gm_8016A97C(void)
 {
-    return &M2C_FIELD(&lbl_8046B668, UNK_T*, 0x1C);
+    return lbl_8046B668.arr2;
 }
 
 struct lbl_8046B668_t* gm_8016A98C(void)

@@ -815,8 +815,8 @@ void fn_802FA6C4(HSD_GObj* arg)
     char* p;
     int j;
     int k;
-    char* q;
-    char* w;
+    s8* q;
+    s8* w;
     if (gm_8016B184() && gm_8016A1F8()) {
         if (ifStock_804A1774.x0 == 0) {
             ifStock_804A1774.x0 = 1;
@@ -901,8 +901,8 @@ void fn_802FAC34(HSD_GObj* arg)
 {
     int i;
     int n[1];
-    signed char* q;
-    signed char* w;
+    s8* q;
+    s8* w;
     if (gm_8016A944()) {
         if (ifStock_804A1ACC.x0 == 0) {
             ifStock_804A1ACC.x0 = 1;

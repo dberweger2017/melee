@@ -1491,10 +1491,10 @@ void gm_801B4974(GameModeState* arg0)
     struct gmm_x0_528_t* temp_r24;
     u8 temp_r3_2;
     s8 var_r4;
-    u8* temp_r24_2;
+    s8* temp_r24_2;
     CutsceneData* temp_r25;
     CutsceneData* temp_r28;
-    u8* temp_r31;
+    s8* temp_r31;
 
     temp_r28 = gm_GetGameSceneLoadData(arg0);
     temp_r29 = gm_GetAdventureData();
