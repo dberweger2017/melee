@@ -1095,6 +1095,11 @@ typedef struct itLuckyAttributes {
     s32 x18;
 } itLuckyAttributes;
 
+typedef struct itLuckyEggAttributes {
+    f32 lifetime;
+    enum_t initial_state;
+} itLuckyEggAttributes;
+
 typedef struct itLucky_ItemVars {
     /* ip+DD4 */ u8 _0[0x60 - 0x0];
     /* ip+E34 */ enum_t x60;
