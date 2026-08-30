@@ -3730,7 +3730,7 @@ inline void gm_80182578_SetTime(RecordBlock* blocks, int idx, int mode,
     }
 }
 
-s32 gm_80182578(void)
+void gm_80182578(void)
 {
     RegClearRecordOverlay* data = (RegClearRecordOverlay*) &lbl_80472ED8;
     int* idx_ptr;
@@ -3905,7 +3905,6 @@ s32 gm_80182578(void)
         break;
     }
 
-    return 0;
     PAD_STACK(0x38);
 }
 
