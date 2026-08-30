@@ -611,11 +611,11 @@ s32 gm_8016A22C(s8 k0, s8 k1, s8 k2, u8 a3, u8 a4, int a5, int mode, int a7,
                 int flag2, int flag1, f32 f1, f32 f2)
 {
     int i;
-    struct lbl_8046B488_t* gp;
+    struct lbl_8046B488_t* gp = &lbl_8046B488;
     struct gm_8016A22C_header* header;
     u8 x7_tmp;
 
-    memzero(&lbl_8046B488, 0x1C0);
+    memzero(gp, 0x1C0);
 
     lbl_8046B488.x0 = k0;
     lbl_8046B488.x1 = k1;
@@ -654,7 +654,6 @@ s32 gm_8016A22C(s8 k0, s8 k1, s8 k2, u8 a3, u8 a4, int a5, int mode, int a7,
 
     lbl_8046B488.xC = a3;
 
-    gp = &lbl_8046B488;
     header = gm_8016A22C_header(gp);
     x7_tmp = header->bytes[7];
     memzero(header->x20, x7_tmp);
