@@ -516,7 +516,9 @@ s32 mnInfo_80252758(void)
     HSD_GObjProc* proc;
     HSD_GObj* gobj;
     HSD_Archive* archive;
-    HSD_AnimJoint** animjoint = &mnInfo_804A0958.animjoint;
+    StaticModelDesc* model = &mnInfo_804A0958;
+    char* top_joint = "MenMainConCo_Top_joint";
+    HSD_AnimJoint** animjoint = &model->animjoint;
     PAD_STACK(8);
 
     (void) "Can't get user_data.\n";
@@ -530,9 +532,9 @@ s32 mnInfo_80252758(void)
 
     archive = mn_804D6BB8;
     lbArchive_LoadSections(
-        archive, &mnInfo_804A0958.joint, "MenMainConCo_Top_joint", animjoint,
-        "MenMainConCo_Top_animjoint", &mnInfo_804A0958.matanim_joint,
-        "MenMainConCo_Top_matanim_joint", &mnInfo_804A0958.shapeanim_joint,
+        archive, &model->joint, top_joint, animjoint,
+        "MenMainConCo_Top_animjoint", &model->matanim_joint,
+        "MenMainConCo_Top_matanim_joint", &model->shapeanim_joint,
         "MenMainConCo_Top_shapeanim_joint", 0);
 
     mnInfo_80251AFC();
