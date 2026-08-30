@@ -31,11 +31,17 @@ typedef struct TournamentResultsData {
 } TournamentResultsData;
 ASSERT_SIZE(TournamentResultsData, 0x2288);
 
+typedef struct TournamentSuddenDeathExitData {
+    MatchExitInfo match_exit;
+    u8 unk_2288[0x140];
+} TournamentSuddenDeathExitData;
+ASSERT_SIZE(TournamentSuddenDeathExitData, 0x23C8);
+
 /* 4876D8 */ static StartMeleeData gm_804876D8;
 /* 487810 */ static MatchExitInfo gm_80487810;
 /* 489A98 */ static TournamentResultsData gm_80489A98;
 /* 48BD20 */ static SSSData gm_8048BD20;
-/* 48BE68 */ static UNK_T gm_8048BE68[0x23C8 / 4];
+/* 48BE68 */ static TournamentSuddenDeathExitData gm_8048BE68;
 
 GameModeState gm_Mode_Tournament_States[] = {
     {
@@ -213,9 +219,11 @@ void gm_801B18D4(GameModeState* arg0)
 
 void gm_801B1A2C(GameModeState* arg0)
 {
+    TournamentSuddenDeathExitData* exit_data;
     MatchExitInfo* mei;
 
-    mei = gm_GetGameSceneLeaveData(arg0);
+    exit_data = gm_GetGameSceneLeaveData(arg0);
+    mei = &exit_data->match_exit;
     gm_801629B4(mei->match_end.frame_count / 60);
     gm_80166CCC(&gm_80487810.match_end, &mei->match_end);
 }
