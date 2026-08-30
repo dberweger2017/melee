@@ -612,8 +612,70 @@ s32 hsd_803991D8(HSD_Generator* gen, HSD_JObj* jobj, f32 force, f32 range)
     return 0;
 }
 
-static inline void psUpdateParticleJObj(HSD_Particle* pp)
+static inline void psUpdateParticle(HSD_Particle* pp)
 {
+    if (pp->kind & Tornado) {
+        HSD_Generator* gp = pp->gen;
+        f32 sinA, sinB, cosA, cosB;
+        f32 R;
+        f32 d, e, nd, vz;
+        f32 t0, t1, t2, t3, t4;
+
+        sinA = sinf(pp->grav);
+        sinB = sinf(pp->fric);
+        cosA = cosf(pp->grav);
+        cosB = cosf(pp->fric);
+
+        pp->vel.z += gp->aux.tornado.vel;
+
+        R = gp->radius;
+        if (R < 0.0F) {
+            R = -R;
+        }
+        {
+            f32 ang = gp->angle;
+            if (ang < 0.0F) {
+                ang = -ang;
+            }
+            R = pp->vel.z * tanf(ang) + R;
+        }
+        pp->vel.x += gp->grav;
+        R *= pp->vel.y;
+
+        d = R * cosf(pp->vel.x);
+        e = R * sinf(pp->vel.x);
+        nd = -d;
+        vz = pp->vel.z;
+
+        t0 = vz * sinB;
+        t1 = e * cosA;
+        t2 = nd * sinA;
+        t3 = d * cosB + t0;
+        t0 = vz * sinA;
+        t1 = sinB * t2 + t1;
+        pp->pos.x = gp->pos.x + t3;
+        t2 = nd * cosA;
+        t4 = e * sinA;
+        t1 = cosB * t0 + t1;
+        t0 = vz * cosA;
+        t4 = sinB * t2 - t4;
+        pp->pos.y = gp->pos.y + t1;
+        t4 = cosB * t0 + t4;
+        pp->pos.z = gp->pos.z + t4;
+    } else {
+        if (pp->kind & 1) {
+            pp->vel.y -= pp->grav;
+        }
+        if (pp->kind & 2) {
+            pp->vel.x *= pp->fric;
+            pp->vel.y *= pp->fric;
+            pp->vel.z *= pp->fric;
+        }
+        pp->pos.x += pp->vel.x;
+        pp->pos.y += pp->vel.y;
+        pp->pos.z += pp->vel.z;
+    }
+
     if (pp->kind & 0x8000) {
         s32 jobj_idx = (pp->kind >> 12) & 7;
         HSD_JObj* jobj;
@@ -2810,73 +2872,7 @@ do_life:
         }
     }
 
-    /* --- Physics update --- */
-    if (pp->kind & Tornado) {
-        /* Tornado rotational physics */
-        HSD_Generator* gp = pp->gen;
-        f32 sinA, sinB, cosA, cosB;
-        f32 R;
-        f32 d, e, nd, vz;
-        f32 t0, t1, t2, t3, t4;
-
-        sinA = sinf(pp->grav);
-        sinB = sinf(pp->fric);
-        cosA = cosf(pp->grav);
-        cosB = cosf(pp->fric);
-
-        pp->vel.z += gp->aux.tornado.vel;
-
-        R = gp->radius;
-        if (R < 0.0F) {
-            R = -R;
-        }
-        {
-            f32 ang = gp->angle;
-            if (ang < 0.0F) {
-                ang = -ang;
-            }
-            R = pp->vel.z * tanf(ang) + R;
-        }
-        pp->vel.x += gp->grav;
-        R *= pp->vel.y;
-
-        d = R * cosf(pp->vel.x);
-        e = R * sinf(pp->vel.x);
-        nd = -d;
-        vz = pp->vel.z;
-
-        /* Rotation matrix application */
-        t0 = vz * sinB;
-        t1 = e * cosA;
-        t2 = nd * sinA;
-        t3 = d * cosB + t0;
-        t0 = vz * sinA;
-        t1 = sinB * t2 + t1;
-        pp->pos.x = gp->pos.x + t3;
-        t2 = nd * cosA;
-        t4 = e * sinA;
-        t1 = cosB * t0 + t1;
-        t0 = vz * cosA;
-        t4 = sinB * t2 - t4;
-        pp->pos.y = gp->pos.y + t1;
-        t4 = cosB * t0 + t4;
-        pp->pos.z = t4 + gp->pos.z;
-    } else {
-        /* Simple physics */
-        if (pp->kind & 1) {
-            pp->vel.y -= pp->grav;
-        }
-        if (pp->kind & 2) {
-            pp->vel.x *= pp->fric;
-            pp->vel.y *= pp->fric;
-            pp->vel.z *= pp->fric;
-        }
-        pp->pos.x += pp->vel.x;
-        pp->pos.y += pp->vel.y;
-        pp->pos.z += pp->vel.z;
-    }
-
-    psUpdateParticleJObj(pp);
+    psUpdateParticle(pp);
 
     /* Callback */
     if (pp->callback != NULL) {
