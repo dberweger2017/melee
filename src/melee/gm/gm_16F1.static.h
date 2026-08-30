@@ -345,7 +345,7 @@ struct lbl_803B7A60_t {
     /* 0x60 */ u32 x60[4];
 };
 
-static struct lbl_803B7A60_t lbl_803B7A60 = {
+static const struct lbl_803B7A60_t lbl_803B7A60 = {
     { 0, 0, 0, 0 },
     { 0, 0, 0, 0 },
     { 0, 0, 0, 0 },
