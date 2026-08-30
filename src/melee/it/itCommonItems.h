@@ -508,6 +508,8 @@ typedef struct {
     /* 0x3C */ s8 x3C;
     /* 0x3D */ s8 x3D;
     /* 0x3E */ s8 x3E;
+    /* 0x40 */ lbColl_80008D30_arg1 x40;
+    /* 0x64 */ lbColl_80008D30_arg1 x64;
 } itLikelikeAttributes;
 
 typedef struct itLikelike_ItemVars {

@@ -1107,15 +1107,10 @@ void it_802DBAF0(Item_GObj* arg0, s32 arg1, s32 arg2)
                 fval = attr->x34;
             }
 
-            // TODO: fix pointer hacks
             if (arg2 != 0) {
-                ftCo_800C7B0C(ip->grab_victim, &sp18, &vec,
-                              (lbColl_80008D30_arg1*) ((u8*) attr + 0x64),
-                              fval);
+                ftCo_800C7B0C(ip->grab_victim, &sp18, &vec, &attr->x64, fval);
             } else {
-                ftCo_800C7B0C(ip->grab_victim, &sp18, &vec,
-                              (lbColl_80008D30_arg1*) ((u8*) attr + 0x40),
-                              fval);
+                ftCo_800C7B0C(ip->grab_victim, &sp18, &vec, &attr->x40, fval);
             }
             ip->xDD4_itemVar.likelike.x50 = NULL;
             ip->atk_victim = NULL;
