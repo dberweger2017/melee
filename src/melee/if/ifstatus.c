@@ -621,9 +621,10 @@ HSD_GObj* ifStatus_802F5EC0(IfDamageState* state, s32 player_idx)
     HSD_GObj* gobj;
     HSD_MatAnimJoint** anim_base;
     HSD_JObj* jobj;
+    HSD_JObj* damage_root;
     Vec3* vec;
-    s32 i;
     HSD_TObj* tobj;
+    s32 i;
     HudIndex* hud = ifStatus_GetHUDInfo();
 
     if (state->HUD_parent_entity == NULL) {
@@ -648,8 +649,9 @@ HSD_GObj* ifStatus_802F5EC0(IfDamageState* state, s32 player_idx)
     HSD_JObjAnimAll(jobj);
     vec = ifAll_GetPlayerHUDPosition((u8) player_idx);
     HSD_JObjSetTranslate(jobj, vec);
+    damage_root = jobj;
     for (i = 0; i < 4; i++) {
-        state->jobjs[i] = ifStatus_802F6194(jobj, i);
+        state->jobjs[i] = ifStatus_802F6194(damage_root, i);
         state->translation_x[i] = HSD_JObjGetTranslationX(state->jobjs[i]);
         state->translation_y[i] = HSD_JObjGetTranslationY(state->jobjs[i]);
     }
