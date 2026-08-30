@@ -461,19 +461,22 @@ void fn_80169C54(s8 arg0, s8 arg1)
     }
 }
 
-static inline void fn_80169F50_inline(s32 arg1, struct lbl_8046B488_t* gp,
-                                      int temp_arg0)
+static inline void fn_80169F50_inline(s8 costume,
+                                      struct lbl_8046B488_t* gp, int character)
 {
     s32 i;
-    if (temp_arg0 == 4 && gp->xE != 0) {
-        for (i = 0; gp->x20[i] != -2; i++) {
+    s32 costume_id;
+    if (character == 4 && gp->xE != 0) {
+        i = 0;
+        costume_id = costume;
+        for (; gp->x20[i] != -2; i++) {
             if (gp->x20[i] == -1) {
                 continue;
             }
             if (gp->x124[i] == -1) {
                 continue;
             }
-            Player_80031DA8(gp->x124[i], arg1);
+            Player_80031DA8(gp->x124[i], costume_id);
         }
     }
 }
@@ -489,14 +492,11 @@ void fn_80169F50(s8 arg0, s8 arg1)
 
     temp_arg0 = arg0;
     flag = 0;
-    if (gp->x0 == 4) {
-        flag = 1;
-    } else {
-        p = &gp->x1;
-        if (gp->x1 == 4) {
+    p = &gp->x0;
+    for (i = 0; i < 3; i++) {
+        if (p[i] == 4) {
             flag = 1;
-        } else if (p[1] == 4) {
-            flag = 1;
+            break;
         }
     }
 
