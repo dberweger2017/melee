@@ -55,7 +55,7 @@ typedef struct un_804A1F48_t {
     u16 x0;
     u16 x2;
     s32 x4;
-    UNK_T x8;
+    struct un_804A1F48_t* next;
 } un_804A1F48_t;
 ASSERT_SIZE(struct un_804A1F48_t, 0xC);
 

@@ -127,7 +127,9 @@ void gm_801BFBA8(GameModeState* arg0)
 #pragma push
 #pragma dont_inline on
 #endif
-static UNK_T* gm_801BFC60(u32 arg0, s32 arg1, u32 arg2, u32 arg3, UNK_T* arg4)
+static struct un_804A1F48_t** gm_801BFC60(
+    u32 arg0, s32 arg1, u32 arg2, u32 arg3,
+    struct un_804A1F48_t** tail)
 {
     struct un_804A1F48_t* temp_r3;
 
@@ -135,17 +137,17 @@ static UNK_T* gm_801BFC60(u32 arg0, s32 arg1, u32 arg2, u32 arg3, UNK_T* arg4)
         un_804A1F48.x0 = arg0;
         un_804A1F48.x4 = arg3;
         un_804A1F48.x2 = arg2;
-        return (&un_804A1F48.x8);
+        return &un_804A1F48.next;
     }
     temp_r3 = HSD_MemAlloc(sizeof(struct un_804A1F48_t));
     if (temp_r3 != NULL) {
         temp_r3->x0 = arg0;
         temp_r3->x4 = arg3;
         temp_r3->x2 = arg2;
-        *arg4 = temp_r3;
-        return (&temp_r3->x8);
+        *tail = temp_r3;
+        return &temp_r3->next;
     }
-    return arg4;
+    return tail;
 }
 #ifdef MUST_MATCH
 #pragma pop
@@ -162,9 +164,9 @@ void gm_801BFCFC(GameModeState* arg0)
     int var_r28_3;
     s32 var_r27_2_s11;
     s32 var_r27_2;
-    void** var_r31;
+    struct un_804A1F48_t** var_r31;
     int var_r25_2;
-    void** temp_r3;
+    struct un_804A1F48_t** temp_r3;
     s32 var_r30;
     gm_GetGameSceneLoadData(arg0);
     var_r31 = 0;
