@@ -21,9 +21,9 @@ static u32 gm_803DD2C0[] = {
     1,  87, 53,  1,  1,   95, 59,  1,  1,   101, 117, 1,  65536, 1,
 };
 
-UNK_T gm_801ACC94(void)
+u32* gm_801ACC94(void)
 {
-    return &gm_803DD2C0;
+    return gm_803DD2C0;
 }
 
 static HSD_GObj* gm_804D6850;

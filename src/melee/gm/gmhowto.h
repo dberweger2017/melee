@@ -3,7 +3,7 @@
 
 #include <placeholder.h>
 
-/* 1ACC94 */ UNK_T gm_801ACC94(void);
+/* 1ACC94 */ u32* gm_801ACC94(void);
 /* 1ACCA0 */ void gm_Scene_HowTo_OnEnter(void*);
 /* 1ACD8C */ void gm_Scene_HowTo_OnFrame(void);
 
