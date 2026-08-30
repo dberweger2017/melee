@@ -24,10 +24,17 @@
 /* 1B1A2C */ static void gm_801B1A2C(GameModeState*);
 /* 1B1A84 */ static void gm_801B1A84(GameModeState*);
 /* 1B1AD4 */ static void gm_801B1AD4(GameModeState*);
+
+typedef struct TournamentResultsData {
+    ResultsMatchInfo results;
+    u8 pad_2284[4];
+} TournamentResultsData;
+ASSERT_SIZE(TournamentResultsData, 0x2288);
+
 /* 4876D8 */ static StartMeleeData gm_804876D8;
 /* 487810 */ static MatchExitInfo gm_80487810;
-/* 489A98 */ static UNK_T gm_80489A98[0x2288 / 4];
-/* 48BD20 */ static UNK_T gm_8048BD20[0x148 / 4];
+/* 489A98 */ static TournamentResultsData gm_80489A98;
+/* 48BD20 */ static SSSData gm_8048BD20;
 /* 48BE68 */ static UNK_T gm_8048BE68[0x23C8 / 4];
 
 GameModeState gm_Mode_Tournament_States[] = {
@@ -111,7 +118,7 @@ GameModeState gm_Mode_Tournament_States[] = {
         gm_801B1AD4,
         {
             GS_RESULTS,
-            gm_80489A98,
+            &gm_80489A98.results,
             NULL,
         },
     },
