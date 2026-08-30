@@ -535,12 +535,13 @@ void hsd_803B3CD8(s32 arg0)
 {
     s32 work_r31;
     JpegWork* work;
+    s32 work_r28_5;
     s32 scratch_r5_9;
     s32 work_r28_2;
     s32 work_r28;
     u16* work_r6;
     s32 scratch_r0;
-    s32 scratch_r0_2;
+    s32 work_r28_6;
     s32 scratch_r3;
     s32 scratch_r4;
     s32 scratch_r4_12;
@@ -552,7 +553,7 @@ void hsd_803B3CD8(s32 arg0)
     s32 scratch_r4_22;
     s32 scratch_r4_23;
     s32 scratch_r4_2;
-    s32 scratch_r4_4;
+    s32 work_r22;
     s32 scratch_r4_5;
     s32 scratch_r4_6;
     s32 scratch_r4_7;
@@ -568,15 +569,15 @@ void hsd_803B3CD8(s32 arg0)
     s32 work_ctr;
     s32 work_ctr_2;
     s32 work_ctr_3;
-    s32 work_r22;
+    s32 scratch_r4_4;
     s32 work_r24;
     s32 work_r25;
     s32 work_r23;
     u8* work_r26;
     s32 work_r28_3;
     s32 work_r28_4;
-    s32 work_r28_5;
-    s32 work_r28_6;
+    u8 byte_out;
+    s32 scratch_r0_2;
     s32 work_r29;
     s32 work_r29_2;
     s32 work_r29_3;
@@ -603,7 +604,6 @@ void hsd_803B3CD8(s32 arg0)
     u8* scratch_r4_9;
     u8* work_r7;
     u16* work_r27;
-    u8 byte_out;
 
     PAD_STACK(24);
     work_r6 = arg0 == 0 ? lbl_80431678 : lbl_8043169C;
