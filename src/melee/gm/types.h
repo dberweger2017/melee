@@ -212,7 +212,7 @@ struct GameRules {
     /* 0x09 */ u8 friendly_fire;
     /* 0x0A */ u8 pause;
     /* 0x0B */ u8 score_display;
-    /* 0x0C */ s8 unk_xc;
+    /* 0x0C */ u8 unk_xc;
     /* 0x0D */ u8 xD;
     /* 0x0E */ u8 xE;
     /* 0x0F */ u8 xF;
