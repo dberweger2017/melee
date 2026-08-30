@@ -29,6 +29,13 @@ typedef struct MnInfoDataLayout {
     u32 sis_ids[4];
     char date_format[0xC];
     char time_format[0xC];
+    char assert_report[0x18];
+    char assert_file[0xC];
+    char assert_expr[0xC];
+    char top_joint[0x18];
+    char top_animjoint[0x1C];
+    char top_matanim_joint[0x20];
+    char top_shapeanim_joint[0x28];
 } MnInfoDataLayout;
 
 u8 mnInfo_804A0968[0x48];
@@ -129,6 +136,13 @@ static MnInfoDataLayout mnInfo_layout = {
     { 0x505, 0x506, 0x507, 0x508 },
     "%s.%s.%s",
     "%s:%s:%s",
+    "Can't get user_data.\n",
+    "mninfo.c",
+    "user_data",
+    "MenMainConCo_Top_joint",
+    "MenMainConCo_Top_animjoint",
+    "MenMainConCo_Top_matanim_joint",
+    "MenMainConCo_Top_shapeanim_joint",
 };
 
 #ifdef MUST_MATCH
@@ -517,7 +531,7 @@ s32 mnInfo_80252758(void)
     HSD_GObj* gobj;
     HSD_Archive* archive;
     StaticModelDesc* model = &mnInfo_804A0958;
-    char* top_joint = "MenMainConCo_Top_joint";
+    char* top_joint = mnInfo_layout.top_joint;
     HSD_AnimJoint** animjoint = &model->animjoint;
     PAD_STACK(8);
 
@@ -533,9 +547,9 @@ s32 mnInfo_80252758(void)
     archive = mn_804D6BB8;
     lbArchive_LoadSections(
         archive, &model->joint, top_joint, animjoint,
-        "MenMainConCo_Top_animjoint", &model->matanim_joint,
-        "MenMainConCo_Top_matanim_joint", &model->shapeanim_joint,
-        "MenMainConCo_Top_shapeanim_joint", 0);
+        mnInfo_layout.top_animjoint, &model->matanim_joint,
+        mnInfo_layout.top_matanim_joint, &model->shapeanim_joint,
+        mnInfo_layout.top_shapeanim_joint, 0);
 
     mnInfo_80251AFC();
 
@@ -543,7 +557,10 @@ s32 mnInfo_80252758(void)
     mnInfo_804D6C78 = gobj;
 
     user_data = HSD_MemAlloc(sizeof(*user_data));
-    HSD_ASSERTREPORT(0x267, user_data, "Can't get user_data.\n");
+    if (user_data == NULL) {
+        OSReport(mnInfo_layout.assert_report);
+        __assert(mnInfo_layout.assert_file, 0x267, mnInfo_layout.assert_expr);
+    }
     mnInfo_80252720(user_data);
     GObj_InitUserData(gobj, 0, HSD_Free, user_data);
 
