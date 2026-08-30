@@ -72,7 +72,14 @@ MatchExitInfo gmClassic_8047086C;
 StartMeleeData gmClassic_80472AF8;
 
 struct lbl_80472D28_t {
-    /*   +0 */ char pad_0[0x20];
+    /*   +0 */ HSD_GObj* x0;
+    /*   +4 */ HSD_JObj* x4;
+    /*   +8 */ HSD_JObj* x8;
+    /*   +C */ HSD_JObj* xC;
+    /*  +10 */ HSD_JObj* x10;
+    /*  +14 */ HSD_JObj* x14;
+    /*  +18 */ HSD_JObj* x18;
+    /*  +1C */ HSD_JObj* x1C;
     /* +20 */ HSD_JObj* x20;
     /* +24 */ HSD_JObj* x24;
     /* +28 */ char pad_28[4];
@@ -82,7 +89,13 @@ struct lbl_80472D28_t {
     /* +4C */ DynamicModelDesc x4C;
     /* +5C */ void* x5C;
     /* +60 */ void* x60;
-    /* +64 */ char pad_64[0x20];
+    /* +64 */ char pad_64[8];
+    /* +6C */ HSD_Text* x6C;
+    /* +70 */ HSD_Text* x70;
+    /* +74 */ HSD_Text* x74;
+    /* +78 */ HSD_Text* x78;
+    /* +7C */ HSD_Text* x7C;
+    /* +80 */ HSD_Text* x80;
     /* +84 */ HSD_Text* x84;
     /* +88 */ char pad_88[0x38];
     /* +C0 */ u16 xC0;
@@ -122,6 +135,7 @@ struct lbl_80472D28_t {
     /* +11E */ u8 x11E;
     /* +11F */ u8 x11F;
 };
+ASSERT_SIZE(struct lbl_80472D28_t, 0x120);
 
 struct lbl_80472E48_t {
     /* 0x00 */ u8 b76 : 2, b54 : 2, b32 : 2, b10 : 2;
@@ -2049,52 +2063,7 @@ s32 fn_8017F47C(HSD_Text** arg0, int arg1)
     PAD_STACK(0x18);
 }
 
-typedef struct fn_8017FA1C_arg {
-    /* 0x000 */ HSD_GObj* x0;
-    /* 0x004 */ HSD_JObj* x4;
-    /* 0x008 */ HSD_JObj* x8;
-    /* 0x00C */ HSD_JObj* xC;
-    /* 0x010 */ HSD_JObj* x10;
-    /* 0x014 */ HSD_JObj* x14;
-    /* 0x018 */ HSD_JObj* x18;
-    /* 0x01C */ HSD_JObj* x1C;
-    /* 0x020 */ HSD_JObj* x20;
-    /* 0x024 */ HSD_JObj* x24;
-    /* 0x028 */ char pad_28[0x24];
-    /* 0x04C */ DynamicModelDesc x4C;
-    /* 0x05C */ char pad_5C[0x10];
-    /* 0x06C */ HSD_Text* x6C;
-    /* 0x070 */ HSD_Text* x70;
-    /* 0x074 */ HSD_Text* x74;
-    /* 0x078 */ HSD_Text* x78;
-    /* 0x07C */ HSD_Text* x7C;
-    /* 0x080 */ HSD_Text* x80;
-    /* 0x084 */ char pad_84[0x48];
-    /* 0x0CC */ s32 xCC;
-    /* 0x0D0 */ s32 xD0;
-    /* 0x0D4 */ s32 xD4;
-    /* 0x0D8 */ s32 xD8;
-    /* 0x0DC */ s32 xDC;
-    /* 0x0E0 */ s32 xE0;
-    /* 0x0E4 */ s32 xE4;
-    /* 0x0E8 */ char pad_E8[0x08];
-    /* 0x0F0 */ s32 xF0;
-    /* 0x0F4 */ s32 xF4;
-    /* 0x0F8 */ s32 xF8;
-    /* 0x0FC */ s32 xFC;
-    /* 0x100 */ s32 x100;
-    /* 0x104 */ s32 x104;
-    /* 0x108 */ s16 x108;
-    /* 0x10A */ s16 x10A;
-    /* 0x10C */ char pad_10C[0x08];
-    /* 0x114 */ u8 x114;
-    /* 0x115 */ u8 x115;
-    /* 0x116 */ char pad_116[2];
-    /* 0x118 */ u8 x118;
-    /* 0x119 */ char pad_119;
-    /* 0x11A */ u8 x11A;
-    /* 0x11B */ u8 x11B;
-} fn_8017FA1C_arg;
+typedef struct lbl_80472D28_t fn_8017FA1C_arg;
 
 static const Vec3 lbl_803B7C18 = { -41.0f, -0.25f, 0.0f };
 
