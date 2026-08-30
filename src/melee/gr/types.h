@@ -2059,7 +2059,8 @@ typedef struct {
     f32 x1C;
     f32 x20;
     f32 x24;
-    void* x28;
+    HSD_GObj* x28;
 } RouteEntry;
+ASSERT_SIZE(RouteEntry, 0x2C);
 
 #endif

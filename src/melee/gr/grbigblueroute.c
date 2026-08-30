@@ -47,12 +47,6 @@ struct grBigBlueRoute_8020DA9C_t {
     /* +8 */ int x8;
 };
 
-/* car_info stores 31 RouteEntry records in its 0x554-byte allocation. */
-union grBigBlueRoute_RouteStorage {
-    RouteEntry entries[31];
-    u8 bytes[0x554];
-};
-
 /* 20DA9C */ static int
 grBigBlueRoute_8020DA9C(struct grBigBlueRoute_8020DA9C_t*);
 
@@ -504,9 +498,9 @@ void grBigBlueRoute_8020C238(Ground_GObj* gobj)
         }
     }
 
-    gp->u.car.car_info = HSD_MemAlloc(0x554);
+    gp->u.car.car_info = HSD_MemAlloc(sizeof(RouteEntry) * 31);
     HSD_ASSERT(0x2A2, gp->u.car.car_info);
-    memzero(gp->u.car.car_info, 0x554);
+    memzero(gp->u.car.car_info, sizeof(RouteEntry) * 31);
 
     gp->u.car.x10A = 0;
     gp->u.car.x108 = 0;
@@ -564,11 +558,12 @@ s32 grBigBlueRoute_8020C530(Ground_GObj* arg0)
     HSD_ASSERT(0X2E5, 0);
 }
 
+/* car_info is a heap buffer containing 31 RouteEntry records. */
 /// @todo The initial Ground load is coalesced directly into r31 instead of
-/// passing through r6.
-#define GRBB_ROUTE_ENTRY_AT(car_info, offset)                                 \
-    ((RouteEntry*) &((union grBigBlueRoute_RouteStorage*) (car_info))         \
-         ->bytes[offset])
+/// passing through r6 when this uses typed array indexing.
+#define GRBB_ROUTE_ENTRY_AT(car_info, byte_offset)                            \
+    ((RouteEntry*) ((u8*) (car_info) + (byte_offset)))
+
 static inline void grBigBlueRoute_SpawnRoute(s32 route_idx, Ground* gp,
                                              Ground_GObj* gobj)
 {
@@ -675,11 +670,11 @@ static inline void grBigBlueRoute_SpawnRoute(s32 route_idx, Ground* gp,
                             (void (*)(Item_GObj*, Ground*)) fn_8020DEAC, NULL,
                             NULL);
                         re = GRBB_ROUTE_ENTRY_AT(gp->u.car.car_info, offset);
-                        re->x28 = (void*) item;
+                        re->x28 = item;
                         if (item != NULL) {
                             RouteEntry* route_entries = gp->u.car.car_info;
                             re = GRBB_ROUTE_ENTRY_AT(route_entries, offset);
-                            grMaterial_801C8E28((HSD_GObj*) re->x28);
+                            grMaterial_801C8E28(re->x28);
                         }
                     }
                 }
