@@ -1037,41 +1037,114 @@ static void hsd_80394E8C(struct lbl_8040B904_t* node_ptr)
 
 // @TODO: Currently 94.46% match - BSS relocation and register allocation
 // differences remain
+static inline const char* hsd_80394F48_get_first_entry(EventData* data)
+{
+    return data->entries[0];
+}
+
+static inline size_t hsd_80394F48_entry_length(s32 index, EventData* data)
+{
+    return strlen(data->entries[index]);
+}
+
+static inline void hsd_80394F48_set_base_color(void** color)
+{
+    *color = &lbl_8040AB00;
+}
+
+static inline s32 hsd_80394F48_get_x4(const s32* x4)
+{
+    return *x4;
+}
+
+static inline s32 hsd_80394F48_get_x40(const s32* px40)
+{
+    return *px40;
+}
+
+static inline s32 hsd_80394F48_get_x8(const s32* px8)
+{
+    return *px8;
+}
+
+static inline struct lbl_8040AB00_t*
+hsd_80394F48_get_highlight_color(struct lbl_8040AB00_t* base_color)
+{
+    return base_color + 1;
+}
+
+static inline void
+hsd_80394F48_set_col_start(s32* pxC8, s32* col_start)
+{
+    *col_start = *pxC8;
+}
+
+static inline s32 hsd_80394F48_get_x_base(s32 col_start)
+{
+    return col_start * 11 + 0x14;
+}
+
+static inline void**
+hsd_80394F48_get_x50_ptr(struct ParticleScreenState* sp)
+{
+    return &sp->x50;
+}
+
+static inline s32* hsd_80394F48_get_x8_ptr(struct ParticleScreenState* sp)
+{
+    return &sp->x8;
+}
+
+static inline s32* hsd_80394F48_get_xCC_ptr(struct ParticleScreenState* sp)
+{
+    return &sp->xCC;
+}
+
+static inline void
+hsd_80394F48_init(void* data, s32* num_entries, void*** px50, s32** pxC8,
+                  s32** pxCC)
+{
+    struct ParticleScreenState* sp = &hsd_804CF810;
+    EventData* dp = data;
+    PAD_STACK(64);
+
+    *num_entries = strlen(hsd_80394F48_get_first_entry(dp));
+    *px50 = hsd_80394F48_get_x50_ptr(sp);
+    *pxC8 = &sp->xC8;
+    *pxCC = hsd_80394F48_get_xCC_ptr(sp);
+}
+
 void hsd_80394F48(void* data)
 {
-    u8* base_color = (u8*) &lbl_8040AB00;
+    struct lbl_8040AB00_t* base_color = &lbl_8040AB00;
     struct ParticleScreenState* sp = &hsd_804CF810;
     EventData* dp = data;
     s32 num_entries;
     void** px50;
-    s32* pxC8;
+    s32 cur_row;
     s32* pxCC;
     s32* px4;
     s32* px40;
     s32* px8;
     s32 col_start;
-    s32 row_start;
-    void* hi_color;
+    struct lbl_8040AB00_t* hi_color;
     s32 x_base;
-    s32 cur_row;
+    s32* pxC8;
     s32 i;
     s32 b6;
 
-    PAD_STACK(64);
+    hsd_80394F48_init(data, &num_entries, &px50, &pxC8, &pxCC);
 
-    num_entries = strlen(dp->entries[0]);
-    px50 = &sp->x50;
-    pxC8 = &sp->xC8;
-    pxCC = &sp->xCC;
     px4 = &sp->x4;
     px40 = &sp->x40;
-    px8 = &sp->x8;
-    *px50 = base_color;
-    col_start = *pxC8;
-    row_start = *pxCC;
-
-    *px4 = col_start * 11 + 0x14;
-    *px8 = (*px40 - 0x28) - (row_start + 1) * 14;
+    px8 = hsd_80394F48_get_x8_ptr(sp);
+    hsd_80394F48_set_base_color(px50);
+    hsd_80394F48_set_col_start(pxC8, &col_start);
+    {
+        cur_row = *pxCC;
+        *px4 = col_start * 11 + 0x14;
+        *px8 = (*px40 - 0x28) - (cur_row + 1) * 14;
+    }
 
     b6 = sp->x0_b6;
     if (sp->x0_b7 != 0) {
@@ -1107,9 +1180,9 @@ void hsd_80394F48(void* data)
     }
 
     *px4 += 11;
-    x_base = col_start * 11 + 0x14;
-    hi_color = base_color + 0x20;
-    cur_row = row_start - 1;
+    x_base = hsd_80394F48_get_x_base(col_start);
+    hi_color = hsd_80394F48_get_highlight_color(base_color);
+    cur_row -= 1;
 
     for (i = 0; dp->entries[i] != 0; i++) {
         *px4 = x_base;
@@ -1127,14 +1200,14 @@ void hsd_80394F48(void* data)
         if (i == dp->index) {
             *px50 = hi_color;
         } else {
-            *px50 = base_color;
+            hsd_80394F48_set_base_color(px50);
         }
 
         *px4 += 11;
         hsd_80394434(dp->entries[i]);
 
-        *px4 += strlen(dp->entries[i]) * 11;
-        *px50 = base_color;
+        *px4 += hsd_80394F48_entry_length(i, dp) * 11;
+        hsd_80394F48_set_base_color(px50);
 
         b6 = sp->x0_b6;
         if (sp->x0_b7 != 0) {
@@ -1146,7 +1219,7 @@ void hsd_80394F48(void* data)
         }
     }
 
-    *px50 = base_color;
+    hsd_80394F48_set_base_color(px50);
     *px4 = x_base;
     *px8 = (*px40 - 0x28) - (cur_row + 1) * 14;
 
@@ -1155,14 +1228,16 @@ void hsd_80394F48(void* data)
         hsd_803922FC(((ParticleFontData*) sp->x4C)->x968, *px4, *px8, b6,
                      (&sp->x24)[sp->x34], sp->x3C, *px40, sp->x44, *px50);
     } else {
-        hsd_803921B8(((ParticleFontData*) sp->x4C)->x968, *px4, *px8,
-                     (&sp->x24)[sp->x34], sp->x3C, *px40, sp->x44, *px50);
+        s32 x = hsd_80394F48_get_x4(px4);
+        hsd_803921B8(((ParticleFontData*) sp->x4C)->x968, x,
+                     hsd_80394F48_get_x8(px8), (&sp->x24)[sp->x34], sp->x3C,
+                     *px40, sp->x44, *px50);
     }
 
     {
-        s32 j = 0;
+        x_base = 0;
         *px4 += 11;
-        while (j < num_entries) {
+        while (x_base < num_entries) {
             b6 = sp->x0_b6;
             if (sp->x0_b7 != 0) {
                 hsd_803922FC(((ParticleFontData*) sp->x4C)->x9D8, *px4, *px8,
@@ -1173,7 +1248,7 @@ void hsd_80394F48(void* data)
                              (&sp->x24)[sp->x34], sp->x3C, *px40, sp->x44,
                              *px50);
             }
-            j++;
+            x_base++;
             *px4 += 11;
         }
     }
@@ -1184,7 +1259,8 @@ void hsd_80394F48(void* data)
                      (&sp->x24)[sp->x34], sp->x3C, *px40, sp->x44, *px50);
     } else {
         hsd_803921B8(((ParticleFontData*) sp->x4C)->x968, *px4, *px8,
-                     (&sp->x24)[sp->x34], sp->x3C, *px40, sp->x44, *px50);
+                     (&sp->x24)[sp->x34], sp->x3C, hsd_80394F48_get_x40(px40),
+                     sp->x44, *px50);
     }
 
     *px4 += 11;
