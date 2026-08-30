@@ -393,7 +393,6 @@ f32 hsd_8039DAD4(HSD_Generator* gen)
     Vec3 look_dir;
     Vec3 cam_up;
     Vec3 cross1;
-    Vec3 vel_norm;
     Mtx trig_mtx;
     f64 eps;
     f32 vel_mag_sq;
@@ -476,12 +475,9 @@ f32 hsd_8039DAD4(HSD_Generator* gen)
     /* Billboard orientation: kind & 0x10000 */
     if (gen->kind & 0x10000) {
         HSD_ASSERT(677, psCamera);
-        {
-            HSD_CObj* cobj = psCamera;
-            look_dir.x = cobj->eyepos->pos.x - gen->pos.x;
-            look_dir.y = cobj->eyepos->pos.y - gen->pos.y;
-            look_dir.z = cobj->eyepos->pos.z - gen->pos.z;
-        }
+        look_dir.x = psCamera->eyepos->pos.x - gen->pos.x;
+        look_dir.y = psCamera->eyepos->pos.y - gen->pos.y;
+        look_dir.z = psCamera->eyepos->pos.z - gen->pos.z;
         PSVECNormalize(&look_dir, &look_dir);
         HSD_CObjGetUpVector(psCamera, &cam_up);
         PSVECNormalize(&cam_up, &cam_up);
@@ -501,6 +497,7 @@ f32 hsd_8039DAD4(HSD_Generator* gen)
 
     /* Velocity-based rotation */
     if ((gen->type & 0xF) != 1 && vel_mag_sq > 0.0F) {
+        Vec3 vel_norm;
         vel_norm.x = gen->vel.x;
         vel_norm.y = gen->vel.y;
         vel_norm.z = gen->vel.z;
