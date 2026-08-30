@@ -2600,7 +2600,6 @@ u8 gm_801BEBF8(u8 arg0)
     u8 i;
     struct gm_804D6900_t** array = gm_804D6900[0];
     struct gm_804D6900_t* entry;
-    u8* ptr;
 
     for (i = 0; i < 0x33; i++) {
         if (arg0 == table[i]) {
@@ -2613,8 +2612,7 @@ u8 gm_801BEBF8(u8 arg0)
         return CHKIND_NONE;
     }
 
-    ptr = *(u8**) ((u8*) entry + 0x14);
-    return *ptr;
+    return entry->player_init[0]->c_kind;
 }
 
 UNK_T gm_801BEC54(void)
