@@ -2615,7 +2615,7 @@ u8 gm_801BEBF8(u8 arg0)
     return entry->player_init[0]->c_kind;
 }
 
-UNK_T gm_801BEC54(void)
+void* gm_801BEC54(void)
 {
     struct gm_804D6900_t* temp_r3;
     temp_r3 = (*gm_804D6900)[gmMainLib_804D3EE0->unk_530.unk_535];
