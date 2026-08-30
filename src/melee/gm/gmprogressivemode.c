@@ -4,7 +4,7 @@
 
 /* 1BF8F8 */ static void gm_801BF8F8(GameModeState*);
 /* 1BF920 */ static void gm_801BF920(GameModeState*);
-/* 4D6938 */ static UNK_T gm_804D6938;
+/* 4D6938 */ static s32 gm_804D6938;
 /* 4D693C */ static UNK_T gm_804D693C;
 
 GameModeState gm_Mode_ProgScan_States[] = {
@@ -25,7 +25,7 @@ GameModeState gm_Mode_ProgScan_States[] = {
 
 void gm_801BF8F8(GameModeState* arg0)
 {
-    int* val = gm_GetGameSceneLoadData(arg0);
+    s32* val = gm_GetGameSceneLoadData(arg0);
     *val = 1;
 }
 
