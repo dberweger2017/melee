@@ -649,7 +649,7 @@ HSD_GObj* ifStatus_802F5EC0(IfDamageState* state, s32 player_idx)
     vec = ifAll_GetPlayerHUDPosition((u8) player_idx);
     HSD_JObjSetTranslate(jobj, vec);
     for (i = 0; i < 4; i++) {
-        state->jobjs[i] = (HSD_JObj*) ifStatus_802F6194((HSD_GObj*) jobj, i);
+        state->jobjs[i] = ifStatus_802F6194(jobj, i);
         state->translation_x[i] = HSD_JObjGetTranslationX(state->jobjs[i]);
         state->translation_y[i] = HSD_JObjGetTranslationY(state->jobjs[i]);
     }
@@ -673,41 +673,41 @@ HSD_GObj* ifStatus_802F5EC0(IfDamageState* state, s32 player_idx)
     return state->HUD_parent_entity;
 }
 
-HSD_GObj* ifStatus_802F6194(HSD_GObj* node, s32 n)
+HSD_JObj* ifStatus_802F6194(HSD_JObj* node, s32 n)
 {
-    HSD_GObj* gx_head;
-    HSD_GObj* gx_next;
-    HSD_GObj* gx_cur;
+    HSD_JObj* child;
+    HSD_JObj* next;
+    HSD_JObj* current;
     s32 i;
     if ((node == NULL) || (n < 0)) {
         return NULL;
     }
     if (node == NULL) {
-        gx_head = NULL;
+        child = NULL;
     } else {
-        gx_head = node->next_gx;
+        child = node->child;
     }
-    gx_cur = gx_head;
+    current = child;
     i = 0;
     goto check_done;
 
 advance_node:
-    if (gx_cur == NULL) {
-        gx_next = NULL;
+    if (current == NULL) {
+        next = NULL;
     } else {
-        gx_next = gx_cur->next;
+        next = current->next;
     }
-    gx_cur = gx_next;
+    current = next;
     i += 1;
 
 check_done:
     if (i >= n) {
-        return gx_cur;
+        return current;
     }
-    if (gx_cur != NULL) {
+    if (current != NULL) {
         goto advance_node;
     }
-    return gx_cur;
+    return current;
 }
 
 inline void ifStatus_CreateMarkGObj(HSD_GObj** gobj)
