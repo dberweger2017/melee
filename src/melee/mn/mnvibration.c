@@ -227,6 +227,15 @@ HSD_JObj* mnVibration_GetNameRowJObj(s32 count)
 #pragma pop
 #endif
 
+static inline void mnVibration_AnimateNameRow(u8 row, u8 state)
+{
+    HSD_JObj* jobj;
+
+    jobj = mnVibration_GetNameRowJObj(row);
+    HSD_JObjReqAnimAll(jobj, (f32) state);
+    HSD_JObjAnimAll(jobj);
+}
+
 void mnVibration_HandleInput(HSD_GObj* gobj)
 {
     HSD_JObj* cursor_jobj;
@@ -402,9 +411,7 @@ void mnVibration_HandleInput(HSD_GObj* gobj)
             GetPersistentNameData(name_idx)->rumble_toggle = 1;
         }
         rumble_setting = mnVibration_GetNameRumble(name_idx);
-        jobj = mnVibration_GetNameRowJObj(data->x0[1]);
-        HSD_JObjReqAnimAll(jobj, (f32) rumble_setting);
-        HSD_JObjAnimAll(jobj);
+        mnVibration_AnimateNameRow(data->x0[1], rumble_setting);
         return;
     }
 
@@ -433,6 +440,7 @@ void mnVibration_HandleInput(HSD_GObj* gobj)
                 base_y = HSD_JObjGetTranslationY(jobj17);
                 jobj18 = data2->jobjs[18];
                 spacing = HSD_JObjGetTranslationY(jobj18) - base_y;
+                jobj17 = data2->jobjs[17];
                 temp_x = HSD_JObjGetTranslationX(jobj17);
                 HSD_JObjSetTranslateX(cursor_jobj, temp_x);
                 jobj17 = data2->jobjs[17];
@@ -475,6 +483,7 @@ void mnVibration_HandleInput(HSD_GObj* gobj)
                 base_y = HSD_JObjGetTranslationY(jobj17);
                 jobj18 = data2->jobjs[18];
                 spacing = HSD_JObjGetTranslationY(jobj18) - base_y;
+                jobj17 = data2->jobjs[17];
                 temp_x = HSD_JObjGetTranslationX(jobj17);
                 HSD_JObjSetTranslateX(cursor_jobj, temp_x);
                 jobj17 = data2->jobjs[17];
@@ -486,8 +495,7 @@ void mnVibration_HandleInput(HSD_GObj* gobj)
                 HSD_JObjSetTranslateZ(cursor_jobj, temp_z);
             }
         } else if (GetNameCount() > 8) {
-            name_idx = mnVibration_GetNameSlot(data, 8);
-            if (name_idx != 0xFF) {
+            if (mnVibration_GetNameSlot(data, 8) != 0xFF) {
                 sfxMove();
                 data->scroll_offset++;
                 if (data->scroll_offset >= GetNameCount()) {
