@@ -127,8 +127,7 @@ void ftCo_CaptureWaitHi_Anim(Fighter_GObj* gobj)
     fp_ovl = (FighterOverlay*) fp;
     fp_ovl->x2340 += 1.0;
     fp_ovl->x1A4C -= p_ftCommonData->grab_timer_decrement;
-    fp_ovl->x2348 =
-        ftCommon_GrabMash(fp, *(f32*) ((u8*) p_ftCommonData + 0x3A8));
+    fp_ovl->x2348 = ftCommon_GrabMash(fp, p_ftCommonData->x3A8);
     if (fp_ovl->x1A4C <= 0.0F) {
         ftCo_800DA698(fp_ovl->x1A58, 0);
         if (fp_ovl->x234C != 0 || fn_800DC044(gobj)) {
@@ -151,8 +150,8 @@ void ftCo_CaptureWaitHi_Anim(Fighter_GObj* gobj)
     }
 
     if (*(volatile f32*) &fp_ovl->x2344 <= 0.0F && fp_ovl->x2348 != 0) {
-        fp_ovl->x2344 = *(f32*) ((u8*) p_ftCommonData + 0x3B0);
-        ftAnim_SetAnimRate(gobj, *(f32*) ((u8*) p_ftCommonData + 0x3B4));
+        fp_ovl->x2344 = p_ftCommonData->x3B0;
+        ftAnim_SetAnimRate(gobj, p_ftCommonData->shouldered_anim_rate);
     }
 }
 
