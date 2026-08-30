@@ -347,13 +347,54 @@ void fn_80184A94(HSD_GObj* gobj)
     fn_80184138(gobj, 2);
 }
 
+typedef struct ClassicCharData {
+    f32 scale[28];
+    Vec3 offset[28];
+    Vec3 samus_extra;
+} ClassicCharData;
+ASSERT_SIZE(ClassicCharData, 0x1CC);
+
+static ClassicCharData lbl_803D9248 = {
+    { 0.6f, 0.35f, 0.6f, 0.5f, 0.6f, 0.35f, 0.6f, 0.6f, 0.7f, 0.6f,
+      0.5f, 0.6f,  0.6f, 0.6f, 0.5f, 0.5f,  0.6f, 0.5f, 0.6f, 0.6f,
+      0.5f, 0.6f,  0.6f, 0.6f, 0.6f, 0.5f,  0.5f, 0.5f },
+    { { 0.0f, -6.0f, 0.0f },   { 0.0f, -3.5f, 0.0f },
+      { -1.0f, -3.5f, 0.0f },  { 0.0f, -3.5f, 0.0f },
+      { 0.0f, -1.0f, 0.0f },   { 0.0f, -3.0f, 0.0f },
+      { 0.0f, -5.0f, 0.0f },   { 0.0f, -3.5f, 0.0f },
+      { 0.0f, -3.5f, 0.0f },   { 0.0f, -3.5f, 0.0f },
+      { 0.0f, -3.0f, 0.0f },   { -0.5f, -3.5f, 0.0f },
+      { -2.0f, -6.0f, 0.0f },  { 0.0f, -2.5f, 0.0f },
+      { 0.0f, -2.5f, 0.0f },   { -1.0f, -1.0f, 0.0f },
+      { 0.0f, -5.0f, 0.0f },   { 0.0f, -3.0f, 0.0f },
+      { -1.0f, -6.0f, 0.0f },  { -1.0f, -2.5f, 0.0f },
+      { -1.0f, -3.5f, 0.0f },  { 0.0f, -3.5f, 0.0f },
+      { 0.0f, -4.0f, 0.0f },   { -1.0f, -3.5f, 0.0f },
+      { 0.0f, -1.5f, 0.0f },   { 0.0f, -4.5f, 0.0f },
+      { 0.0f, -3.5f, 0.0f },   { 0.0f, -3.5f, 0.0f } },
+    { 3.0f, 4.0f, -5.0f },
+};
+
 static char lbl_803D9414[] = { 0x82, 0x73, 0x82, 0x85, 0x82, 0x81,
                                0x82, 0x8D, 0,    0,    0,    0 };
 
 static char lbl_804D40A0[] = { 0x8C, 0x52, 0x92, 0x63, 0x00 };
 
-static const char* const lbl_803B7C58[] = { "IrAls", "IrEzTarg", "IrEzTuki",
-                                            "IrEzFigG" };
+static char lbl_803D9420[] = "IrEzTarg";
+static char lbl_803D942C[] = "IrEzTuki";
+static char lbl_803D9438[] = "IrEzFigG";
+static char lbl_803D9444[] = "ScItrAllstar_scene_data";
+static char lbl_803D945C[] = "SdIntro.dat";
+static char lbl_803D9468[] = "SIS_IntroData";
+static char lbl_803D9478[] = "GmIntEz.dat";
+static char lbl_803D9484[] = "gmIntroEasyTable";
+
+static const char* const lbl_803B7C58[] = {
+    "IrAls",
+    lbl_803D9420,
+    lbl_803D942C,
+    lbl_803D9438,
+};
 
 void fn_80184AB8(HSD_GObj* arg0)
 {
@@ -520,34 +561,6 @@ void fn_8018504C(void)
         }
     }
 }
-
-typedef struct ClassicCharData {
-    f32 scale[28];
-    Vec3 offset[28];
-    Vec3 samus_extra;
-} ClassicCharData;
-ASSERT_SIZE(ClassicCharData, 0x1CC);
-
-static ClassicCharData lbl_803D9248 = {
-    { 0.6f, 0.35f, 0.6f, 0.5f, 0.6f, 0.35f, 0.6f, 0.6f, 0.7f, 0.6f,
-      0.5f, 0.6f,  0.6f, 0.6f, 0.5f, 0.5f,  0.6f, 0.5f, 0.6f, 0.6f,
-      0.5f, 0.6f,  0.6f, 0.6f, 0.6f, 0.5f,  0.5f, 0.5f },
-    { { 0.0f, -6.0f, 0.0f },   { 0.0f, -3.5f, 0.0f },
-      { -1.0f, -3.5f, 0.0f },  { 0.0f, -3.5f, 0.0f },
-      { 0.0f, -1.0f, 0.0f },   { 0.0f, -3.0f, 0.0f },
-      { 0.0f, -5.0f, 0.0f },   { 0.0f, -3.5f, 0.0f },
-      { 0.0f, -3.5f, 0.0f },   { 0.0f, -3.5f, 0.0f },
-      { 0.0f, -3.0f, 0.0f },   { -0.5f, -3.5f, 0.0f },
-      { -2.0f, -6.0f, 0.0f },  { 0.0f, -2.5f, 0.0f },
-      { 0.0f, -2.5f, 0.0f },   { -1.0f, -1.0f, 0.0f },
-      { 0.0f, -5.0f, 0.0f },   { 0.0f, -3.0f, 0.0f },
-      { -1.0f, -6.0f, 0.0f },  { -1.0f, -2.5f, 0.0f },
-      { -1.0f, -3.5f, 0.0f },  { 0.0f, -3.5f, 0.0f },
-      { 0.0f, -4.0f, 0.0f },   { -1.0f, -3.5f, 0.0f },
-      { 0.0f, -1.5f, 0.0f },   { 0.0f, -4.5f, 0.0f },
-      { 0.0f, -3.5f, 0.0f },   { 0.0f, -3.5f, 0.0f } },
-    { 3.0f, 4.0f, -5.0f },
-};
 
 s32 fn_801851C0(void)
 {
@@ -936,7 +949,7 @@ void fn_80186080(void)
     s32 temp_r31;
 
     temp_r31 = HSD_SisLib_803A611C(0, NULL, 9, 0x14, 0, 0xE, 0, 0x12);
-    HSD_SisLib_803A62A0(0, "SdIntro.dat", "SIS_IntroData");
+    HSD_SisLib_803A62A0(0, lbl_803D945C, lbl_803D9468);
     lbl_804735A8.x4[6] = (HSD_JObj*) HSD_SisLib_803A5ACC(
         0, temp_r31, 0.0f, 0.0f, 0.0f, 640.0f, 480.0f);
     if (lbl_8047368C.game_type == 1) {
@@ -968,7 +981,7 @@ void fn_801861B8(void)
     PAD_STACK(16);
 
     HSD_SisLib_803A611C(0, NULL, 9, 0x14, 0, 0xE, 0, 0x12);
-    HSD_SisLib_803A62A0(0, "SdIntro.dat", "SIS_IntroData");
+    HSD_SisLib_803A62A0(0, lbl_803D945C, lbl_803D9468);
 
     for (i = 0; i < (s32) lbl_8047368C.xEF; i++) {
         lbl_804735A8.x4[7 + i] = (HSD_JObj*) HSD_SisLib_803A6754(0, 0);
@@ -1115,7 +1128,7 @@ void fn_80186634(void* arg0)
     ClassicArchiveNameLocal local;
     PAD_STACK(12);
 
-    lbArchive_80016DBC("GmIntEz.dat", &lbl_804D6604, "gmIntroEasyTable", 0);
+    lbArchive_80016DBC(lbl_803D9478, &lbl_804D6604, lbl_803D9484, 0);
     Camera_80028B9C(0xC);
     lb_8000FCDC();
     mpColl_80041C78();
@@ -1130,9 +1143,9 @@ void fn_80186634(void* arg0)
     local.names = *(const ClassicArchiveNameArray*) lbl_803B7C58;
     lbl_804D65F4 =
         lbArchive_80016DBC(local.names.v[lbl_8047368C.game_type],
-                           &lbl_804D65FC, "ScItrAllstar_scene_data", 0);
-    lbl_804D65F8 = lbArchive_80016DBC(lbl_804D40B0, &lbl_804D6600,
-                                      "ScItrAllstar_scene_data", 0);
+                           &lbl_804D65FC, lbl_803D9444, 0);
+    lbl_804D65F8 = lbArchive_80016DBC(
+        lbl_804D40B0, &lbl_804D6600, lbl_803D9444, 0);
 
     gm_80186634_SetupLight();
 
