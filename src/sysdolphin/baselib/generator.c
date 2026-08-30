@@ -1069,11 +1069,7 @@ HSD_Generator* hsd_8039EFAC(s32 linkNo, s32 bank, s32 gfx_id, HSD_JObj* jobj)
 HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
 {
     HSD_PSCmdList*** cmdListBank;
-    HSD_PSTexGroup* tg;
     HSD_Generator* gen;
-    f32 mag;
-    f32 f0, f1, f3;
-    u32 shape;
 
     if (bank >= 0x41) {
         return NULL;
@@ -1114,14 +1110,9 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
         gen->random = (*cmdListBank)[idx]->random;
 
         if (gen->kind & 0x100) {
-            f1 = gen->random;
-            if (f1 < 0.0F) {
-                f3 = 1.0F;
-                if ((1.0F + f1) > 1.1920929e-7F) {
-                } else {
-                    f3 = 0.0F;
-                }
-                gen->count = f3;
+            if (gen->random < 0.0F) {
+                gen->count =
+                    (1.0F + gen->random) > 1.1920929e-7F ? 1.0F : 0.0F;
             } else {
                 gen->count = 0.9999999F;
             }
@@ -1131,16 +1122,17 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
             gen->count = HSD_Randf();
         }
 
-        tg = psTexGroupArray[bank][gen->texGroup];
-        if (tg != NULL && tg->palflag != 0) {
-            gen->kind |= 0x10;
+        {
+            HSD_PSTexGroup* tg = psTexGroupArray[bank][gen->texGroup];
+            if (tg != NULL && tg->palflag != 0) {
+                gen->kind |= 0x10;
+            }
         }
 
         gen->jobj = NULL;
         gen->numChild = 0;
 
-        shape = gen->type & 0xF;
-        switch (shape) {
+        switch (gen->type & 0xF) {
         case 0:
         case 3:
         case 4: {
@@ -1175,21 +1167,18 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
             break;
         }
         case 5: {
-            f0 = (*cmdListBank)[idx]->param1;
-            gen->aux.rect.x = f0;
-            gen->aux.rect.xx = f0;
-            f0 = (*cmdListBank)[idx]->param2;
-            gen->aux.rect.y = f0;
-            gen->aux.rect.zx = f0;
-            f0 = (*cmdListBank)[idx]->param3;
-            gen->aux.rect.z = f0;
-            gen->aux.rect.zy = f0;
-            gen->aux.rect.zz = 0.0F;
+            gen->aux.rect.xx = gen->aux.rect.x =
+                (*cmdListBank)[idx]->param1;
+            gen->aux.rect.yy = gen->aux.rect.y =
+                (*cmdListBank)[idx]->param2;
+            gen->aux.rect.zz = gen->aux.rect.z =
+                (*cmdListBank)[idx]->param3;
+            gen->aux.rect.zy = 0.0F;
+            gen->aux.rect.zx = 0.0F;
             gen->aux.rect.yz = 0.0F;
-            gen->aux.rect.yy = 0.0F;
-            gen->aux.rect.xy = 0.0F;
-            gen->aux.rect.xz = 0.0F;
             gen->aux.rect.yx = 0.0F;
+            gen->aux.rect.xz = 0.0F;
+            gen->aux.rect.xy = 0.0F;
             gen->aux.rect.flag = 0;
             if ((*cmdListBank)[idx]->param1 < 0.0F) {
                 gen->aux.rect.flag |= 1;
@@ -1203,22 +1192,13 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
             break;
         }
         case 8: {
-            f32 vx = gen->vel.x;
-            f32 vy = gen->vel.y;
-            f32 vz = gen->vel.z;
-            f32 vx_sq = vx * vx;
-            f32 vy_sq = vy * vy;
-            f32 vz_sq = vz * vz;
-            mag = vx_sq + vy_sq;
-            mag += vz_sq;
-            gen->aux.sphere.speed = sqrtf(mag);
+            f32 mag;
 
-            f0 = gen->vel.x;
-            f1 = gen->vel.z;
-            vx_sq = f0 * f0;
-            vz_sq = f1 * f1;
-            mag = vx_sq + vz_sq;
-            mag = sqrtf(mag);
+            gen->aux.sphere.speed =
+                sqrtf(gen->vel.x * gen->vel.x + gen->vel.y * gen->vel.y +
+                      gen->vel.z * gen->vel.z);
+
+            mag = sqrtf(gen->vel.x * gen->vel.x + gen->vel.z * gen->vel.z);
 
             if (mag < 1.1754944e-38F) {
                 if (gen->vel.y >= 0.0F) {
@@ -1240,9 +1220,8 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
                 gen->aux.sphere.lonMid = atan2f(gen->vel.z, gen->vel.x);
             }
             gen->aux.sphere.latRange = (*cmdListBank)[idx]->param1;
-            f1 = gen->aux.sphere.latRange;
-            if (f1 < 0.0F) {
-                gen->aux.sphere.latRange = -f1;
+            if (gen->aux.sphere.latRange < 0.0F) {
+                gen->aux.sphere.latRange = -gen->aux.sphere.latRange;
                 gen->aux.sphere.speed = -gen->aux.sphere.speed;
             }
             gen->aux.sphere.lonRange = (*cmdListBank)[idx]->param2;
