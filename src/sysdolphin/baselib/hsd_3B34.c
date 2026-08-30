@@ -22,6 +22,11 @@ typedef union JpegWork {
     } data;
 } JpegWork;
 
+typedef struct JpegLumaPair {
+    s32 block0[0x40];
+    s32 block1[0x40];
+} JpegLumaPair;
+
 typedef union JpegMetadata {
     u8 raw[0x1B6];
     struct {
@@ -192,147 +197,155 @@ extern u16 lbl_8043169C[0xC];
 extern u8 lbl_804316B4[0xC];
 static s32 lbl_804D6398 = 3;
 
-void hsd_803B3408(u8* arg0, s32 arg1, s32 arg2, s32 arg3, s32 unused_arg4)
+static inline s32 hsd_803B3408_inline(s32 index)
 {
-    f32 scratch_f3;
-    f32 scratch_f3_2;
-    f32 scratch_f5;
-    f32 scratch_f7;
-    s32 scratch_r22;
-    s32 scratch_r22_2;
-    s32 scratch_r22_5;
-    s32 scratch_r23;
-    s32 scratch_r26;
-    s32 work_r9;
-    s32 work_ctr;
-    s32 work_r28;
-    s32 work_r10;
-    s32 work_r11;
-    s32 work_r12;
-    s32 work_r26;
-    s32 scratch_r31;
-    s32 work_r7;
-    s32 work_r7_2;
-    s32 work_r30;
-    s32 work_r6;
-    u16 scratch_r22_6;
-    s32 work_ctr_2;
-    s32 work_r29;
-    s32 work_r8;
-    s32 work_r27;
-    u16 scratch_r21;
-    u16 scratch_r22_4;
-    s32 work_r6_2;
-    u16 scratch_r30;
-    u16* scratch_r5;
-    u8* scratch_r22_3;
-    u8* work_r5;
+    return (index & 1) * 0x20;
+}
 
-    work_r10 = 0;
-    scratch_r31 = ((arg3 + 0xF + work_r10) / 16) << 6;
-    work_r11 = 0;
-    work_r12 = 0;
-    for (work_r28 = 0; work_r28 < 2; work_r28++) {
-        u8* work_r24;
-        work_r8 = work_r11;
-        work_r24 =
-            arg0 +
-            ((((arg1 / 4) * 0x10) + ((arg2 / 4) * scratch_r31) + work_r10) *
-             2);
-        work_r9 = 0;
-        for (work_r27 = 0; work_r27 < 2; work_r27++) {
-            for (work_r7 = 0; work_r7 < 4; work_r7++) {
-                work_r6 = 0;
-                for (work_ctr = 4; work_ctr != 0; work_ctr--) {
-                    scratch_r22 = (work_r6 & 2) * 4;
-                    scratch_r5 = (u16*) (work_r24 +
-                                         ((((work_r6 & 1) * 2) +
-                                           (scratch_r22 +
-                                            (((work_r7 & 1) * 0x20) +
-                                             ((work_r7 & 2) * scratch_r31)))) *
-                                          2));
-                    scratch_r30 = *scratch_r5;
-                    scratch_r22_2 = (scratch_r30 >> 8U) & 0xF8;
+static inline s32 hsd_803B3408_offset(s32 tile_stride, s32 y, s32 x)
+{
+    return ((x / 4) * 0x10) + ((y / 4) * tile_stride);
+}
+
+static inline void hsd_803B3408_set_stride(s32* tile_stride, s32 width)
+{
+    *tile_stride = ((width + 0xF) / 16) << 6;
+}
+
+void hsd_803B3408(u8* image, s32 x, s32 y, s32 width, s32 height)
+{
+    s32 luma_block_offset;
+    s32 chroma_block_offset;
+    s32 second_pixel_offset;
+    s32 chroma_pixel_count;
+    s32 luma_offset;
+    s32 chroma_row_base;
+    s32 second_pixel_index;
+    s32 luma_row_base;
+    s32 pixel_index;
+    s32 luma_row;
+    s32 tile_stride;
+    s32 luma_y;
+    s32 pair_count;
+    s32 luma_x;
+    s32 tile_y;
+    s32 tile_x;
+    u16 pixel;
+    JpegLumaPair* luma_pair;
+    s32 tile_row_offset;
+    u16* pixel_ptr;
+
+    tile_row_offset = 0;
+    hsd_803B3408_set_stride(&tile_stride, width);
+    chroma_row_base = 0;
+    luma_row_base = 0;
+    for (tile_y = 0; tile_y < 2; tile_y++) {
+        u16* src;
+        chroma_block_offset = chroma_row_base;
+        src = (u16*) image +
+              (hsd_803B3408_offset(tile_stride, y, x) + tile_row_offset);
+        luma_block_offset = 0;
+        for (tile_x = 0; tile_x < 2; tile_x++) {
+            s32 chroma_y;
+
+            for (chroma_y = 0; chroma_y < 4; chroma_y++) {
+                s32 chroma_x;
+
+                chroma_x = 0;
+                for (chroma_pixel_count = 4; chroma_pixel_count != 0;
+                     chroma_pixel_count--)
+                {
+                    f32 green;
+                    s32 chroma_x_offset;
+                    s32 red_chroma;
+                    s32 blue_chroma;
+                    u16 pixel;
+                    u16 pixel_again;
+                    JpegWork* chroma_work;
+
+                    chroma_x_offset = (chroma_x & 2) * 4;
+                    pixel_ptr =
+                        src +
+                        (((chroma_x & 1) * 2) +
+                         (chroma_x_offset + (((chroma_y & 1) * 0x20) +
+                                             ((chroma_y & 2) * tile_stride))));
+                    pixel = *pixel_ptr;
+                    red_chroma = (pixel >> 8U) & 0xF8;
                     {
-                        s32 scratch_r23_2 = scratch_r30 * 8;
-                        f32 scratch_f3_3 = (f32) ((scratch_r30 >> 3U) & 0xFC);
-                        scratch_r23 = scratch_r23_2 & 0xF8;
-                        scratch_f3 = scratch_f3_3;
+                        s32 blue_shifted = pixel * 8;
+                        f32 green_value = (f32) ((pixel >> 3U) & 0xFC);
+                        blue_chroma = blue_shifted & 0xF8;
+                        green = green_value;
                     }
-                    scratch_r22_3 = HSD_804D2648_BUF +
-                                    (((work_r6 & 1) + scratch_r22 +
-                                      (work_r8 + (((work_r7 & 1) * 4) +
-                                                  ((work_r7 & 2) * 0x10)))) *
-                                     4);
-                    work_r6 += 1;
-                    M2C_FIELD(scratch_r22_3, s32*, 0x518) =
-                        (s32) ((0.5f * (f32) scratch_r23) +
-                               ((-0.1687f * (f32) scratch_r22_2) -
-                                (0.3313f * scratch_f3)));
-                    scratch_r21 = *scratch_r5;
-                    M2C_FIELD(scratch_r22_3, s32*, 0x618) =
-                        (s32) (((0.5f * (f32) ((scratch_r21 >> 8U) & 0xF8)) -
+                    chroma_work =
+                        (JpegWork*) (HSD_804D2648_BUF +
+                                     (((chroma_x & 1) + chroma_x_offset +
+                                       (chroma_block_offset +
+                                        (((chroma_y & 1) * 4) +
+                                         ((chroma_y & 2) * 0x10)))) *
+                                      4));
+                    chroma_x += 1;
+                    chroma_work->data.x518[0] =
+                        (s32) ((0.5f * (f32) blue_chroma) +
+                               ((-0.1687f * (f32) red_chroma) -
+                                (0.3313f * green)));
+                    pixel_again = *pixel_ptr;
+                    chroma_work->data.x618[0] =
+                        (s32) (((0.5f * (f32) ((pixel_again >> 8U) & 0xF8)) -
                                 (0.4187f *
-                                 (f32) ((scratch_r21 >> 3U) & 0xFC))) -
-                               (0.0813f * (f32) ((scratch_r21 * 8) & 0xF8)));
+                                 (f32) ((pixel_again >> 3U) & 0xFC))) -
+                               (0.0813f * (f32) ((pixel_again * 8) & 0xF8)));
                 }
             }
-            work_r7_2 = work_r12;
-            for (work_r30 = 0; work_r30 < 4; work_r30++) {
-                work_r6_2 = work_r7_2 * 8;
-                for (work_r29 = 0; work_r29 < 4; work_r29++) {
-                    work_r26 = 0;
-                    work_r5 =
-                        HSD_804D2648_BUF + ((work_r9 + work_r6_2) * 4) + 0x118;
-                    for (work_ctr_2 = 2; work_ctr_2 != 0; work_ctr_2--) {
-                        scratch_r22_4 =
-                            M2C_FIELD(work_r24, u16*,
-                                      (((work_r26 << 5) & 0x20) +
-                                       ((work_r26 & 2) * scratch_r31)) *
-                                          2);
-                        scratch_r26 = work_r26 + 1;
-                        scratch_f5 = (f32) ((scratch_r22_4 >> 8U) & 0xF8);
-                        {
-                            f32 scratch_f3_3 =
-                                0.587f * (f32) ((scratch_r22_4 >> 3U) & 0xFC);
-                            scratch_f3_2 = scratch_f3_3;
-                        }
-                        scratch_r22_5 = (((scratch_r26 << 5) & 0x20) +
-                                         ((scratch_r26 & 2) * scratch_r31)) *
-                                        2;
-                        scratch_f7 = (f32) ((scratch_r22_4 * 8) & 0xF8);
-                        work_r26 = scratch_r26 + 1;
-                        M2C_FIELD(work_r5, s32*, 0) =
-                            (s32) ((s32) ((0.114f * scratch_f7) +
-                                          ((0.299f * scratch_f5) +
-                                           scratch_f3_2)) -
-                                   0x80);
-                        scratch_r22_6 =
-                            M2C_FIELD(work_r24, u16*, scratch_r22_5);
-                        M2C_FIELD(work_r5, s32*, 0x100) =
+            luma_row = luma_row_base;
+            for (luma_y = 0; luma_y < 4; luma_y++) {
+                luma_offset = luma_row * 8;
+                for (luma_x = 0; luma_x < 4; luma_x++) {
+                    pixel_index = 0;
+                    luma_pair =
+                        (JpegLumaPair*) (HSD_804D2648_BUF +
+                                         ((luma_block_offset + luma_offset) *
+                                          4) +
+                                         0x118);
+                    for (pair_count = 2; pair_count != 0; pair_count--) {
+                        s32 row_offset = (pixel_index & 2) * tile_stride;
+
+                        pixel = src[((pixel_index & 1) * 0x20) + row_offset];
+                        second_pixel_index = pixel_index + 1;
+                        second_pixel_offset =
+                            hsd_803B3408_inline(second_pixel_index) +
+                            ((second_pixel_index & 2) * tile_stride);
+                        pixel_index = second_pixel_index + 1;
+                        luma_pair->block0[0] =
                             (s32) ((s32) ((0.114f *
-                                           (f32) ((scratch_r22_6 * 8) &
-                                                  0xF8)) +
+                                           (f32) ((pixel * 8) & 0xF8)) +
                                           ((0.299f *
-                                            (f32) ((scratch_r22_6 >> 8U) &
-                                                   0xF8)) +
+                                            (f32) ((pixel >> 8U) & 0xF8)) +
                                            (0.587f *
-                                            (f32) ((scratch_r22_6 >> 3U) &
-                                                   0xFC)))) -
+                                            (f32) ((pixel >> 3U) & 0xFC)))) -
                                    0x80);
-                        work_r5 += 0x200;
+                        pixel = src[second_pixel_offset];
+                        luma_pair->block1[0] =
+                            (s32) ((s32) ((0.114f *
+                                           (f32) ((pixel * 8) & 0xF8)) +
+                                          ((0.299f *
+                                            (f32) ((pixel >> 8U) & 0xF8)) +
+                                           (0.587f *
+                                            (f32) ((pixel >> 3U) & 0xFC)))) -
+                                   0x80);
+                        luma_pair += 1;
                     }
-                    work_r24 += 2;
-                    work_r6_2 += 1;
+                    src += 1;
+                    luma_offset += 1;
                 }
-                work_r7_2 += 1;
+                luma_row += 1;
             }
-            work_r8 += 2;
-            work_r9 += 4;
+            chroma_block_offset += 2;
+            luma_block_offset += 4;
         }
-        work_r10 += scratch_r31;
-        work_r11 += 0x10;
-        work_r12 += 4;
+        tile_row_offset += tile_stride;
+        chroma_row_base += 0x10;
+        luma_row_base += 4;
     }
 }
 
