@@ -380,7 +380,7 @@ static AllstarRoundInfo gm_803DEC4C[13] = {
 
 gm_80490940_t gm_80490940[5];
 
-void gm_801B5324(UnkAllstarData* arg0, u8 arg1)
+void gm_801B5324(UnkAllstarData* arg0, s32 arg1)
 {
     s8 chars[3];
     u8 colors[3];
