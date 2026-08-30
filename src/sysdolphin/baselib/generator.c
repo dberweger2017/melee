@@ -11,6 +11,8 @@
 #include <sysdolphin/baselib/random.h>
 #include <sysdolphin/baselib/wobj.h>
 
+extern int psCmdListArray[65];
+
 static inline void generator_sdata2_order(void)
 {
     (void) 0.0f;
@@ -1101,7 +1103,7 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
     if (linkNo >= 8) {
         return NULL;
     }
-    if (idx >= psNumCmdList[bank]) {
+    if (idx >= psCmdListArray[bank]) {
         return NULL;
     }
 
