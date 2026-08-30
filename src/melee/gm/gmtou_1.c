@@ -525,12 +525,19 @@ typedef struct TmPlayerAnimFrames {
 ASSERT_SIZE(TmPlayerAnimFrames, 6);
 
 typedef union TmPlayerAnimFrameTable {
-    s32 words[9];
     TmPlayerAnimFrames states[6];
+    s32 words[9];
 } TmPlayerAnimFrameTable;
 ASSERT_SIZE(TmPlayerAnimFrameTable, sizeof(s32) * 9);
 
-TmPlayerAnimFrameTable const lbl_803B7CE0 = { 0 };
+TmPlayerAnimFrameTable const lbl_803B7CE0 = { {
+    { 0, 30, 0 },
+    { 50, 59, 0 },
+    { 60, 70, 1 },
+    { 90, 100, 0 },
+    { 110, 130, 0 },
+    { 150, 160, 0 },
+} };
 
 void fn_80196FFC(HSD_GObj* gobj)
 {
