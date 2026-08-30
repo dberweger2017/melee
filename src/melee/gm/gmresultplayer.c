@@ -467,7 +467,7 @@ void fn_80177920(HSD_GObj* gobj)
     }
 }
 
-extern UNK_T lbl_803D6878[];
+extern struct StatsList lbl_803D6878[];
 
 static inline bool pagePrev(int slot)
 {
@@ -506,7 +506,7 @@ static inline bool scrollDown(int slot, float amount)
     amount *= scroll_speed;
 
     scroll_max =
-        fn_80174A60(fn_801748EC(&lbl_803D6878, data->player_data[slot].page,
+        fn_80174A60(fn_801748EC(lbl_803D6878, data->player_data[slot].page,
                                 slot | arg),
                     slot) -
         10;
@@ -578,20 +578,19 @@ bool fn_80177B7C(int slot)
 bool fn_80177DD0(int slot)
 {
     ResultsData* data;
-    void* unk;
+    struct StatsList* list;
     int result;
     int scroll_max;
 
     data = &lbl_8046DBE8;
-    unk = &lbl_803D6878;
+    list = lbl_803D6878;
 
     result = false;
     if (HSD_PadCopyStatus[slot].err == 0) {
         return fn_80177B7C(slot);
     }
-    // The cast here is permuter slop.
     scroll_max =
-        fn_80174A60(fn_801748EC(unk, data->player_data[slot].page, (u64) slot),
+        fn_80174A60(fn_801748EC(list, data->player_data[slot].page, (u64) slot),
                     slot) -
         10;
     if (scroll_max < 0) {

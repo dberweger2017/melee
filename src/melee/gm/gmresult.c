@@ -300,25 +300,16 @@ void fn_80174468(s32 slot, HSD_Text* text1, HSD_Text* text2, HSD_Text* text3,
     }
 }
 
-typedef struct ResultsStatsInfo {
-    /* 0x00 */ u8 x0;
-    /* 0x01 */ u8 x1;
-    /* 0x02 */ u8 pad_2[2];
-    /* 0x04 */ int x4;
-} ResultsStatsInfo;
+static StatsList lbl_8046E190[4];
 
-static ResultsStatsInfo lbl_8046E190[4];
-
-void* fn_801748EC(void* list_, s32 mode, s32 idx)
+StatsList* fn_801748EC(StatsList* list, s32 mode, s32 idx)
 {
-    ResultsStatsInfo* list = list_;
-
     if (mode != 2) {
         goto loop_start;
         do {
             list++;
         loop_start:;
-        } while (list->x0 != mode);
+        } while (list->mode != mode);
         return list;
     }
     return &lbl_8046E190[idx];
@@ -539,7 +530,7 @@ void fn_80174B4C(ResultsData* data, s32 slot)
             list++;
         }
     } else {
-        list = (StatsList*) &lbl_8046E190[slot];
+        list = &lbl_8046E190[slot];
     }
 
     count = 0;
@@ -1749,7 +1740,7 @@ void gm_Scene_Results_OnEnter(void* arg0_)
     MatchEnd* match_end;
     ResultsData* data = &lbl_8046DBE8;
     int i;
-    ResultsStatsInfo* info;
+    StatsList* info;
     MatchEnd* me_iter;
     ResultsData* data_iter;
 
@@ -1777,14 +1768,14 @@ void gm_Scene_Results_OnEnter(void* arg0_)
     if (fn_801701B8() == 0) {
         info = lbl_8046E190;
         for (i = 0; i < 4; i++, info++) {
-            info->x0 = 2;
-            info->x1 = fn_80174284_noinline(i) * 2 + 2;
+            info->mode = 2;
+            info->count = fn_80174284_noinline(i) * 2 + 2;
         }
     } else {
         info = lbl_8046E190;
         for (i = 0; i < 4; i++, info++) {
-            info->x0 = 2;
-            info->x1 = 0;
+            info->mode = 2;
+            info->count = 0;
         }
     }
     fn_801771C0(&lbl_8046DBE8);

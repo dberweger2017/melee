@@ -25,7 +25,7 @@ struct StatsList;
 /* 174468 */ void fn_80174468(s32 slot, HSD_Text* text1, HSD_Text* text2,
                               HSD_Text* text3, struct StatsList* list,
                               s32 entry_idx);
-/* 1748EC */ void* fn_801748EC(void*, s32, s32);
+/* 1748EC */ struct StatsList* fn_801748EC(struct StatsList*, s32, s32);
 /* 174920 */ u8 fn_80174920(struct ResultsPlayerData* data);
 /* 1749B8 */ void fn_801749B8(HSD_GObj*);
 /* 174A60 */ s32 fn_80174A60(struct StatsList*, s32);
