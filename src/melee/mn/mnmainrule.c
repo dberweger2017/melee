@@ -79,6 +79,11 @@ union mn_802307F8_value_view {
     } indexed;
 };
 
+typedef struct RuleOptionAnimFrames {
+    f32 selected;
+    f32 hovered;
+} RuleOptionAnimFrames;
+
 u8 mn_803EC600[] = {
     0x00, 0x03, 0x00, 0x04, 0x00, 0x05, 0x00, 0x06, 0x00, 0x07, 0x00, 0x08,
     0x00, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00,
@@ -726,8 +731,9 @@ void mn_80230274(HSD_GObj* arg0, int arg1, int arg2)
         {
             HSD_JObjReqAnim(roots[7], mn_804D4B88);
         } else {
-            f32* q = (f32*) (base + selected * 8);
-            HSD_JObjReqAnim(roots[7], *(f32*) ((u8*) q + 0x10));
+            HSD_JObjReqAnim(
+                roots[7],
+                ((RuleOptionAnimFrames*) (base + 0x10))[selected].selected);
         }
         HSD_JObjAnim(roots[7]);
         HSD_JObjSetFlagsAll(roots[8], JOBJ_HIDDEN);
@@ -754,8 +760,9 @@ void mn_80230274(HSD_GObj* arg0, int arg1, int arg2)
         {
             HSD_JObjReqAnim(roots[7], (&mn_804D4B88)[1]);
         } else {
-            f32* q = (f32*) (base + hovered * 8);
-            HSD_JObjReqAnim(roots[7], *(f32*) ((u8*) q + 0x14));
+            HSD_JObjReqAnim(
+                roots[7],
+                ((RuleOptionAnimFrames*) (base + 0x10))[hovered].hovered);
         }
         tail_i = hovered - 5;
         HSD_JObjAnim(roots[7]);
