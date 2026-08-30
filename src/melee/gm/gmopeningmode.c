@@ -58,7 +58,7 @@ struct gm_random_history {
 /* 49C2C0 */ static MatchExitInfo vs_exit_data;
 /* 4D6928 */ static UNK_T regend_congrats_enter_data;
 /* 4D692C */ static UNK_T regend_congrats_exit_data;
-/* 4D6930 */ static UNK_T title_exit_data[2];
+/* 4D6930 */ static TitleExitData title_exit_data;
 /* 49E548 */ static struct gm_8049E548_t gm_8049E548;
 
 GameModeState gm_Mode_Opening_States[] = {
@@ -287,22 +287,22 @@ GameModeState gm_Mode_DebugCutscene_States[] = {
 
 void onExitTitle(GameModeState* arg0)
 {
-    int* temp_r3 = gm_GetGameSceneLeaveData(arg0);
+    TitleExitData* exit_data = gm_GetGameSceneLeaveData(arg0);
     if (DbLevel >= DbLKind_DebugRom) {
-        if (*temp_r3 & 0x100) {
+        if (exit_data->buttons & 0x100) {
             gm_SetPendingGameMode(GM_DEBUG_VS);
             gm_SetNewGameModePending();
-        } else if (*temp_r3 & 0x1000) {
+        } else if (exit_data->buttons & 0x1000) {
             gm_SetPendingGameMode(GM_MENU);
             gm_SetNewGameModePending();
-        } else if (*temp_r3 & 0x400) {
+        } else if (exit_data->buttons & 0x400) {
             gm_SetPendingGameMode(GM_DEBUG_SOUND_TEST);
             gm_SetNewGameModePending();
-        } else if (*temp_r3 & 0x800) {
+        } else if (exit_data->buttons & 0x800) {
             gm_SetPendingGameMode(GM_DEBUG);
             gm_SetNewGameModePending();
         }
-    } else if (*temp_r3 & 0x1000) {
+    } else if (exit_data->buttons & 0x1000) {
         gm_80173EEC();
         gm_80172898(0x100);
         if (!gm_80173754(1, 0)) {
