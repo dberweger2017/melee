@@ -31,7 +31,7 @@
 /* 48E230 */ static CSSData css_data;
 /* 48E378 */ static SSSData sss_data;
 /* 48E4C0 */ static StartMeleeData training_enter_data;
-/* 48E5F8 */ static UNK_T training_exit_data[0x2288 / 4];
+/* 48E5F8 */ static MatchExitInfo training_exit_data;
 
 GameModeState gm_Mode_Training_States[] = {
     {
