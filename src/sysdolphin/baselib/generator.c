@@ -1091,8 +1091,6 @@ HSD_Generator* hsd_8039EFAC(s32 linkNo, s32 bank, s32 gfx_id, HSD_JObj* jobj)
 
 HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
 {
-    HSD_PSCmdList*** cmdListArr;
-    HSD_PSTexGroup* tg;
     HSD_Generator* gen;
 
     if (bank >= 0x41) {
@@ -1105,7 +1103,6 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
         return NULL;
     }
 
-    cmdListArr = (HSD_PSCmdList***) &ptclref_804D0E5C[bank];
     if (((HSD_PSCmdList*) ptclref_804D0E5C[bank][idx]) == NULL) {
         return NULL;
     }
@@ -1147,9 +1144,11 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
             gen->count = HSD_Randf();
         }
 
-        tg = psTexGroupArray[bank][gen->texGroup];
-        if (tg != NULL && tg->palflag != 0) {
-            gen->kind |= 0x10;
+        {
+            HSD_PSTexGroup* tg = psTexGroupArray[bank][gen->texGroup];
+            if (tg != NULL && tg->palflag != 0) {
+                gen->kind |= 0x10;
+            }
         }
 
         gen->jobj = NULL;
