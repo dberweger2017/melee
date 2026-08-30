@@ -574,10 +574,11 @@ void grShrineRoute_80208F70(Ground_GObj* gobj)
         if (gp->u.shrineroute.xD4 != 0) {
             HSD_JObj* ejobj = ((HSD_GObj*) gp->u.shrineroute.xD4)->hsd_obj;
             if (HSD_JObjGetFlags(ejobj) & 0x10) {
-                void* anim = ((HSD_GObj*) gp->u.shrineroute.xD4)->user_data;
+                Ground* route_gp =
+                    ((HSD_GObj*) gp->u.shrineroute.xD4)->user_data;
                 HSD_JObjClearFlagsAll(ejobj, JOBJ_HIDDEN);
                 grAnime_801C8138((HSD_GObj*) gp->u.shrineroute.xD4,
-                                 ((Ground*) anim)->map_id, 0);
+                                 route_gp->map_id, 0);
             }
         }
         {
