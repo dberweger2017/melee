@@ -43,6 +43,6 @@ gm_801A5C3C(GameModeState*, struct VsModeData*,
 /* 480530 */ extern StartMeleeData gm_80480530;
 /* 480668 */ extern SSSData gm_80480668;
 /* 4807B0 */ extern CSSData gm_804807B0;
-/* 4D6860 */ extern UNK_T gm_804D6860[];
+/* 4D6860 */ extern VsApproachData gm_804D6860;
 
 #endif

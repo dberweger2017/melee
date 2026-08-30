@@ -999,7 +999,9 @@ struct lbl_8046DBD8_t {
 struct VsApproachData {
     u8 x0;
     u8 x1;
+    u8 pad_2[6];
 };
+ASSERT_SIZE(struct VsApproachData, 0x8);
 
 /// @brief data passed to OnLoad callback for GM_MENU
 struct MenuEnterData {

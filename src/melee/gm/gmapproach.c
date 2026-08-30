@@ -25,7 +25,7 @@ static struct {
     u8 xE;
 } gm_80480D98;
 
-UNK_T gm_804D6860[2];
+VsApproachData gm_804D6860;
 
 static void fn_801AD920(HSD_GObj* gobj)
 {

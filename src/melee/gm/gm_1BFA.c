@@ -14,7 +14,7 @@
 #include "lb/lbtime.h"
 #include "ty/toy.h"
 
-extern UNK_T gm_804D6860[];
+extern VsApproachData gm_804D6860;
 extern StartMeleeData gm_80480530;
 extern MatchExitInfo gm_80479D98;
 
@@ -27,8 +27,8 @@ GameModeState gm_Mode_ChallengerApproach_States[] = {
         NULL,
         {
             GS_APPROACH,
-            gm_804D6860,
-            gm_804D6860,
+            &gm_804D6860,
+            &gm_804D6860,
         },
     },
     {
