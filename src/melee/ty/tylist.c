@@ -430,7 +430,7 @@ void* _tyList_80313508(HSD_GObj* parent, char* symbol_name, float x, float y,
 {
     HSD_JObj* jobj;
     ToyED8Data* archive;
-    void* joint;
+    HSD_Joint* joint;
     PAD_STACK(8);
 
     archive = Toy_sbss_804D6ED8;

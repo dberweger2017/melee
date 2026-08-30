@@ -1320,7 +1320,7 @@ void grIceMt_801F8CDC(Ground_GObj* gobj, s16* joint_indices, int block_num,
     {
         Ground* gp = GET_GROUND(gobj);
         int i;
-        void* jobj_desc;
+        HSD_Joint* jobj_desc;
         HSD_JObj* parent_jobjs[20];
         HSD_JObj* coll_jobj;
         HSD_JObj* block_jobj;

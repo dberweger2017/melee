@@ -1904,7 +1904,7 @@ void Ground_801C34AC(s32 map_id, HSD_JObj* root, struct HSD_Joint* joint)
     int entry_count;
     int i;
     struct {
-        void* joint;
+        HSD_Joint* joint;
         s16* pairs;
         s32 pair_count;
     }* entry;
@@ -1984,14 +1984,14 @@ void Ground_801C34AC(s32 map_id, HSD_JObj* root, struct HSD_Joint* joint)
     }
 }
 
-void Ground_801C36F4(int map_id, HSD_JObj* root, UNK_T joint)
+void Ground_801C36F4(int map_id, HSD_JObj* root, HSD_Joint* joint)
 {
     HSD_JObj* jobj;
     UnkStageDat* stage_dat;
     UnkArchiveStruct* archive;
     int entry_count;
     struct {
-        void* joint;
+        HSD_Joint* joint;
         u8 x4_pad[0x8];
     }* entry;
     int i;

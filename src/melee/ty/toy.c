@@ -2025,7 +2025,7 @@ void _Toy_803078E4(void)
 
 HSD_JObj* _Toy_80307BA0(HSD_JObj* parent_jobj, s16 arg1)
 {
-    void* joint_data;
+    HSD_Joint* joint_data;
     HSD_JObj* jobj;
     ToyAnimState* state;
     f32 scale_val;

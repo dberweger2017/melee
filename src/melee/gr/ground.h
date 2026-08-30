@@ -80,7 +80,8 @@
 /* 1C32AC */ void Ground_801C32AC(int gobj_id);
 /* 1C32D4 */ s32 Ground_801C32D4(s32, s32);
 /* 1C33C0 */ s32 Ground_801C33C0(s32, s32);
-/* 1C36F4 */ void Ground_801C36F4(int map_id, HSD_JObj* jobj, UNK_T joint);
+/* 1C36F4 */ void Ground_801C36F4(int map_id, HSD_JObj* jobj,
+                                 HSD_Joint* joint);
 /* 1C3880 */ void Ground_801C3880(f32);
 /* 1C3890 */ void Ground_801C3890(f32);
 /* 1C38A0 */ void Ground_801C38A0(f32);
