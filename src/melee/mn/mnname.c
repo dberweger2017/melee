@@ -152,7 +152,7 @@ s32 CompareNameStrings(char* str1, char* str2)
         s8 ch1 = (s8) str1[i];
 
         if (terminator == ch1) {
-            if (checkStringRest(&str2[i & 0xFFFFFFFFFFFFFFFF],
+            if (checkStringRest(&str2[i],
                                 readNameTerminator(mnName_StringTerminator)))
             {
                 return 0;
