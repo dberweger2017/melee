@@ -1067,7 +1067,7 @@ check_scale_uniform:
 scale_nonuniform:
     HSD_JObjSetScaleX(jobj, scale);
     HSD_JObjSetScaleY(jobj, scale);
-    HSD_JObjSetScaleZ(jobj, scale * *(f32*) ((u8*) yakumono_param + 0x34));
+    HSD_JObjSetScaleZ(jobj, scale * yakumono_param->x34);
     goto done_scale;
 
 scale_uniform:
