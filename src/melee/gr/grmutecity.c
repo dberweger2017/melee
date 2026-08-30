@@ -1736,8 +1736,8 @@ void grMuteCity_801F1A34(HSD_GObj* arg0, Ground_GObj* arg1)
             } else if (age > yakumono_param->x2C &&
                        (u32) grMc_8049F4B8[car_idx].x28 == 0)
             {
-                grMuteCity_801F2AB0(0x116, jobj);
-                grMc_8049F4B8[car_idx].x28 = (s32) jobj;
+                grMc_8049F4B8[car_idx].x28 =
+                    grMuteCity_801F2AB0(0x116, jobj);
             }
         }
 
@@ -1824,8 +1824,8 @@ void grMuteCity_801F1A34(HSD_GObj* arg0, Ground_GObj* arg1)
                     grMc_8049F4B8[car_idx].x28 = 0;
                 }
             } else if ((u32) grMc_8049F4B8[car_idx].x28 == 0) {
-                grMuteCity_801F2AB0(0x119, jobj);
-                grMc_8049F4B8[car_idx].x28 = (s32) jobj;
+                grMc_8049F4B8[car_idx].x28 =
+                    grMuteCity_801F2AB0(0x119, jobj);
             }
         }
 
@@ -1923,7 +1923,7 @@ void grMuteCity_801F290C(Ground_GObj* gobj)
     grMc_StackPad(*(grMc_StackPadArg*) gp->u.mutecity2.saved_colors);
 }
 
-void grMuteCity_801F2AB0(s32 arg0, HSD_JObj* arg1)
+s32 grMuteCity_801F2AB0(s32 arg0, HSD_JObj* arg1)
 {
     HSD_Generator* gen;
     HSD_psAppSRT* appsrt;
