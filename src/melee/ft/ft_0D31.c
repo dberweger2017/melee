@@ -28,6 +28,22 @@
 
 const Quaternion lbl_803B7500 = { 0, 3.1415927f, 0, 0 };
 
+typedef struct ftCo_DeadUpFallData {
+    s32 star_chance;
+    s32 init_timer;
+    s32 anim_timer;
+    s32 transition_timer;
+    s32 fall_timer;
+    s32 exit_timer;
+    Vec3 lerp_start;
+    Vec3 lerp_end;
+    f32 initial_velocity_y;
+    f32 gravity;
+    f32 terminal_velocity;
+    f32 initial_velocity_z;
+    f32 spin_speed;
+} ftCo_DeadUpFallData;
+
 bool ftCo_800D3158(Fighter_GObj* gobj)
 {
     Fighter* fp = GET_FIGHTER(gobj);
@@ -884,7 +900,8 @@ void ftCo_DeadUpFall_Anim(Fighter_GObj* gobj)
 void ftCo_DeadUpFall_Phys(Fighter_GObj* gobj)
 {
     Fighter* fp = GET_FIGHTER(gobj);
-    u8* ca = (u8*) p_ftCommonData + 0x520;
+    ftCo_DeadUpFallData* ca =
+        (ftCo_DeadUpFallData*) &p_ftCommonData->x520;
 
     switch (fp->mv.co.unk_deadup.x44) {
     case 1:
@@ -893,11 +910,11 @@ void ftCo_DeadUpFall_Phys(Fighter_GObj* gobj)
                 break;
             }
         }
-        lbVector_Lerp((Vec3*) (ca + 0x18), (Vec3*) (ca + 0x24),
+        lbVector_Lerp(&ca->lerp_start, &ca->lerp_end,
                       &fp->mv.co.unk_deadup.x50, fp->mv.co.unk_deadup.x4C);
         break;
     case 3:
-        ftCommon_Fall(fp, *(float*) (ca + 0x34), *(float*) (ca + 0x38));
+        ftCommon_Fall(fp, ca->gravity, ca->terminal_velocity);
         lbVector_Add(&fp->mv.co.unk_deadup.x5C, &fp->self_vel);
         if (fp->x2222_b6) {
             if (!ftAnim_80070FD0(fp)) {
