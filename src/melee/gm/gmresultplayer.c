@@ -57,27 +57,32 @@ typedef struct {
 } ResultsRenderFuncs;
 
 typedef struct {
-    /* 0x00 */ u8 pad_00[0x24];
+    /* 0x00 */ f32 x00[9];
     /* 0x24 */ Vec3 x24;
     /* 0x30 */ Vec3 x30;
     /* 0x3C */ ResultsRenderFuncs x3C;
     /* 0x4C */ Vec3 x4C;
     /* 0x58 */ Vec3 x58;
     /* 0x64 */ ResultsRenderFuncs x64;
-    /* 0x74 */ f32 x74;
-    /* 0x78 */ f32 x78;
-    /* 0x7C */ f32 x7C;
-    /* 0x80 */ f32 x80;
-    /* 0x84 */ f32 x84;
-    /* 0x88 */ f32 x88;
-    /* 0x8C */ f32 x8C;
-    /* 0x90 */ f32 x90;
-    /* 0x94 */ f32 x94;
-    /* 0x98 */ f32 x98;
-    /* 0x98 */ f32 x9C;
+    /* 0x74 */ Vec3 x74;
+    /* 0x80 */ Vec3 x80;
+    /* 0x8C */ Vec4 x8C;
+    /* 0x9C */ f32 x9C;
 } ResultsPlayerConfig;
 
-ResultsPlayerConfig const lbl_803B7B68 = { 0 };
+ResultsPlayerConfig const lbl_803B7B68 = {
+    { 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, -100.0F },
+    { 0.0F, 100.0F, 62.0F },
+    { 0.0F, 100.0F, 0.0F },
+    { { fn_80179DCC, fn_80179E34, fn_80179E9C, fn_80179F04 } },
+    { 0.0F, 100.0F, 62.0F },
+    { 0.0F, 100.0F, 0.0F },
+    { { fn_80179D3C, fn_80179D60, fn_80179D84, fn_80179DA8 } },
+    { 0.0F, 0.0F, -100.0F },
+    { 0.0F, 0.0F, -100.0F },
+    { 0.75F, 0.48F, 0.4F, 0.307F },
+    0.0F,
+};
 HSD_CObjDesc lbl_803D7910 = { 0 };
 
 typedef struct {
@@ -1411,7 +1416,7 @@ void fn_8017A078(s32 arg0)
 HSD_GObj* fn_8017A318(s32 arg0)
 {
     static Scissor const scissor_init = { 270, 370, 124, 276 };
-    u32* config = (u32*) &lbl_803B7B68;
+    ResultsPlayerConfig const* config = &lbl_803B7B68;
     CameraKindData* data = &lbl_803D6A08;
     ResultsDisplayLayout* disp = (ResultsDisplayLayout*) &lbl_8046E1B0;
     MatchEnd* match_end = &disp->state.match_end;
@@ -1434,9 +1439,9 @@ HSD_GObj* fn_8017A318(s32 arg0)
 
     scissor = scissor_init;
 
-    eye = ((ResultsPlayerConfig*) config)->x4C;
-    interest = ((ResultsPlayerConfig*) config)->x58;
-    callbacks = ((ResultsPlayerConfig*) config)->x64;
+    eye = config->x4C;
+    interest = config->x58;
+    callbacks = config->x64;
     if (match_end->is_teams == 0) {
         slot = match_end->player_standings[arg0].is_big_loser;
     } else {
@@ -1530,7 +1535,7 @@ Fighter_GObj* fn_8017A67C(CharacterKind kind, int arg1, int arg2)
         Vec3 pos2;
         f32 sp[4];
         PAD_STACK(0xC);
-        pos = *(Vec3*) &config->x74;
+        pos = config->x74;
 
         if ((u32) (kind - 0x12) <= 1U) {
             if ((int) match_end->player_standings[arg2].character_id == 7) {
@@ -1578,7 +1583,7 @@ Fighter_GObj* fn_8017A67C(CharacterKind kind, int arg1, int arg2)
             }
 
             if (slot_type == 0) {
-                pos2 = *(Vec3*) &config->x80;
+                pos2 = config->x80;
                 pos2.y = 100.0f * (f32) (arg2 + 1);
                 Player_80032A04(arg2, &pos2);
                 Player_SetScale(arg2, 1.8f * lbl_803D7058[kind]);
@@ -1586,7 +1591,7 @@ Fighter_GObj* fn_8017A67C(CharacterKind kind, int arg1, int arg2)
             } else {
                 int var_idx;
                 f32 scale;
-                *(Vec4*) sp = *(Vec4*) &config->x8C;
+                *(Vec4*) sp = config->x8C;
                 if (variant <= 2) {
                     var_idx = variant;
                 } else {
