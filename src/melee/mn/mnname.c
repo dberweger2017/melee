@@ -1173,7 +1173,7 @@ void mnName_80239A24(HSD_GObj* gobj)
     i = 0;
     do {
         jobj = HSD_JObjLoadJoint(archive->joint);
-        HSD_JObjAddAnimAll(jobj, archive->anim_joint, archive->matanim_joint,
+        HSD_JObjAddAnimAll(jobj, archive->animjoint, archive->matanim_joint,
                            archive->shapeanim_joint);
         HSD_JObjReqAnimAll(jobj, (f32) ((u8) i == flow->hovered_selection));
         HSD_JObjAnimAll(jobj);
@@ -1439,7 +1439,7 @@ void mnName_8023A290(void)
     HSD_GObjObject_80390A70(gobj, HSD_GObj_JObjKind, jobj);
     GObj_SetupGXLink(gobj, HSD_GObj_JObjCallback, 6U, 0x80U);
     HSD_GObj_SetupProc(gobj, fn_8023A0BC, 0U);
-    HSD_JObjAddAnimAll(jobj, archive->anim_joint, archive->matanim_joint,
+    HSD_JObjAddAnimAll(jobj, archive->animjoint, archive->matanim_joint,
                        archive->shapeanim_joint);
     HSD_JObjReqAnimAll(jobj, mnName_803ED600[0]);
     HSD_JObjAnimAll(jobj);
@@ -1517,7 +1517,7 @@ HSD_GObj* mnName_8023A59C(u8 arg0)
     HSD_GObjObject_80390A70(gobj, HSD_GObj_JObjKind, root_jobj[0]);
     GObj_SetupGXLink(gobj, HSD_GObj_JObjCallback, 4U, 0x80U);
     HSD_GObj_SetupProc(gobj, fn_80239574, 0U);
-    HSD_JObjAddAnimAll(root_jobj[0], archive->anim_joint,
+    HSD_JObjAddAnimAll(root_jobj[0], archive->animjoint,
                        archive->matanim_joint, archive->shapeanim_joint);
     HSD_JObjReqAnimAll(root_jobj[0], 0.0f);
     HSD_JObjAnimAll(root_jobj[0]);
@@ -1677,34 +1677,34 @@ s32 mnName_8023AC40(void)
     /// see symbols.txt 0x804A0648..0x804A0750.
     lbArchive_LoadSections(
         archive, &mnName_804A06E0.joint, "MenMainConNmTp_Top_joint",
-        &mnName_804A06E0.anim_joint, "MenMainConNmTp_Top_animjoint",
+        &mnName_804A06E0.animjoint, "MenMainConNmTp_Top_animjoint",
         &mnName_804A06E0.matanim_joint, "MenMainConNmTp_Top_matanim_joint",
         &mnName_804A06E0.shapeanim_joint, "MenMainConNmTp_Top_shapeanim_joint",
         &mnName_804A06C0.joint, "MenMainBaseNmTp_Top_joint",
-        &mnName_804A06C0.anim_joint, "MenMainBaseNmTp_Top_animjoint",
+        &mnName_804A06C0.animjoint, "MenMainBaseNmTp_Top_animjoint",
         &mnName_804A06C0.matanim_joint, "MenMainBaseNmTp_Top_matanim_joint",
         &mnName_804A06C0.shapeanim_joint,
         "MenMainBaseNmTp_Top_shapeanim_joint", &mnName_804A06D0.joint,
-        "MenMainWarCmn_Top_joint", &mnName_804A06D0.anim_joint,
+        "MenMainWarCmn_Top_joint", &mnName_804A06D0.animjoint,
         "MenMainWarCmn_Top_animjoint", &mnName_804A06D0.matanim_joint,
         "MenMainWarCmn_Top_matanim_joint", &mnName_804A06D0.shapeanim_joint,
         "MenMainWarCmn_Top_shapeanim_joint", &(&mnName_804A06E0)[1].joint,
-        "MenMainConEtNw_Top_joint", &(&mnName_804A06E0)[1].anim_joint,
+        "MenMainConEtNw_Top_joint", &(&mnName_804A06E0)[1].animjoint,
         "MenMainConEtNw_Top_animjoint", &(&mnName_804A06E0)[1].matanim_joint,
         "MenMainConEtNw_Top_matanim_joint",
         &(&mnName_804A06E0)[1].shapeanim_joint,
         "MenMainConEtNw_Top_shapeanim_joint", &(&mnName_804A06E0)[2].joint,
-        "MenMainBaseEtNw_Top_joint", &(&mnName_804A06E0)[2].anim_joint,
+        "MenMainBaseEtNw_Top_joint", &(&mnName_804A06E0)[2].animjoint,
         "MenMainBaseEtNw_Top_animjoint", &(&mnName_804A06E0)[2].matanim_joint,
         "MenMainBaseEtNw_Top_matanim_joint",
         &(&mnName_804A06E0)[2].shapeanim_joint,
         "MenMainBaseEtNw_Top_shapeanim_joint", &(&mnName_804A06E0)[3].joint,
-        "MenMainSubEtNw_Top_joint", &(&mnName_804A06E0)[3].anim_joint,
+        "MenMainSubEtNw_Top_joint", &(&mnName_804A06E0)[3].animjoint,
         "MenMainSubEtNw_Top_animjoint", &(&mnName_804A06E0)[3].matanim_joint,
         "MenMainSubEtNw_Top_matanim_joint",
         &(&mnName_804A06E0)[3].shapeanim_joint,
         "MenMainSubEtNw_Top_shapeanim_joint", &(&mnName_804A06E0)[4].joint,
-        "MenMainSbaseEtNw_Top_joint", &(&mnName_804A06E0)[4].anim_joint,
+        "MenMainSbaseEtNw_Top_joint", &(&mnName_804A06E0)[4].animjoint,
         "MenMainSbaseEtNw_Top_animjoint", &(&mnName_804A06E0)[4].matanim_joint,
         "MenMainSbaseEtNw_Top_matanim_joint",
         &(&mnName_804A06E0)[4].shapeanim_joint,

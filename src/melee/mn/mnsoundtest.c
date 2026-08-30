@@ -11,6 +11,7 @@
 #include "gm/gmmain_lib.h"
 #include "lb/lbarchive.h"
 #include "lb/lbspdisplay.h"
+#include "sc/types.h"
 
 #include <baselib/forward.h>
 
@@ -32,14 +33,7 @@ static u8 mnSoundTest_804D6C44;
 static s32 mnSoundTest_804D6C48;
 static s32 mnSoundTest_804D6C4C;
 
-typedef struct {
-    void* joint;
-    void* animjoint;
-    void* matanim_joint;
-    void* shapeanim_joint;
-} SoundTestModelDesc;
-
-static SoundTestModelDesc mnSoundTest_804A08C8;
+static StaticModelDesc mnSoundTest_804A08C8;
 
 AnimLoopSettings vec_0 = {
     0,
@@ -795,7 +789,7 @@ void mnSoundTest_8024BCA0(int arg0)
     mnSoundTest_GObj* gobj;
     HSD_GObjProc* proc;
     HSD_JObj* category_jobj;
-    SoundTestModelDesc* model_desc;
+    StaticModelDesc* model_desc;
     soundtest_user_data* user_data;
     soundtest_user_data* text_user_data;
     u32 pad2;

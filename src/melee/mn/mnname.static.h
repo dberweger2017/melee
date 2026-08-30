@@ -6,17 +6,13 @@
 #include "mn/forward.h"
 
 #include "mn/types.h"
+#include "sc/types.h"
 
 #include <dolphin/mtx.h>
 
 /// Loaded section pointers for one of the name-entry menu archive models
 /// (joint, animjoint, matanim_joint, shapeanim_joint).
-typedef struct {
-    void* joint;
-    void* anim_joint;
-    void* matanim_joint;
-    void* shapeanim_joint;
-} MnNameArchive;
+typedef StaticModelDesc MnNameArchive;
 
 /// Name-entry menu animation loop windows (.data block owned by this
 /// translation unit; see symbols.txt 0x803ED538..0x803ED62F).

@@ -19,6 +19,7 @@
 #include "lb/lbspdisplay.h"
 #include "mn/inlines.h"
 #include "mn/mnmain.h"
+#include "sc/types.h"
 #include "mn/types.h"
 
 #include <dolphin/os.h>
@@ -146,12 +147,7 @@ static char mnVibration_803EEEB8[0x20] = "MenMainCursorVi_Top_joint";
 HSD_GObj* mnVibration_804D6C28;
 
 /// --- Local Helper Structs ---
-typedef struct MnVibrationJointAssets {
-    void* joint;     // 0x00
-    void* animjoint; // 0x04
-    void* matanim;   // 0x08
-    void* shapeanim; // 0x0C
-} MnVibrationJointAssets;
+typedef StaticModelDesc MnVibrationJointAssets;
 
 typedef struct MnVibrationData {
     /* 0x00 */ u8 x0[6];         ///< x0[0] intro_timer, x0[1] cursor_row,
@@ -579,8 +575,9 @@ void mnVibration_CreatePortPanels(HSD_GObj* arg0)
     i = 0;
     do {
         new_jobj = HSD_JObjLoadJoint(assets->joint);
-        HSD_JObjAddAnimAll(new_jobj, assets->animjoint, assets->matanim,
-                           assets->shapeanim);
+        HSD_JObjAddAnimAll(new_jobj, assets->animjoint,
+                           assets->matanim_joint,
+                           assets->shapeanim_joint);
         HSD_JObjReqAnimAll(new_jobj, 0.0f);
         HSD_JObjAnimAll(new_jobj);
         HSD_JObjSetTranslateX(new_jobj, spacing * (f32) i);
@@ -635,8 +632,8 @@ void mnVibration_CreateNameRow(HSD_GObj* arg0, u8 arg1, u8 arg2)
         new_jobj =
 #endif
             HSD_JObjLoadJoint(assets->joint);
-    HSD_JObjAddAnimAll(new_jobj, assets->animjoint, assets->matanim,
-                       assets->shapeanim);
+    HSD_JObjAddAnimAll(new_jobj, assets->animjoint,
+                       assets->matanim_joint, assets->shapeanim_joint);
     HSD_JObjReqAnimAll(new_jobj, name_flag);
     HSD_JObjAnimAll(new_jobj);
     HSD_JObjSetTranslateY(new_jobj, spacing * (f32) arg2);
@@ -996,8 +993,8 @@ void mnVibration_CreateScreen(s32 arg0)
     jobj = HSD_JObjLoadJoint(assets->joint);
     HSD_GObjObject_80390A70(gobj, HSD_GObj_JObjKind, jobj);
     GObj_SetupGXLink(gobj, HSD_GObj_JObjCallback, 4, 0x80);
-    HSD_JObjAddAnimAll(jobj, assets->animjoint, assets->matanim,
-                       assets->shapeanim);
+    HSD_JObjAddAnimAll(jobj, assets->animjoint, assets->matanim_joint,
+                       assets->shapeanim_joint);
     HSD_JObjReqAnimAll(jobj, 0.0f);
     data = HSD_MemAlloc(sizeof(MnVibrationData));
     if (data == NULL) {
@@ -1062,18 +1059,19 @@ void mnVibration_Init(int arg0)
 
     lbArchive_LoadSections(
         archive, &assets[3].joint, strings->convi_top_joint,
-        &assets[3].animjoint, strings->convi_top_animjoint, &assets[3].matanim,
-        strings->convi_top_matanim_joint, &assets[3].shapeanim,
+        &assets[3].animjoint, strings->convi_top_animjoint,
+        &assets[3].matanim_joint, strings->convi_top_matanim_joint,
+        &assets[3].shapeanim_joint,
         strings->convi_top_shapeanim_joint,
 
         &assets[1].joint, strings->ctlvi_top_joint, &assets[1].animjoint,
-        strings->ctlvi_top_animjoint, &assets[1].matanim,
-        strings->ctlvi_top_matanim_joint, &assets[1].shapeanim,
+        strings->ctlvi_top_animjoint, &assets[1].matanim_joint,
+        strings->ctlvi_top_matanim_joint, &assets[1].shapeanim_joint,
         strings->ctlvi_top_shapeanim_joint,
 
         &assets[2].joint, strings->onoffvi_top_joint, &assets[2].animjoint,
-        strings->onoffvi_top_animjoint, &assets[2].matanim,
-        strings->onoffvi_top_matanim_joint, &assets[2].shapeanim,
+        strings->onoffvi_top_animjoint, &assets[2].matanim_joint,
+        strings->onoffvi_top_matanim_joint, &assets[2].shapeanim_joint,
         strings->onoffvi_top_shapeanim_joint,
 
         &assets[0].joint, strings->cursorvi_top_joint,
