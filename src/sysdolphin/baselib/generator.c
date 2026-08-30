@@ -1065,14 +1065,12 @@ HSD_Generator* hsd_8039EFAC(s32 linkNo, s32 bank, s32 gfx_id, HSD_JObj* jobj)
     return gen;
 }
 
-// @TODO: Currently 96.66% match - command-array register swap and stack
-// frame differences remain
+// @TODO: Register allocation and stack frame differences remain.
 HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
 {
-    HSD_PSCmdList*** cmdListArr;
+    HSD_PSCmdList*** cmdListBank;
     HSD_PSTexGroup* tg;
     HSD_Generator* gen;
-    s32 ofs;
     f32 mag;
     f32 f0, f1, f3;
     u32 shape;
@@ -1087,34 +1085,33 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
         return NULL;
     }
 
-    cmdListArr = (HSD_PSCmdList***) &ptclref_804D0E5C[bank];
-    ofs = idx * 4;
-    if ((*cmdListArr)[idx] == NULL) {
+    cmdListBank = &psCmdListArray[bank];
+    if ((*cmdListBank)[idx] == NULL) {
         return NULL;
     }
 
     gen = hsd_8039D9C8();
     if (gen != NULL) {
-        gen->type = (*cmdListArr)[idx]->type;
+        gen->type = (*cmdListBank)[idx]->type;
         gen->bank = bank;
         gen->linkNo = linkNo;
-        gen->kind = (*cmdListArr)[idx]->kind;
-        gen->texGroup = (*cmdListArr)[idx]->texGroup;
-        gen->life = (*cmdListArr)[idx]->life;
-        gen->genLife = (*cmdListArr)[idx]->genLife;
+        gen->kind = (*cmdListBank)[idx]->kind;
+        gen->texGroup = (*cmdListBank)[idx]->texGroup;
+        gen->life = (*cmdListBank)[idx]->life;
+        gen->genLife = (*cmdListBank)[idx]->genLife;
         gen->pos.z = 0.0F;
         gen->pos.y = 0.0F;
         gen->pos.x = 0.0F;
-        gen->vel.x = (*cmdListArr)[idx]->vx;
-        gen->vel.y = (*cmdListArr)[idx]->vy;
-        gen->vel.z = (*cmdListArr)[idx]->vz;
-        gen->grav = (*cmdListArr)[idx]->grav;
-        gen->fric = (*cmdListArr)[idx]->fric;
-        gen->size = (*cmdListArr)[idx]->size;
-        gen->cmdList = (*cmdListArr)[idx]->cmdList;
-        gen->radius = (*cmdListArr)[idx]->radius;
-        gen->angle = (*cmdListArr)[idx]->angle;
-        gen->random = (*cmdListArr)[idx]->random;
+        gen->vel.x = (*cmdListBank)[idx]->vx;
+        gen->vel.y = (*cmdListBank)[idx]->vy;
+        gen->vel.z = (*cmdListBank)[idx]->vz;
+        gen->grav = (*cmdListBank)[idx]->grav;
+        gen->fric = (*cmdListBank)[idx]->fric;
+        gen->size = (*cmdListBank)[idx]->size;
+        gen->cmdList = (*cmdListBank)[idx]->cmdList;
+        gen->radius = (*cmdListBank)[idx]->radius;
+        gen->angle = (*cmdListBank)[idx]->angle;
+        gen->random = (*cmdListBank)[idx]->random;
 
         if (gen->kind & 0x100) {
             f1 = gen->random;
@@ -1147,44 +1144,44 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
         case 0:
         case 3:
         case 4: {
-            HSD_PSCmdList* c = (*cmdListArr)[idx];
+            HSD_PSCmdList* c = (*cmdListBank)[idx];
             f32 p1 = c->param1;
             if (p1 == 0.0F && c->param2 == 0.0F) {
                 gen->aux.disc.minAngle = 0.0F;
                 gen->aux.disc.maxAngle = 6.2831855F;
             } else {
                 gen->aux.disc.minAngle = p1;
-                gen->aux.disc.maxAngle = (*cmdListArr)[idx]->param2;
+                gen->aux.disc.maxAngle = (*cmdListBank)[idx]->param2;
             }
             break;
         }
         case 1:
-            gen->aux.line.x2 = (*cmdListArr)[idx]->param1;
-            gen->aux.line.y2 = (*cmdListArr)[idx]->param2;
-            gen->aux.line.z2 = (*cmdListArr)[idx]->param3;
+            gen->aux.line.x2 = (*cmdListBank)[idx]->param1;
+            gen->aux.line.y2 = (*cmdListBank)[idx]->param2;
+            gen->aux.line.z2 = (*cmdListBank)[idx]->param3;
             break;
         case 6:
         case 7: {
-            HSD_PSCmdList* c = (*cmdListArr)[idx];
+            HSD_PSCmdList* c = (*cmdListBank)[idx];
             f32 p1 = c->param1;
             if (p1 == 0.0F && c->param2 == 0.0F) {
                 gen->aux.cone.minAngle = 0.0F;
                 gen->aux.cone.maxAngle = 6.2831855F;
             } else {
                 gen->aux.cone.minAngle = p1;
-                gen->aux.cone.maxAngle = (*cmdListArr)[idx]->param2;
+                gen->aux.cone.maxAngle = (*cmdListBank)[idx]->param2;
             }
-            gen->aux.cone.height = (*cmdListArr)[idx]->param3;
+            gen->aux.cone.height = (*cmdListBank)[idx]->param3;
             break;
         }
         case 5: {
-            f0 = (*cmdListArr)[idx]->param1;
+            f0 = (*cmdListBank)[idx]->param1;
             gen->aux.rect.x = f0;
             gen->aux.rect.xx = f0;
-            f0 = (*cmdListArr)[idx]->param2;
+            f0 = (*cmdListBank)[idx]->param2;
             gen->aux.rect.y = f0;
             gen->aux.rect.zx = f0;
-            f0 = (*cmdListArr)[idx]->param3;
+            f0 = (*cmdListBank)[idx]->param3;
             gen->aux.rect.z = f0;
             gen->aux.rect.zy = f0;
             gen->aux.rect.zz = 0.0F;
@@ -1194,13 +1191,13 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
             gen->aux.rect.xz = 0.0F;
             gen->aux.rect.yx = 0.0F;
             gen->aux.rect.flag = 0;
-            if ((*cmdListArr)[idx]->param1 < 0.0F) {
+            if ((*cmdListBank)[idx]->param1 < 0.0F) {
                 gen->aux.rect.flag |= 1;
             }
-            if ((*cmdListArr)[idx]->param2 < 0.0F) {
+            if ((*cmdListBank)[idx]->param2 < 0.0F) {
                 gen->aux.rect.flag |= 2;
             }
-            if ((*cmdListArr)[idx]->param3 < 0.0F) {
+            if ((*cmdListBank)[idx]->param3 < 0.0F) {
                 gen->aux.rect.flag |= 4;
             }
             break;
@@ -1242,13 +1239,13 @@ HSD_Generator* hsd_8039F05C(s32 linkNo, s32 bank, s32 idx)
             } else {
                 gen->aux.sphere.lonMid = atan2f(gen->vel.z, gen->vel.x);
             }
-            gen->aux.sphere.latRange = (*cmdListArr)[idx]->param1;
+            gen->aux.sphere.latRange = (*cmdListBank)[idx]->param1;
             f1 = gen->aux.sphere.latRange;
             if (f1 < 0.0F) {
                 gen->aux.sphere.latRange = -f1;
                 gen->aux.sphere.speed = -gen->aux.sphere.speed;
             }
-            gen->aux.sphere.lonRange = (*cmdListArr)[idx]->param2;
+            gen->aux.sphere.lonRange = (*cmdListBank)[idx]->param2;
             break;
         }
         default:

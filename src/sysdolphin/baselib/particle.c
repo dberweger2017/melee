@@ -36,12 +36,12 @@ typedef struct {
 /* 4D78DE */ u16 hsd_804D78DE;
 static HSD_JObj* hsd_804D08E8[8];
 /* 4D0908 */ HSD_Particle* hsd_804D0908[16];
-/* 4D0948 */ HSD_Particle* hsd_804D0948[65];
-/* 4D0A4C */ HSD_PSFormGroup** psFormGroupArray[65];
+/* 4D0948 */ u32* psParticleRefArray[65];
+/* 4D0A4C */ int psNumTexGroup[65];
 /* 4D0B50 */ HSD_PSTexGroup** psTexGroupArray[65];
-/* 4D0C54 */ int psNumCmdList[65];
-/* 4D0D58 */ HSD_PSCmdList** psCmdListArray[65];
-/* 4D0E5C */ u32* ptclref_804D0E5C[65];
+/* 4D0C54 */ HSD_PSFormGroup** psFormGroupArray[65];
+/* 4D0D58 */ int psNumCmdList[65];
+/* 4D0E5C */ HSD_PSCmdList** psCmdListArray[65];
 /* 4D0F60 */ struct hsd_804D0F60_t hsd_804D0F60;
 
 typedef struct PSNode {
@@ -322,12 +322,12 @@ void hsd_80398A08(u32 unused)
     int i;
 
     (void) hsd_804D0908;
-    (void) hsd_804D0948;
-    (void) psFormGroupArray;
+    (void) psParticleRefArray;
+    (void) psNumTexGroup;
     (void) psTexGroupArray;
+    (void) psFormGroupArray;
     (void) psNumCmdList;
     (void) psCmdListArray;
-    (void) ptclref_804D0E5C;
 
     HSD_ObjAllocInit(&hsd_804D0F60.alloc_data, sizeof(HSD_Particle), 4);
     PAD_STACK(16);
@@ -338,12 +338,12 @@ void hsd_80398A08(u32 unused)
     hsd_804D78E2[0] = 0;
     numPeakParticles = 0;
     for (i = 0; i < 0x41; i++) {
-        psCmdListArray[i] = NULL;
-        psFormGroupArray[i] = NULL;
-        ptclref_804D0E5C[i] = NULL;
-        psTexGroupArray[i] = NULL;
         psNumCmdList[i] = 0;
-        hsd_804D0948[i] = NULL;
+        psNumTexGroup[i] = 0;
+        psCmdListArray[i] = NULL;
+        psTexGroupArray[i] = NULL;
+        psFormGroupArray[i] = NULL;
+        psParticleRefArray[i] = NULL;
     }
     psCallback = NULL;
     hsd_804D08E8[0] = NULL;
@@ -1100,8 +1100,8 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
                     idx = (pc[0] << 8) + pc[1];
                     pc += 2;
 
-                    if (ptclref_804D0E5C[bank] != NULL) {
-                        idx = ptclref_804D0E5C[bank][idx];
+                    if (psParticleRefArray[bank] != NULL) {
+                        idx = psParticleRefArray[bank][idx];
                     }
 
                     linkNo = pp->linkNo;
@@ -1279,8 +1279,8 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
                     flags = pc[2];
                     pc += 3;
 
-                    if (ptclref_804D0E5C[pp->bank] != NULL) {
-                        idx = ptclref_804D0E5C[pp->bank][idx];
+                    if (psParticleRefArray[pp->bank] != NULL) {
+                        idx = psParticleRefArray[pp->bank][idx];
                     }
 
                     gchild = hsd_8039F05C(pp->linkNo, pp->bank, idx);
@@ -1411,8 +1411,8 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
 
                     idx = baseIdx + (s32) ((f32) randomRange * HSD_Randf());
 
-                    if (ptclref_804D0E5C[pp->bank] != NULL) {
-                        idx = ptclref_804D0E5C[pp->bank][idx];
+                    if (psParticleRefArray[pp->bank] != NULL) {
+                        idx = psParticleRefArray[pp->bank][idx];
                     }
 
                     linkNo = pp->linkNo;
@@ -1772,8 +1772,8 @@ void* hsd_8039930C(void* pp_arg, void* prev_arg)
                     idx = (pc[0] << 8) + pc[1];
                     pc += 2;
 
-                    if (ptclref_804D0E5C[bank] != NULL) {
-                        idx = ptclref_804D0E5C[bank][idx];
+                    if (psParticleRefArray[bank] != NULL) {
+                        idx = psParticleRefArray[bank][idx];
                     }
 
                     linkNo = pp->linkNo;
