@@ -1407,7 +1407,7 @@ struct grBigBlue_GroundVars {
 
 struct grBigBlueRoute_GroundVars {
     /* +0 gp+C4 */ HSD_GObj* xC4;
-    /* +4 gp+C8 */ RouteEntry* car_info;
+    /* +4 gp+C8 */ void* car_info;
     /* +8 gp+CC */ HSD_Spline* xCC;
     /* +C gp+D0 */ HSD_Spline* xD0;
     /* +10 gp+D4 */ HSD_Spline* xD4;
@@ -2047,7 +2047,7 @@ typedef struct {
     u8 b7 : 1;
 } RouteEntryFlags;
 
-struct RouteEntry {
+typedef struct {
     RouteEntryFlags flags;
     u8 pad_1[3];
     f32 x4;
@@ -2059,8 +2059,7 @@ struct RouteEntry {
     f32 x1C;
     f32 x20;
     f32 x24;
-    HSD_GObj* x28;
-};
-ASSERT_SIZE(RouteEntry, 0x2C);
+    void* x28;
+} RouteEntry;
 
 #endif

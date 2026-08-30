@@ -11,7 +11,6 @@ typedef struct grDynamicAttr_UnkStruct grDynamicAttr_UnkStruct;
 typedef struct GrJoint GrJoint;
 typedef struct Ground Ground;
 typedef struct GroundParam GroundParam;
-typedef struct RouteEntry RouteEntry;
 typedef struct StageData StageData;
 typedef struct StageInfo StageInfo;
 typedef struct StageParam StageParam;
