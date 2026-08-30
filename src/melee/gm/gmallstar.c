@@ -379,38 +379,32 @@ static AllstarRoundInfo gm_803DEC4C[13] = {
 
 gm_80490940_t gm_80490940[5];
 
-void gm_801B5324(UnkAllstarData* arg0, s32 arg1)
+void gm_801B5324(UnkAllstarData* arg0, u8 arg1)
 {
     s8 chars[3];
     u8 colors[3];
     s8* chars_ptr;
-    u8* base;
     s32 is_last_round;
     gm_803DEBE8_t* opp_data;
-    s32 count_processed;
-    s32 count;
     struct GameCache* gc;
     s32 slot_idx;
-    u64 audio;
+    s32 count_processed;
     s32 i;
-    PAD_STACK(12);
+    u64 audio;
+    PAD_STACK(16);
 
-    base = (u8*) gm_803DE930_Scenes;
     is_last_round = 0;
     chars_ptr = chars;
 
-    {
-        u32 start = ((AllstarRoundInfo*) (base + 0x31C))[arg1].start;
-        opp_data = (gm_803DEBE8_t*) (base + 0x2B8) + start;
-    }
+    opp_data = &gm_803DEBE8[gm_803DEC4C[arg1].start];
 
     chars_ptr[0] = 0x21;
     chars_ptr[1] = 0x21;
     chars_ptr[2] = 0x21;
 
-    count =
-        ((AllstarRoundInfo*) ((u8*) gm_803DE930_Scenes + 0x31C))[arg1].count;
-    for (count_processed = 0; count_processed < count; count_processed++) {
+    for (count_processed = 0;
+         count_processed < (s32) gm_803DEC4C[arg1].count;
+         count_processed++) {
         chars[count_processed] = opp_data[count_processed].x3;
     }
 
@@ -421,7 +415,7 @@ void gm_801B5324(UnkAllstarData* arg0, s32 arg1)
     gmRegSetupEnemyColorTable(arg0->x0.ckind, arg0->x0.color, chars_ptr,
                               colors);
 
-    if (arg1 == 0xC) {
+    if ((s32) arg1 == 0xC) {
         chars_ptr[0] = 3;
         colors[0] = 0;
         is_last_round = 1;
@@ -433,9 +427,10 @@ void gm_801B5324(UnkAllstarData* arg0, s32 arg1)
 
     gc = &lbDvd_GetPreloadCacheScene()->game_cache;
     lbDvd_80018C6C();
-    slot_idx = 1;
-    gc->entries[0].char_id = (s32) arg0->x0.ckind;
-    gc->entries[0].color = arg0->x0.color;
+    slot_idx = 0;
+    gc->entries[slot_idx].char_id = (s32) arg0->x0.ckind;
+    gc->entries[slot_idx].color = arg0->x0.color;
+    slot_idx++;
     lbDvd_80018254();
     lbDvd_80018C2C(0xC7);
     lbDvd_80017700(4);
@@ -457,9 +452,9 @@ void gm_801B5324(UnkAllstarData* arg0, s32 arg1)
 
     audio = lbAudioAx_80026E84((CharacterKind) arg0->x0.ckind);
     {
-        s8* cp = chars_ptr;
         for (i = 0; i < 3; i++) {
-            audio |= lbAudioAx_80026E84(cp[i]);
+            CharacterKind ckind = chars[i];
+            audio |= lbAudioAx_80026E84(ckind);
         }
     }
 
