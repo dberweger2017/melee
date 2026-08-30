@@ -994,7 +994,7 @@ void stageGObj2_OnInit(Ground_GObj* arg0)
     gp->u.icemt1.x0_b0 = false;
     sp14 = grIm_804DB58C;
     grIceMt_801F8CDC(arg0, (s16*) &sp14, 2, &gp->u.icemt1.x34[0]);
-    grIceMt_801F91EC(arg0, (s16*) ((u8*) gp + 0x100),
+    grIceMt_801F91EC(arg0, gp->u.icemt.x100,
                      grIceMt_801FA500(arg0, jobj), -1, 0x25, 0x109, 0x27E,
                      fn_801F9338);
     grIceMt_801F91EC(arg0, &gp->u.icemt.x108[3], grIceMt_801FA500(arg0, jobj2),
