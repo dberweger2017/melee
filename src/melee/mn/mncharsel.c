@@ -66,7 +66,7 @@ typedef struct CSSAnimSet {
 } CSSAnimSet;
 
 static CSSData* mnCharSel_804D6CB0;
-static void* mnCharSel_804D6CB4;
+static CSSSceneModels* mnCharSel_804D6CB4;
 static HSD_GObj* mnCharSel_804D6CB8;
 static HSD_GObj* mnCharSel_804D6CBC;
 static HSD_JObj* mnCharSel_804D6CC0;
@@ -75,7 +75,7 @@ static HSD_JObj* mnCharSel_804D6CC8;
 static HSD_JObj* mnCharSel_804D6CCC;
 static HSD_Archive* mnCharSel_804D6CD0;
 static HSD_Archive* mnCharSel_804D6CD4;
-static void* mnCharSel_804D6CD8;
+static CSSAnimSet* mnCharSel_804D6CD8;
 static HSD_Text* mnCharSel_804D6CDC;
 static HSD_Text* mnCharSel_804D6CE0;
 static HSD_Text* mnCharSel_804D6CE4;
@@ -4198,8 +4198,8 @@ static const GXColor mnCharSel_804DC58C = { 160, 160, 0, 255 };
 static const GXColor mnCharSel_804DC590 = { 180, 80, 0, 255 };
 static const GXColor mnCharSel_804DC594 = { 220, 0, 0, 255 };
 
-#define MODELS ((CSSSceneModels*) mnCharSel_804D6CB4)
-#define ANIM ((CSSAnimSet*) mnCharSel_804D6CD8)
+#define MODELS (mnCharSel_804D6CB4)
+#define ANIM (mnCharSel_804D6CD8)
 
 s32 mnCharSel_802640A0(void)
 {
@@ -5342,7 +5342,7 @@ void mnCharSel_Scene_OnEnter(void* arg0)
     }
     mnCharSel_804D6CB4 = HSD_ArchiveGetPublicAddress(mnCharSel_804D6CD0,
                                                      "MnSelectChrDataTable");
-    mnCharSel_804D6CD8 = (u8*) mnCharSel_804D6CB4 + 0x10;
+    mnCharSel_804D6CD8 = (CSSAnimSet*) (mnCharSel_804D6CB4 + 1);
     if (lbLang_IsSavedLanguageJP() != 0) {
         HSD_SisLib_803A62A0(0, "SdSlChr.dat", "SIS_SelCharData");
     } else {
