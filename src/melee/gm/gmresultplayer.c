@@ -1641,8 +1641,8 @@ void fn_8017A9B4(int slot)
             (u16*) disp->state.dim_h2 + lookup);
 }
 
-u32 lbl_803D7018[0x20 / sizeof(u32)] = { 0 };
-u32 lbl_803D7038[0x20 / sizeof(u32)] = { 0 };
+PackedS16x4 lbl_803D7018[4] = { 0 };
+PackedS16x4 lbl_803D7038[4] = { 0 };
 
 static s32 lbl_804D3FD0 = 0x00500050;
 static s32 lbl_804D3FD4 = 0x00460034;
@@ -1709,9 +1709,9 @@ void fn_8017AA78(const u8* arg0)
     disp->state.x0_0 = 1;
     disp->state.x0_4 = 0;
     disp->state.x0_6 = 0;
-    p5 = (PackedS16x4*) lbl_803D7038;
+    p5 = lbl_803D7038;
     state = &disp->state;
-    p7 = (PackedS16x4*) lbl_803D7018;
+    p7 = lbl_803D7018;
 
     {
         s32 a;
