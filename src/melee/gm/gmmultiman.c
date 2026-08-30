@@ -230,7 +230,7 @@ GameModeState gm_Mode_CruelVs_States[] = {
     { 0xFF },
 };
 
-UNK_T gm_801B6320(void)
+struct gmm_x0_584_t* gm_801B6320(void)
 {
     return &gmMainLib_804D3EE0->unk_530.unk_584;
 }

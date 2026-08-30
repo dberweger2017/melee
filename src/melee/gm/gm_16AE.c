@@ -1016,7 +1016,7 @@ void fn_8016C7F0(void)
     int var_r29;
     u8 var_r29_2;
     int var_r28;
-    u8* temp_r29_2;
+    struct gmm_x0_584_t* temp_r29_2;
     UnkAllstarData* temp_r30;
 
     if (lbl_8046B6A0.x24C8.x50 != NULL) {
@@ -1043,11 +1043,11 @@ void fn_8016C7F0(void)
          lbl_8046B6A0.x24C8.stkind >= 0x21 &&
          lbl_8046B6A0.x24C8.stkind <= 0x3A))
     {
-        temp_r29_2 = (u8*) gm_801B6320();
+        temp_r29_2 = gm_801B6320();
         temp_r30 = gm_GetAllStarData();
         var_r28 = 0;
         if (gm_GetCurrentGameMode() == GM_TARGET_TEST) {
-            var_r29_2 = gm_CKindToSelKind(*temp_r29_2);
+            var_r29_2 = gm_CKindToSelKind(temp_r29_2->unk_584);
         } else {
             var_r29_2 = gm_CKindToSelKind(temp_r30->x0.ckind);
         }

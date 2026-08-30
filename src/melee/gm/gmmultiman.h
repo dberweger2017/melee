@@ -6,7 +6,7 @@
 #include <melee/gm/forward.h>
 #include <melee/mn/forward.h>
 
-/* 1B6320 */ UNK_T gm_801B6320(void);
+/* 1B6320 */ struct gmm_x0_584_t* gm_801B6320(void);
 /* 1B632C */ void gm_801B632C(GameModeState*);
 /* 1B63C4 */ void gm_801B63C4(GameModeState*);
 /* 1B6428 */ void gm_801B6428(GameModeState*);
