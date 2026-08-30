@@ -987,7 +987,7 @@ loop_13:
 }
 
 static const s32 lbl_804DEB88[1] = { 0x4A464946 };
-static const u8 lbl_804DEB8C[4] = { 0 };
+static const u8 lbl_804DEB8C[] = { 0 };
 
 void hsd_803B46D4(void)
 {
