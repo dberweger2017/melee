@@ -480,7 +480,7 @@ static inline void gmClassic_InitMatchupOrder(const gmClassicMatchup* matchups,
     s32 count;
     s32 i;
 
-    for (count = 0; matchups[count].x00 != 0x148; count++) {
+    for (count = 0; matchups->x00 != 0x148; matchups++, count++) {
     }
 
     for (i = 0; i < count; i++) {
@@ -488,10 +488,11 @@ static inline void gmClassic_InitMatchupOrder(const gmClassicMatchup* matchups,
     }
 
     for (i = 0; i < count; i++) {
-        s32 swap_idx = HSD_Randi(count);
-        u8 tmp = order[i];
-        order[i] = order[swap_idx];
-        order[swap_idx] = tmp;
+        u8* swap = &order[HSD_Randi(count)];
+        u8* cur = &order[i];
+        u8 tmp = *cur;
+        *cur = *swap;
+        *swap = tmp;
     }
 }
 
@@ -675,8 +676,7 @@ void gmClassic_OnLoad(void)
     gmClassicSceneData* scene_data = (gmClassicSceneData*) gm_803DDC58_Scenes;
     gmClassic_80490880Data* o = &gmClassic_80490880;
     gm_803DDEC8Struct* entry;
-    s32 i;
-    PAD_STACK(32);
+    PAD_STACK(56);
 
     for (entry = scene_data->matchups.x00; entry->x0 != 0x0D; entry++) {
         entry->xC = NULL;
@@ -695,10 +695,11 @@ void gmClassic_OnLoad(void)
     gmMainLib_8015CDC8();
     gm_8017C984(data);
 
-    for (i = 0; i < 2; i++) {
-        s32 j;
-        for (j = 0; j < 6; j++) {
-            o->x20[i * 6 + j] = 0;
+    {
+        u8* p = o->x20;
+        int i;
+        for (i = 12; i > 0; i--) {
+            *p++ = 0;
         }
     }
 
