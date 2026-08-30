@@ -27,6 +27,11 @@ extern struct Fighter_804D64FC_t {
 
 struct plAllocInfo;
 
+typedef struct FighterRebirthResource {
+    HSD_Joint* joint;
+    HSD_AnimJoint* anim_joint;
+} FighterRebirthResource;
+
 /* 0679B0 */ void Fighter_800679B0(void);
 /* 067A84 */ void Fighter_FirstInitialize_80067A84(void);
 /* 067ABC */ void Fighter_LoadCommonData(void);
@@ -172,7 +177,7 @@ struct plAllocInfo;
 /* 4D652C */ extern struct Fighter_ShakeTable_t* Fighter_GrabMashShake;
 
 /* 4D6530 */ extern Vec2** Fighter_804D6530;
-/* 4D6534 */ extern UNK_T Fighter_804D6534;
+/* 4D6534 */ extern FighterRebirthResource* Fighter_804D6534;
 /* 4D6538 */ extern struct Fighter_804D653C_t* Fighter_804D6538;
 /* 4D653C */ extern struct Fighter_804D653C_t* Fighter_804D653C;
 /* 4D6540 */ extern struct Fighter_804D6540_t {
