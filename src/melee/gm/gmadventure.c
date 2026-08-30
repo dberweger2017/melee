@@ -9,7 +9,7 @@
 #include <melee/lb/lb_00B0.h>
 #include <melee/lb/lbaudio_ax.h>
 
-extern UNK_T gmClassic_80470708[];
+extern CSSData gmClassic_80470708;
 extern DebugGameOverData gmClassic_80470850;
 extern MatchExitInfo gmClassic_8047086C;
 extern StartMeleeData gmClassic_80472AF8;
