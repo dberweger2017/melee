@@ -10,7 +10,7 @@
 /* 16AE38 */ lbl_8046B6A0_t* gm_16AE_GetUnkData_0(void);
 /* 16AE44 */ lbl_8046B6A0_t* gm_16AE_GetUnkData_1(void);
 /* 16AE50 */ struct StartMeleeRules* gm_GetRules(void);
-/* 16AE60 */ UNK_T fn_8016AE60(void);
+/* 16AE60 */ struct lbl_8046B488_t* fn_8016AE60(void);
 /* 16AE80 */ bool gm_8016AE80(void);
 /* 16AE94 */ f32 gm_8016AE94(void);
 /* 16AEA4 */ u64 gm_8016AEA4(void);

@@ -63,7 +63,7 @@ struct StartMeleeRules* gm_GetRules(void)
     return &lbl_8046B6A0.x24C8;
 }
 
-UNK_T fn_8016AE60(void)
+struct lbl_8046B488_t* fn_8016AE60(void)
 {
     return gm_1601_GetUnkData();
 }
